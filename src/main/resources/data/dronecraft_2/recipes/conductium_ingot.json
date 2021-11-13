@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "dronecraft_2:conductium_block"
+    }
+  ],
+  "result": {
+    "item": "dronecraft_2:conductium_ingot",
+    "count": 9
+  }
+}
