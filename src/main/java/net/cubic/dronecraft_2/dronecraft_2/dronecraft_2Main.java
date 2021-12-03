@@ -1,6 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2;
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
+import net.cubic.dronecraft_2.dronecraft_2.events.ModEvents;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
