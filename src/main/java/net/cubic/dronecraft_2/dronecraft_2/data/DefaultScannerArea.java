@@ -2,21 +2,38 @@ package net.cubic.dronecraft_2.dronecraft_2.data;
 
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DefaultScannerArea implements IScannerArea{
 
-    private List<ScannerFormat> Scanners;
+     List<ScannerFormat> Scanners;
 
     public DefaultScannerArea(){
-        //this.Scanners.set(0,new ScannerFormat()); // dont know if this helps probably not needed
-        Scanners = null;
+        Scanners = new ArrayList<>();
     }
 
 
     @Override
     public void AddScanner(BlockPos blockPos, int radius) {
-        this.Scanners.add(new ScannerFormat(blockPos, radius));
+        this.Scanners.add(new ScannerFormat(blockPos, radius)); // this now works because I made the default value a new arraylist
+        /*
+        List<ScannerFormat> temp;
+        ScannerFormat form = new ScannerFormat(blockPos, radius);
+        if (this.Scanners != null){
+            System.out.println("Not first time writing to list, there should already be something in it");
+            temp = this.Scanners;
+            temp.add(form);
+
+        }
+        else{
+            System.out.println("First time writing to scannerlist because list is null so it is set as not null with the data");
+            temp = new ArrayList<>();
+            temp.add(form);
+        }
+        this.SetScanners(temp);
+        */
     }
 
     @Override

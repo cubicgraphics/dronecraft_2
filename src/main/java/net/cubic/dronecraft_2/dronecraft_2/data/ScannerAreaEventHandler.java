@@ -14,11 +14,10 @@ public class ScannerAreaEventHandler {
 
     @SubscribeEvent
     public static void OnAttachCapabilitiesEvent(AttachCapabilitiesEvent<World> event){
-        System.out.println("WORKING ____________ But we about to crash");
         if (event.getObject() != null){
             ScannerAreaProvider provider = new ScannerAreaProvider();
-            System.out.println("Crash on next line");
-            event.addCapability(new ResourceLocation(dronecraft_2Main.MOD_ID, "ScannerAreas"), provider);
+            System.out.println("no longer crashes on next line");
+            event.addCapability(new ResourceLocation(dronecraft_2Main.MOD_ID, "scannerareas"), provider);
             event.addListener(provider::invalidate);
         }
     }

@@ -18,6 +18,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void ScanBlock(BlockEvent.BreakEvent  BlockEvent){
+        /* This code was for testing purposes
         World world = (World) BlockEvent.getWorld();
         world.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h-> {
             h.AddScanner(BlockEvent.getPos(),1);
@@ -25,7 +26,7 @@ public class ModEvents {
             System.out.println(h.GetScannerAreas().toString());
 
         });
-
+        */
         System.out.println("blockupdt-" + BlockEvent.getPos().toString());
     }
 

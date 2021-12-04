@@ -8,6 +8,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CapabilityScannerArea {
@@ -28,12 +29,13 @@ public class CapabilityScannerArea {
         public INBT writeNBT(Capability<IScannerArea> capability, IScannerArea instance, Direction side) {
             CompoundNBT tag = new CompoundNBT();
             ListNBT scannerList = new ListNBT();
-
-            for (int i = 0; i < instance.GetScannerAreas().size(); i++) {
-                CompoundNBT scannerdata = new CompoundNBT();
-                scannerdata.put("BlockPos", NBTUtil.writeBlockPos(instance.GetScannerAreas().get(i).ScannerPos));//sets the blockpos to compound nbt
-                scannerdata.putInt("Range", instance.GetScannerAreas().get(i).Range);//sets the range to compound nbt
-                scannerList.add(scannerdata);
+            if (instance.GetScannerAreas() != null) {
+                for (int i = 0; i < instance.GetScannerAreas().size(); i++) {
+                    CompoundNBT scannerdata = new CompoundNBT();
+                    scannerdata.put("BlockPos", NBTUtil.writeBlockPos(instance.GetScannerAreas().get(i).ScannerPos));//sets the blockpos to compound nbt
+                    scannerdata.putInt("Range", instance.GetScannerAreas().get(i).Range);//sets the range to compound nbt
+                    scannerList.add(scannerdata);
+                }
             }
             tag.put("ScannerList", scannerList);
 
@@ -42,12 +44,15 @@ public class CapabilityScannerArea {
 
         @Override
         public void readNBT(Capability<IScannerArea> capability, IScannerArea instance, Direction side, INBT nbt) {
-
-            ListNBT taglist = (ListNBT) ((CompoundNBT) nbt).get("ScannerList"); //reads the blockpos from compound nbt
-            List<ScannerFormat> scannerList = null;
-            for (int i = 0; i < taglist.size(); i++) {
-                CompoundNBT scannerData = taglist.getCompound(i);
-                scannerList.add(new ScannerFormat(NBTUtil.readBlockPos((scannerData).getCompound("BlockPos")), ((scannerData).getInt("Range"))));
+            System.out.println("Reading Dronecraft scanner data from world");
+            ListNBT taglist = (ListNBT) ((CompoundNBT) nbt).get("ScannerList"); //gets the list from compound nbt
+            List<ScannerFormat> scannerList = new ArrayList<>();
+            if (taglist != null){
+                for (int i = 0; i < taglist.size(); i++) {
+                    CompoundNBT scannerData = taglist.getCompound(i);
+                    scannerList.add(new ScannerFormat(NBTUtil.readBlockPos((scannerData).getCompound("BlockPos")), ((scannerData).getInt("Range"))));
+                    System.out.println(scannerList.get(scannerList.size()-1).ScannerPos.toString());
+                }
             }
             instance.SetScanners(scannerList);
         }
