@@ -1,11 +1,14 @@
 package net.cubic.dronecraft_2.dronecraft_2;
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
+import net.cubic.dronecraft_2.dronecraft_2.data.*;
 import net.cubic.dronecraft_2.dronecraft_2.events.ModEvents;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,7 +43,11 @@ public class dronecraft_2Main {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        //MinecraftForge.EVENT_BUS.register(CapabilityScannerArea.class);// dont know if this works correctly
+        //MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
 
+
+        CapabilityScannerArea.register();//should work not sure why it does not
 
         modEventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
