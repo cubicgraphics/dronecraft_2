@@ -44,10 +44,9 @@ public class dronecraft_2Main {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         //MinecraftForge.EVENT_BUS.register(CapabilityScannerArea.class);// dont know if this works correctly
-        //MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
 
 
-        CapabilityScannerArea.register();//should work not sure why it does not
+
 
         modEventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
@@ -61,10 +60,15 @@ public class dronecraft_2Main {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
+    @SubscribeEvent
+    public void setup(final FMLCommonSetupEvent event) {
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+
+        CapabilityScannerArea.register();//should work not sure why it does not
+        MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
+
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

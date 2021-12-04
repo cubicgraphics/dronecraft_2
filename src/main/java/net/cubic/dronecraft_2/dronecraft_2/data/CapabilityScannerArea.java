@@ -16,7 +16,7 @@ public class CapabilityScannerArea {
     public static Capability<IScannerArea> SCANNER_AREA = null;
 
     public static void register(){
-        System.out.println("gets to here and dies");
+        System.out.println("Dronecraft_2 registering scanner area capability");
         CapabilityManager.INSTANCE.register(IScannerArea.class, new storage(), DefaultScannerArea::new);
     }
 

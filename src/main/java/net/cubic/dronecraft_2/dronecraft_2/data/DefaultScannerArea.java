@@ -9,6 +9,7 @@ public class DefaultScannerArea implements IScannerArea{
     private List<ScannerFormat> Scanners;
 
     public DefaultScannerArea(){
+        //this.Scanners.set(0,new ScannerFormat()); // dont know if this helps probably not needed
         Scanners = null;
     }
 

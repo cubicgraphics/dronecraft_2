@@ -8,6 +8,8 @@ public class ScannerFormat {
     int Range;
 
     public ScannerFormat(){
+        ScannerPos = null;
+        Range = 0;
     }
     public ScannerFormat(BlockPos scannerPos, int range) {
         ScannerPos = scannerPos;

@@ -13,8 +13,8 @@ import javax.annotation.Nullable;
 //I believe this is for saving the compound nbt data
 public class ScannerAreaProvider implements ICapabilitySerializable<CompoundNBT> {
 
-    private final DefaultScannerArea scannerArea = new DefaultScannerArea();
-    private final LazyOptional<IScannerArea> scannerAreaOptional = LazyOptional.of(() -> scannerArea);
+    private final DefaultScannerArea scannerarea = new DefaultScannerArea();
+    private final LazyOptional<IScannerArea> scannerAreaOptional = LazyOptional.of(() -> scannerarea);
 
     public void invalidate() {scannerAreaOptional.invalidate(); }
 
@@ -30,14 +30,14 @@ public class ScannerAreaProvider implements ICapabilitySerializable<CompoundNBT>
             return new CompoundNBT();
         }
         else{
-            return (CompoundNBT) CapabilityScannerArea.SCANNER_AREA.writeNBT(scannerArea, null);
+            return (CompoundNBT) CapabilityScannerArea.SCANNER_AREA.writeNBT(scannerarea, null);
         }
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
         if (CapabilityScannerArea.SCANNER_AREA != null){
-            CapabilityScannerArea.SCANNER_AREA.readNBT(scannerArea, null, nbt);
+            CapabilityScannerArea.SCANNER_AREA.readNBT(scannerarea, null, nbt);
         }
 
     }

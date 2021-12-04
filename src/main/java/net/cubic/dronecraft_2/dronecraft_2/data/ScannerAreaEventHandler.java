@@ -9,21 +9,17 @@ import net.minecraftforge.fml.common.Mod;
 
 
 
-//@Mod.EventBusSubscriber(modid = dronecraft_2Main.MOD_ID)
+@Mod.EventBusSubscriber(modid = dronecraft_2Main.MOD_ID)
 public class ScannerAreaEventHandler {
 
-//    @SubscribeEvent
+    @SubscribeEvent
     public static void OnAttachCapabilitiesEvent(AttachCapabilitiesEvent<World> event){
+        System.out.println("WORKING ____________ But we about to crash");
         if (event.getObject() != null){
             ScannerAreaProvider provider = new ScannerAreaProvider();
+            System.out.println("Crash on next line");
             event.addCapability(new ResourceLocation(dronecraft_2Main.MOD_ID, "ScannerAreas"), provider);
             event.addListener(provider::invalidate);
-            System.out.println("WORKING __________________________----------------_________________");
-
-
         }
-        System.out.println("WORKING __________________________----------------_________________ but it deemed the world event as null");
-
     }
-
 }
