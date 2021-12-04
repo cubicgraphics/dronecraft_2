@@ -1,14 +1,12 @@
 package net.cubic.dronecraft_2.dronecraft_2;
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
-import net.cubic.dronecraft_2.dronecraft_2.data.*;
-import net.cubic.dronecraft_2.dronecraft_2.events.ModEvents;
+import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
+import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerAreaEventHandler;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,8 +41,6 @@ public class dronecraft_2Main {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-        //MinecraftForge.EVENT_BUS.register(CapabilityScannerArea.class);// dont know if this works correctly
-
 
 
 
@@ -65,7 +61,7 @@ public class dronecraft_2Main {
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
-
+        //register capabilities here
         CapabilityScannerArea.register();//should work not sure why it does not
         MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
 

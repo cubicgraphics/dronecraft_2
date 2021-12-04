@@ -1,12 +1,11 @@
-package net.cubic.dronecraft_2.dronecraft_2.data;
+package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability;
 
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class DefaultScannerArea implements IScannerArea{
+public class DefaultScannerArea implements IScannerArea {
 
      List<ScannerFormat> Scanners;
 

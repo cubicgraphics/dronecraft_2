@@ -1,4 +1,4 @@
-package net.cubic.dronecraft_2.dronecraft_2.data;
+package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability;
 
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.util.ResourceLocation;
