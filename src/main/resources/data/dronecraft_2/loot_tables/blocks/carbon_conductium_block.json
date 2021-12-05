@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+        "type": "minecraft:item",
+        "name": "dronecraft_2:carbon_conductium_block"
+        }
+      ]
+    }
+  ]
+}

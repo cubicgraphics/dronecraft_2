@@ -1,9 +1,13 @@
 {
+  "itemGroup.dronecraft_2tab": "Dronecraft 2",
+
   "item.dronecraft_2.conductium_dust": "Conductium dust",
   "item.dronecraft_2.conductium_ingot": "Conductium ingot",
   "item.dronecraft_2.carbon_conductium_compound": "Carbon-conductium compound",
   "item.dronecraft_2.carbon_conductium_ingot": "Carbon-conductium ingot",
   "item.dronecraft_2.super_conductive_maglev": "Super conductive maglev",
-  "itemGroup.dronecraft_2tab": "Dronecraft 2",
-  "block.dronecraft_2.conductium_block": "Conductium block"
+
+  "block.dronecraft_2.conductium_block": "Conductium block",
+  "block.dronecraft_2.carbon_conductium_block": "Carbon conductium block"
+
 }

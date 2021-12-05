@@ -9,7 +9,7 @@ public class ModItemGroup {
     public static final ItemGroup DRONECRAFT2_GROUP = new ItemGroup("dronecraft_2tab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItems.CARBONCONDUCTIUM_INGOT.get());
+            return new ItemStack(ModItems.CARBON_CONDUCTIUM_INGOT.get());
         }
     };
 }
