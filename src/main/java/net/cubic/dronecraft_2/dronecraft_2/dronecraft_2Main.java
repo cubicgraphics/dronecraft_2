@@ -43,7 +43,6 @@ public class dronecraft_2Main {
         ModBlocks.register(modEventBus);
 
 
-
         modEventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
         modEventBus.addListener(this::enqueueIMC);
