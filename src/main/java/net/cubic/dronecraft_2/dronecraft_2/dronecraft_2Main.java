@@ -63,7 +63,6 @@ public class dronecraft_2Main {
         //register capabilities here
         CapabilityScannerArea.register();//should work not sure why it does not
         MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
-
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
