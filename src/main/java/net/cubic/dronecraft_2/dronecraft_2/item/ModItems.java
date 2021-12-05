@@ -14,9 +14,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> CONDUCTIUM_DUST = ITEMS.register("conductium_dust",
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
-    public static final RegistryObject<Item> CONDUCTIUM_INGOT = ITEMS.register("conductium_ingot",
-            () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
     public static final RegistryObject<Item> CARBON_CONDUCTIUM_COMPOUND = ITEMS.register("carbon_conductium_compound",
+            () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+    public static final RegistryObject<Item> CONDUCTIUM_INGOT = ITEMS.register("conductium_ingot",
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
     public static final RegistryObject<Item> CARBON_CONDUCTIUM_INGOT = ITEMS.register("carbon_conductium_ingot",
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
