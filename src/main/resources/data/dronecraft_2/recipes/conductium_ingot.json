@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "dronecraft_2:conductium_block"
+      "tag": "forge:blocks/conductium"
     }
   ],
   "result": {
