@@ -1,8 +1,11 @@
 package net.cubic.dronecraft_2.dronecraft_2.events;
 
 
+import net.cubic.dronecraft_2.dronecraft_2.Utill.CropUtil;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
+import net.minecraft.entity.ai.brain.task.BoneMealCropsTask;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -23,16 +26,24 @@ public class ModEvents {
                 BlockEvent.getPlayer().sendMessage(ITextComponent.getTextComponentOrEmpty("HA"),BlockEvent.getPlayer().getUniqueID()); // might work else may cause a crash idk
             }
         }
-        /* This code was for testing purposes
-        World world = (World) BlockEvent.getWorld();
-        world.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h-> {
-            h.AddScanner(BlockEvent.getPos(),1);
-            System.out.println("capabilitything working ?");
-            System.out.println(h.GetScannerAreas().toString());
 
-        });
-        */
         System.out.println("blockupdt-" + BlockEvent.getPos().toString());
     }
 
+    @SubscribeEvent
+    public static void OnCropGrown(BlockEvent.CropGrowEvent.Post CropGrowEvent){
+
+        if (CropUtil.IsFullyGrown(CropGrowEvent.getState())){
+            System.out.println("CROP GROWN HERE AAA");
+
+        }
+    }
+
+    @SubscribeEvent
+    public static void OnBoneMeal(BonemealEvent event){
+        if (CropUtil.IsFullyGrown(event.getBlock())) {
+            System.out.println("CROP GROWN HERE AAA BONEMEAL");
+
+        }
+    }
 }

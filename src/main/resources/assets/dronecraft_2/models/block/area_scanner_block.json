@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "dronecraft_2:block/area_scanner_block"
+  }
+}
