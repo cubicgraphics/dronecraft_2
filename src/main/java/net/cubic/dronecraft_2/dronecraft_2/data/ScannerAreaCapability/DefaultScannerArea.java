@@ -26,8 +26,8 @@ public class DefaultScannerArea implements IScannerArea {
 
     @Override
     public void RemoveScanner(BlockPos blockpos) {
-        for (int i = 0; i < Scanners.size()-1; i++) {
-            if (Scanners.get(i).ScannerPos == blockpos){
+        for (int i = 0; i < Scanners.size(); i++) {
+            if (Scanners.get(i).ScannerPos.equals(blockpos)){
                 Scanners.remove(i);
             }
         }
@@ -48,7 +48,7 @@ public class DefaultScannerArea implements IScannerArea {
     @Override //returns null if not found
     public ScannerFormat GetScanner(BlockPos blockpos) {
         ScannerFormat found = null;
-        for (int i = 0; i < Scanners.size()-1; i++) {
+        for (int i = 0; i < Scanners.size(); i++) {
             if (Scanners.get(i).ScannerPos == blockpos){
                 found = Scanners.get(i);
             }
