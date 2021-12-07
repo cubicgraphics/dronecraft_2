@@ -5,6 +5,8 @@ import net.minecraft.block.CropsBlock;
 import net.minecraft.tags.BlockTags;
 import sun.security.util.Debug;
 
+//TODO make it work for full block crops(blocks that are called with FullyGrown but do not have the CROPS tag0 - eg: cactus, bamboo, sugarcane & kelp
+
 public class CropUtil {
 
     public static boolean IsFullyGrown(BlockState blockState){
