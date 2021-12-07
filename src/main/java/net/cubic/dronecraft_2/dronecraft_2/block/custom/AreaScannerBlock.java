@@ -26,7 +26,7 @@ public class AreaScannerBlock extends Block {
         super.onBlockAdded(state, worldIn, pos, oldState, isMoving);
         if (!worldIn.isRemote){
             worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h-> {
-                h.AddScanner(pos,5);
+                h.AddScanner(pos,5,0);
                 System.out.println("saving location of scanner");
                 System.out.println(h.GetScanners().toString());
             });

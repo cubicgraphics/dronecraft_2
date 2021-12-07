@@ -1,10 +1,8 @@
 package net.cubic.dronecraft_2.dronecraft_2.Utill;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.tags.BlockTags;
-import net.minecraftforge.event.world.BlockEvent;
 import sun.security.util.Debug;
 
 public class CropUtil {
@@ -12,7 +10,6 @@ public class CropUtil {
     public static boolean IsFullyGrown(BlockState blockState){
         boolean IsGrown = false;
         if (blockState.getBlock().isIn(BlockTags.CROPS)){
-            //System.out.println("Is in the crop blocktag group");
             try {
                 CropsBlock crop = (CropsBlock) blockState.getBlock();
                 if (crop.isMaxAge(blockState)) {

@@ -34,6 +34,7 @@ public class CapabilityScannerArea {
                     CompoundNBT scannerdata = new CompoundNBT();
                     scannerdata.put("BlockPos", NBTUtil.writeBlockPos(instance.GetScanners().get(i).ScannerPos));//sets the blockpos to compound nbt
                     scannerdata.putInt("Range", instance.GetScanners().get(i).Range);//sets the range to compound nbt
+                    scannerdata.putInt("AreaMode", instance.GetScanners().get(i).AreaMode);
                     scannerList.add(scannerdata);
                 }
             }
@@ -50,7 +51,7 @@ public class CapabilityScannerArea {
             if (taglist != null){
                 for (int i = 0; i < taglist.size(); i++) {
                     CompoundNBT scannerData = taglist.getCompound(i);
-                    scannerList.add(new ScannerFormat(NBTUtil.readBlockPos((scannerData).getCompound("BlockPos")), ((scannerData).getInt("Range"))));
+                    scannerList.add(new ScannerFormat(NBTUtil.readBlockPos((scannerData).getCompound("BlockPos")), ((scannerData).getInt("Range")),((scannerData).getInt("AreaMode"))));
                     System.out.println(scannerList.get(scannerList.size()-1).ScannerPos.toString());
                 }
             }

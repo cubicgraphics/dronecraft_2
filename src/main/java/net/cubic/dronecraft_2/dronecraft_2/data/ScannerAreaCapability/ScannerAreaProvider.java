@@ -1,8 +1,5 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability;
 
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.DefaultScannerArea;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.IScannerArea;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
