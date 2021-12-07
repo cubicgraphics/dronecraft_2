@@ -4,8 +4,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class ScannerFormat {
 
-    BlockPos ScannerPos;
-    int Range;
+    public BlockPos ScannerPos;
+    public int Range;
 
     public ScannerFormat(){
         ScannerPos = null;

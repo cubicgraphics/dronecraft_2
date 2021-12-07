@@ -26,12 +26,15 @@ public class AreaScannerBlock extends Block {
         super.onBlockAdded(state, worldIn, pos, oldState, isMoving);
         if (!worldIn.isRemote){
             worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h-> {
-                h.AddScanner(pos,1);
+                h.AddScanner(pos,5);
                 System.out.println("saving location of scanner");
-                System.out.println(h.GetScannerAreas().toString());
+                System.out.println(h.GetScanners().toString());
             });
         }
     }
+
+
+
 
 
     @Override
@@ -39,7 +42,6 @@ public class AreaScannerBlock extends Block {
         super.onBlockHarvested(worldIn, pos, state, player);
         if (!worldIn.isRemote()){
             removeAreaScannerData(worldIn, pos);
-
         }
     }
 

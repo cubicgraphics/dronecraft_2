@@ -29,11 +29,11 @@ public class CapabilityScannerArea {
         public INBT writeNBT(Capability<IScannerArea> capability, IScannerArea instance, Direction side) {
             CompoundNBT tag = new CompoundNBT();
             ListNBT scannerList = new ListNBT();
-            if (instance.GetScannerAreas() != null) {
-                for (int i = 0; i < instance.GetScannerAreas().size(); i++) {
+            if (instance.GetScanners() != null) {
+                for (int i = 0; i < instance.GetScanners().size(); i++) {
                     CompoundNBT scannerdata = new CompoundNBT();
-                    scannerdata.put("BlockPos", NBTUtil.writeBlockPos(instance.GetScannerAreas().get(i).ScannerPos));//sets the blockpos to compound nbt
-                    scannerdata.putInt("Range", instance.GetScannerAreas().get(i).Range);//sets the range to compound nbt
+                    scannerdata.put("BlockPos", NBTUtil.writeBlockPos(instance.GetScanners().get(i).ScannerPos));//sets the blockpos to compound nbt
+                    scannerdata.putInt("Range", instance.GetScanners().get(i).Range);//sets the range to compound nbt
                     scannerList.add(scannerdata);
                 }
             }

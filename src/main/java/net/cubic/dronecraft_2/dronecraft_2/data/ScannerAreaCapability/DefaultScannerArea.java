@@ -1,5 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability;
 
+import net.minecraft.dispenser.IPosition;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -34,15 +35,22 @@ public class DefaultScannerArea implements IScannerArea {
     }
 
     @Override
-    public Boolean IsInRange(BlockPos blockpos, BlockPos scannerpos) {
-        //logic here to check whether the input blockpos is within the radius of the Scannerpos
-        return Boolean.FALSE;//change this later
+    public Boolean IsInRange(BlockPos blockpos, ScannerFormat scannerPos) {
+        return blockpos.withinDistance(scannerPos.ScannerPos, scannerPos.Range);  //checks in a circle around the scanner of its set radius
     }
 
     @Override
-    public BlockPos GetClosestScanner(BlockPos blockpos) {
-        //logic here to return the blockpos of the closest scanner
-        return blockpos;
+    public ScannerFormat GetClosestScanner(BlockPos blockpos) {
+        ScannerFormat scanner = null;
+        double finalDist = 10000000.0;
+        for (int i = 0; i < Scanners.size(); i++) {
+            double dist = blockpos.distanceSq(Scanners.get(i).ScannerPos);
+            if (dist < finalDist){
+                finalDist = dist;
+                scanner = Scanners.get(i);
+            }
+        }
+        return scanner;
     }
 
     @Override //returns null if not found
@@ -57,7 +65,7 @@ public class DefaultScannerArea implements IScannerArea {
     }
 
     @Override
-    public List<ScannerFormat> GetScannerAreas() {
+    public List<ScannerFormat> GetScanners() {
         return this.Scanners;
     }
 
