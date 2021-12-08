@@ -46,10 +46,12 @@ public class ModEvents {
                 List<ScannerFormat> scanners = h.GetScannersSurveyingBlock(Pos);
                 System.out.println("fetched scanners in range");
                 if (!scanners.isEmpty()) {
-                    System.out.println("Was within the range of scanners");
-                    ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString());
                     for (ScannerFormat scanner : scanners) {
-                        if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() != ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
+                        if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
+                            ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner.ScannerPos);
+                            //Do things with scanner here
+                        }
+                        else{
                             h.RemoveScanner(scanner.ScannerPos);
                         }
                     }
