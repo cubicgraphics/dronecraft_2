@@ -1,6 +1,5 @@
 package net.cubic.dronecraft_2.dronecraft_2;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
