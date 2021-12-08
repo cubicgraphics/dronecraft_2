@@ -3,17 +3,23 @@ package net.cubic.dronecraft_2.dronecraft_2.events;
 
 import net.cubic.dronecraft_2.dronecraft_2.Utill.CropUtil;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.ServerUtil;
+import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
+import net.cubic.dronecraft_2.dronecraft_2.block.custom.AreaScannerBlock;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerFormat;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -37,13 +43,15 @@ public class ModEvents {
     public static void WithinScannerBlock(World worldIn, BlockPos Pos) {
         if (!worldIn.isRemote) {
             worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
-                ScannerFormat scan = h.GetClosestScanner(Pos);
-                System.out.println("fetched closest scanner");
-                if (scan != null) {
-                    System.out.println("closest scanner was " + scan);
-                    if (h.IsInRange(Pos, scan)) {
-                        System.out.println("Was within the range of the scanner");
-                        ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString());
+                List<ScannerFormat> scanners = h.GetScannersSurveyingBlock(Pos);
+                System.out.println("fetched scanners in range");
+                if (!scanners.isEmpty()) {
+                    System.out.println("Was within the range of scanners");
+                    ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString());
+                    for (ScannerFormat scanner : scanners) {
+                        if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() != ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
+                            h.RemoveScanner(scanner.ScannerPos);
+                        }
                     }
                 }
             });

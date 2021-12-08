@@ -33,6 +33,8 @@ public class DefaultScannerArea implements IScannerArea {
         }
     }
 
+
+
     @Override
     public Boolean IsInRange(BlockPos blockpos, ScannerFormat scanner) {
         if (scanner.AreaMode == 0) {
@@ -47,17 +49,14 @@ public class DefaultScannerArea implements IScannerArea {
     }
 
     @Override
-    public ScannerFormat GetClosestScanner(BlockPos blockpos) {
-        ScannerFormat scanner = null;
-        double finalDist = 10000000.0;
+    public List<ScannerFormat> GetScannersSurveyingBlock(BlockPos blockpos) { // returns a lists of scanner blocks
+        List<ScannerFormat> scannerList = new ArrayList<>();
         for (ScannerFormat scannerFormat : Scanners) {
-            double dist = blockpos.distanceSq(scannerFormat.ScannerPos);
-            if (dist < finalDist) {
-                finalDist = dist;
-                scanner = scannerFormat;
+            if (IsInRange(blockpos, scannerFormat)) {
+                scannerList.add(scannerFormat);
             }
         }
-        return scanner;
+        return scannerList;
     }
 
     @Override //returns null if not found

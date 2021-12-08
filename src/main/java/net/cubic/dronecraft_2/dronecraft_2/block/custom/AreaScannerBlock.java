@@ -70,8 +70,4 @@ public class AreaScannerBlock extends Block {
             });
         }
     }
-
-
-
-
 }
