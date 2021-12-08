@@ -1,11 +1,16 @@
 package net.cubic.dronecraft_2.dronecraft_2;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
+import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerAreaEventHandler;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
+import net.cubic.dronecraft_2.dronecraft_2.screen.AreaScannerScreen;
+import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -41,7 +46,8 @@ public class dronecraft_2Main {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-
+        ModTileEntities.register(modEventBus);
+        ModContainers.register(modEventBus);
 
         modEventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
@@ -68,6 +74,9 @@ public class dronecraft_2Main {
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+
+
+        ScreenManager.registerFactory(ModContainers.AREA_SCANNER_CONTAINER.get(), AreaScannerScreen::new);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
