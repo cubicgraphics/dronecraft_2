@@ -8,6 +8,9 @@ public interface IScannerArea {
 
         void AddScanner(BlockPos blockPos, int radius, int areaMode); //Adds the location of a scanner and its range
         void SetScanners(List<ScannerFormat> scannerList);// sets the scanner list
+        void SetScannerRange(BlockPos blockpos, int range);
+        void SetScanner(BlockPos blockPos, int range, int AreaMode);
+        void SetAreaMode(BlockPos blockpos, int AreaMode);
         void RemoveScanner(BlockPos blockpos);
         Boolean IsInRange(BlockPos blockpos, ScannerFormat scannerPos); // checks whether the input block is within the range of the input scanner block
         List<ScannerFormat> GetScannersSurveyingBlock(BlockPos blockpos);

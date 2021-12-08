@@ -1,22 +1,23 @@
 package net.cubic.dronecraft_2.dronecraft_2.container;
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
+import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import javax.annotation.Nullable;
+
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class AreaScannerContainer extends Container {
@@ -43,7 +44,44 @@ public class AreaScannerContainer extends Container {
     }
 
 
+    public int getScannerRange() {
+        AtomicInteger _retval = new AtomicInteger(0);
+        Objects.requireNonNull(tileEntity.getWorld()).getCapability(CapabilityScannerArea.SCANNER_AREA ).ifPresent(capability -> _retval.set(capability.GetScanner(tileEntity.getPos()).Range));
+        return _retval.get();
+    }
 
+    public BlockPos getBlockPos(){
+        return tileEntity.getPos();
+    }
+
+    public String getScannerAreaMode(){
+        AtomicInteger _retval = new AtomicInteger(0);
+        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA ).ifPresent(capability -> _retval.set(capability.GetScanner(tileEntity.getPos()).AreaMode));
+        if (_retval.get() == 0){
+            return "Sphere";
+        }
+        else if(_retval.get() == 1){
+            return "Square";
+        }
+        else{
+            return "ERROR";
+        }
+    }
+    public void setScannerRange(int range){
+        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
+            h.SetScannerRange(tileEntity.getPos(),range);
+        });
+    }
+    public void setScannerAreaMode(int AreaMode){
+        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
+            h.SetAreaMode(tileEntity.getPos(),AreaMode);
+        });
+    }
+    public void setScanner(int range, int AreaMode){
+        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
+            h.SetScanner(tileEntity.getPos(),range, AreaMode);
+        });
+    }
 
 
     @Override

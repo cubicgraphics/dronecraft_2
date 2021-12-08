@@ -25,6 +25,33 @@ public class DefaultScannerArea implements IScannerArea {
     }
 
     @Override
+    public void SetScannerRange(BlockPos blockpos, int range) {
+        for (int i = 0; i < Scanners.size(); i++) {
+            if (Scanners.get(i).ScannerPos.equals(blockpos)){
+                Scanners.set(i,new ScannerFormat(blockpos,range,Scanners.get(i).AreaMode));
+            }
+        }
+    }
+
+    @Override
+    public void SetScanner(BlockPos blockPos, int range, int AreaMode) {
+        for (int i = 0; i < Scanners.size(); i++) {
+            if (Scanners.get(i).ScannerPos.equals(blockPos)){
+                Scanners.set(i,new ScannerFormat(blockPos,range,AreaMode));
+            }
+        }
+    }
+
+    @Override
+    public void SetAreaMode(BlockPos blockpos, int AreaMode) {
+        for (int i = 0; i < Scanners.size(); i++) {
+            if (Scanners.get(i).ScannerPos.equals(blockpos)){
+                Scanners.set(i,new ScannerFormat(blockpos,Scanners.get(i).Range,AreaMode));
+            }
+        }
+    }
+
+    @Override
     public void RemoveScanner(BlockPos blockpos) {
         for (int i = 0; i < Scanners.size(); i++) {
             if (Scanners.get(i).ScannerPos.equals(blockpos)){
