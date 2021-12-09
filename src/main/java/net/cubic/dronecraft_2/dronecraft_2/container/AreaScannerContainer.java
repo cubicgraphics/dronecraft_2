@@ -2,6 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.container;
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
+import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerFormat;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -16,7 +17,6 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -45,9 +45,16 @@ public class AreaScannerContainer extends Container {
 
 
     public int getScannerRange() {
-        AtomicInteger _retval = new AtomicInteger(0);
-        Objects.requireNonNull(tileEntity.getWorld()).getCapability(CapabilityScannerArea.SCANNER_AREA ).ifPresent(capability -> _retval.set(capability.GetScanner(tileEntity.getPos()).Range));
-        return _retval.get();
+        AtomicInteger test= new AtomicInteger(0);
+        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
+            ScannerFormat scanner = h.GetScanner(this.getBlockPos());
+            if (scanner != null) {
+                test.set(scanner.Range);
+                System.out.println(scanner.Range + " scanner range was, Within H" + test.get());
+            }
+        });
+        System.out.println(" Before return" + test.get());
+        return test.get();
     }
 
     public BlockPos getBlockPos(){

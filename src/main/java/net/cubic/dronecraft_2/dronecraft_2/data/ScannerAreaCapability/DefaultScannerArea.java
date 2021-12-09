@@ -88,10 +88,10 @@ public class DefaultScannerArea implements IScannerArea {
 
     @Override //returns null if not found
     public ScannerFormat GetScanner(BlockPos blockpos) {
-        ScannerFormat found = null;
+        ScannerFormat found = new ScannerFormat();
         for (ScannerFormat scanner : Scanners) {
-            if (scanner.ScannerPos == blockpos) {
-                found = scanner;
+            if (scanner.ScannerPos.equals(blockpos)) {
+                found =  scanner;
             }
         }
         return found;

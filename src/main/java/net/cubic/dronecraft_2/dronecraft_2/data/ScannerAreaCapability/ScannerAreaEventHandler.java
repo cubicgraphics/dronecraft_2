@@ -16,7 +16,6 @@ public class ScannerAreaEventHandler {
     public static void OnAttachCapabilitiesEvent(AttachCapabilitiesEvent<World> event){
         if (event.getObject() != null){
             ScannerAreaProvider provider = new ScannerAreaProvider();
-            System.out.println("no longer crashes on next line");
             event.addCapability(new ResourceLocation(dronecraft_2Main.MOD_ID, "scannerareas"), provider);
             event.addListener(provider::invalidate);
         }
