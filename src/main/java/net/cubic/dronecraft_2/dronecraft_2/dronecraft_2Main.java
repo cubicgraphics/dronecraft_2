@@ -66,7 +66,7 @@ public class dronecraft_2Main {
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
         //register capabilities here
-        CapabilityScannerArea.register();//should work not sure why it does not
+        CapabilityScannerArea.register();//should work not sure why it does not//TODO need to sync this or find a way to retrieve this in the client side
         MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
     }
 
