@@ -2,8 +2,6 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.cubic.dronecraft_2.dronecraft_2.Utill.network.Message;
-import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.container.AreaScannerContainer;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
@@ -49,28 +47,10 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack ms, int mouseX, int mouseY) {
         int i = 0;
-    //TODO need to fetch this and display it locally
+        // need to fetch this and display it locally
         this.font.drawString(ms, String.valueOf(container.getScannerRange()), 8, 30, -12829636);
 
-        /*this.font.drawString(ms, "" + (new Object() {
-            public int getScannerRange(BlockPos pos) {
-                AtomicInteger _retval = new AtomicInteger(0);
-                World world = playerInventory.player.getEntityWorld();
-                //if  (!world.isRemote()){
-                    world.getCapability(CapabilityScannerArea.SCANNER_AREA, null).ifPresent(
-                            capability -> _retval.set(
-                                    capability
-                                            .GetScanner(pos)//crashes here
-                                            .Range
-                            )
-                    );
 
-                //}
-                return _retval.get();
-            }
-        }.getScannerRange(container.getBlockPos())) + "", 11, 13, -12829636);
-
-         */
         //PacketHandler.INSTANCE.sendToServer(new Message(container.getBlockPos()));
 
 

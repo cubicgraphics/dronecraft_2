@@ -1,7 +1,9 @@
 package net.cubic.dronecraft_2.dronecraft_2.container;
 
+import jdk.jfr.Description;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
+import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerAreaProvider;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerFormat;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -43,7 +46,11 @@ public class AreaScannerContainer extends Container {
          */
     }
 
+    public BlockPos getBlockPos(){
+        return tileEntity.getPos();
+    }
 
+    //TODO need to save capability to client side as well as server side / send the data requested to the client
     public int getScannerRange() {
         AtomicInteger test= new AtomicInteger(0);
         tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
@@ -55,10 +62,6 @@ public class AreaScannerContainer extends Container {
         });
         System.out.println(" Before return" + test.get());
         return test.get();
-    }
-
-    public BlockPos getBlockPos(){
-        return tileEntity.getPos();
     }
 
     public String getScannerAreaMode(){
