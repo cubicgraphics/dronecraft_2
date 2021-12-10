@@ -1,7 +1,10 @@
 package net.cubic.dronecraft_2.dronecraft_2.block.custom;
 
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.packets.to_client.SyncScannerAreaCapability;
 import net.cubic.dronecraft_2.dronecraft_2.container.AreaScannerContainer;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
+import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerFormat;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.AreaScannerTileEntity;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
@@ -26,6 +29,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class AreaScannerBlock extends Block {
 
@@ -44,6 +48,10 @@ public class AreaScannerBlock extends Block {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
             if (!player.isCrouching()){
                 if (tileEntity instanceof AreaScannerTileEntity){
+                    worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
+                                PacketHandler.sendToClient(new SyncScannerAreaCapability(h.GetScanners()), ((ServerPlayerEntity) player));
+                                System.out.println("Should have sent packet");
+                            });
                     INamedContainerProvider containerProvider = createContainerProvider(worldIn,pos);
 
                     NetworkHooks.openGui(((ServerPlayerEntity) player), containerProvider,tileEntity.getPos());

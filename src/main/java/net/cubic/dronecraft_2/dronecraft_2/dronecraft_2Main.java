@@ -69,6 +69,7 @@ public class dronecraft_2Main {
         //register capabilities here
         CapabilityScannerArea.register();//should work not sure why it does not//TODO need to sync this/find a way to retrieve this in the client side
         MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
+        PacketHandler.registerMessages();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
