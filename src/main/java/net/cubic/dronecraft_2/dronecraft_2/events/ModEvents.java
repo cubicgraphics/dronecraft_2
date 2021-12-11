@@ -4,16 +4,12 @@ package net.cubic.dronecraft_2.dronecraft_2.events;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.CropUtil;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.ServerUtil;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
-import net.cubic.dronecraft_2.dronecraft_2.block.custom.AreaScannerBlock;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerFormat;
+import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill.ScannerFormat;
+import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
-import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -42,21 +38,22 @@ public class ModEvents {
 
     public static void WithinScannerBlock(World worldIn, BlockPos Pos) {
         if (!worldIn.isRemote) {
-            worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
-                List<ScannerFormat> scanners = h.GetScannersSurveyingBlock(Pos);
-                System.out.println("fetched scanners in range");
-                if (!scanners.isEmpty()) {
-                    for (ScannerFormat scanner : scanners) {
-                        if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
-                            ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner.ScannerPos);
-                            //Do things with scanner here
-                        }
-                        else{
-                            h.RemoveScanner(scanner.ScannerPos);
-                        }
+            List<ScannerFormat> scanners = WorldGlobalVar.WorldVariables.get(worldIn).Scanners.GetScannersSurveyingBlock(Pos);
+            System.out.println("fetched scanners in range");
+            if (!scanners.isEmpty()) {
+                for (ScannerFormat scanner : scanners) {
+                    if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
+                        ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner.ScannerPos);
+                        //Do things with scanner here like send a drone to the block or something
+
+
+                    }
+                    else{
+                        WorldGlobalVar.WorldVariables.get(worldIn).Scanners.RemoveScanner(scanner.ScannerPos);
+                        WorldGlobalVar.WorldVariables.get(worldIn).syncData(worldIn);
                     }
                 }
-            });
+            }
         }
     }
 

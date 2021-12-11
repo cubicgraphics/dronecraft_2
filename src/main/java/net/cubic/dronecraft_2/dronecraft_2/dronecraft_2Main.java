@@ -3,8 +3,6 @@ package net.cubic.dronecraft_2.dronecraft_2;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerAreaEventHandler;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.cubic.dronecraft_2.dronecraft_2.screen.AreaScannerScreen;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
@@ -39,9 +37,11 @@ public class dronecraft_2Main {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public PacketHandler packetHandler;
 
     public dronecraft_2Main() {
         // Register the setup method for modloading
+        packetHandler = new PacketHandler();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModItems.register(modEventBus);
@@ -67,9 +67,8 @@ public class dronecraft_2Main {
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
         //register capabilities here
-        CapabilityScannerArea.register();//should work not sure why it does not//TODO need to sync this/find a way to retrieve this in the client side
-        MinecraftForge.EVENT_BUS.register(ScannerAreaEventHandler.class);//should work?? - no longer needed is @registered in the class
-        PacketHandler.registerMessages();
+
+
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

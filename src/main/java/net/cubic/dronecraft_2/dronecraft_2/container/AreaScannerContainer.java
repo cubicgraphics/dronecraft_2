@@ -2,8 +2,6 @@ package net.cubic.dronecraft_2.dronecraft_2.container;
 
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerFormat;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -16,10 +14,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-
-
-import java.util.concurrent.atomic.AtomicInteger;
-
 
 public class AreaScannerContainer extends Container {
     private final TileEntity tileEntity;
@@ -48,48 +42,6 @@ public class AreaScannerContainer extends Container {
         return tileEntity.getPos();
     }
 
-    //TODO need to save capability to client side as well as server side / send the data requested to the client
-    public int getScannerRange() {
-        AtomicInteger test= new AtomicInteger(0);
-        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
-            ScannerFormat scanner = h.GetScanner(this.getBlockPos());
-            if (scanner != null) {
-                test.set(scanner.Range);
-                System.out.println(scanner.Range + " scanner range was, Within H" + test.get());
-            }
-        });
-        System.out.println(" Before return" + test.get());
-        return test.get();
-    }
-
-    public String getScannerAreaMode(){
-        AtomicInteger _retval = new AtomicInteger(0);
-        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA ).ifPresent(capability -> _retval.set(capability.GetScanner(tileEntity.getPos()).AreaMode));
-        if (_retval.get() == 0){
-            return "Sphere";
-        }
-        else if(_retval.get() == 1){
-            return "Square";
-        }
-        else{
-            return "ERROR";
-        }
-    }
-    public void setScannerRange(int range){
-        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
-            h.SetScannerRange(tileEntity.getPos(),range);
-        });
-    }
-    public void setScannerAreaMode(int AreaMode){
-        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
-            h.SetAreaMode(tileEntity.getPos(),AreaMode);
-        });
-    }
-    public void setScanner(int range, int AreaMode){
-        tileEntity.getWorld().getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
-            h.SetScanner(tileEntity.getPos(),range, AreaMode);
-        });
-    }
 
 
     @Override

@@ -1,30 +1,34 @@
-package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability;
+package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill;
 
+import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultScannerArea implements IScannerArea {
+public class ScannerAreaData {
 
      List<ScannerFormat> Scanners;
 
-    public DefaultScannerArea(){
+     //WorldGlobalVar.WorldVariables.get(world).Scanners.GetScanners() //to retrieve scanners variables
+
+     //WorldGlobalVar.WorldVariables.get(world).Scanners.SetScanners(new ArrayList<>());
+     //WorldGlobalVar.WorldVariables.get(world).syncData(world);// To write to world data
+
+
+    public ScannerAreaData(){
         Scanners = new ArrayList<>();
     }
 
 
-    @Override
     public void AddScanner(BlockPos blockPos, int radius, int areaMode) {
         this.Scanners.add(new ScannerFormat(blockPos, radius,areaMode)); // this now works because I made the default value a new arraylist
     }
 
-    @Override
     public void SetScanners(List<ScannerFormat> scannerlist) {
         this.Scanners = scannerlist;
     }
 
-    @Override
     public void SetScannerRange(BlockPos blockpos, int range) {
         for (int i = 0; i < Scanners.size(); i++) {
             if (Scanners.get(i).ScannerPos.equals(blockpos)){
@@ -33,7 +37,6 @@ public class DefaultScannerArea implements IScannerArea {
         }
     }
 
-    @Override
     public void SetScanner(BlockPos blockPos, int range, int AreaMode) {
         for (int i = 0; i < Scanners.size(); i++) {
             if (Scanners.get(i).ScannerPos.equals(blockPos)){
@@ -42,7 +45,6 @@ public class DefaultScannerArea implements IScannerArea {
         }
     }
 
-    @Override
     public void SetAreaMode(BlockPos blockpos, int AreaMode) {
         for (int i = 0; i < Scanners.size(); i++) {
             if (Scanners.get(i).ScannerPos.equals(blockpos)){
@@ -51,7 +53,6 @@ public class DefaultScannerArea implements IScannerArea {
         }
     }
 
-    @Override
     public void RemoveScanner(BlockPos blockpos) {
         for (int i = 0; i < Scanners.size(); i++) {
             if (Scanners.get(i).ScannerPos.equals(blockpos)){
@@ -62,7 +63,6 @@ public class DefaultScannerArea implements IScannerArea {
 
 
 
-    @Override
     public Boolean IsInRange(BlockPos blockpos, ScannerFormat scanner) {
         if (scanner.AreaMode == 0) {
             return blockpos.withinDistance(scanner.ScannerPos, scanner.Range + 1);  //checks in a circle around the scanner of its set radius
@@ -75,7 +75,6 @@ public class DefaultScannerArea implements IScannerArea {
         }
     }
 
-    @Override
     public List<ScannerFormat> GetScannersSurveyingBlock(BlockPos blockpos) { // returns a lists of scanner blocks
         List<ScannerFormat> scannerList = new ArrayList<>();
         for (ScannerFormat scannerFormat : Scanners) {
@@ -86,7 +85,7 @@ public class DefaultScannerArea implements IScannerArea {
         return scannerList;
     }
 
-    @Override //returns null if not found
+        //returns null if not found
     public ScannerFormat GetScanner(BlockPos blockpos) {
         ScannerFormat found = new ScannerFormat();
         for (ScannerFormat scanner : Scanners) {
@@ -97,7 +96,6 @@ public class DefaultScannerArea implements IScannerArea {
         return found;
     }
 
-    @Override
     public List<ScannerFormat> GetScanners() {
         return this.Scanners;
     }

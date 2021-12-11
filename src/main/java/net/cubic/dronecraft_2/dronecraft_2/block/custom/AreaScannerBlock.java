@@ -1,15 +1,11 @@
 package net.cubic.dronecraft_2.dronecraft_2.block.custom;
 
-import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
-import net.cubic.dronecraft_2.dronecraft_2.Utill.network.packets.to_client.SyncScannerAreaCapability;
 import net.cubic.dronecraft_2.dronecraft_2.container.AreaScannerContainer;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.CapabilityScannerArea;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaCapability.ScannerFormat;
+import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.AreaScannerTileEntity;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -29,7 +25,6 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class AreaScannerBlock extends Block {
 
@@ -48,10 +43,7 @@ public class AreaScannerBlock extends Block {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
             if (!player.isCrouching()){
                 if (tileEntity instanceof AreaScannerTileEntity){
-                    worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h -> {
-                                PacketHandler.sendToClient(new SyncScannerAreaCapability(h.GetScanners()), ((ServerPlayerEntity) player));
-                                System.out.println("Should have sent packet");
-                            });
+
                     INamedContainerProvider containerProvider = createContainerProvider(worldIn,pos);
 
                     NetworkHooks.openGui(((ServerPlayerEntity) player), containerProvider,tileEntity.getPos());
@@ -96,11 +88,11 @@ public class AreaScannerBlock extends Block {
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onBlockAdded(state, worldIn, pos, oldState, isMoving);
         if (!worldIn.isRemote){
-            worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h-> {
-                h.AddScanner(pos,5,0);
+            WorldGlobalVar.WorldVariables.get(worldIn).Scanners.AddScanner(pos,5,0);
+            WorldGlobalVar.WorldVariables.get(worldIn).syncData(worldIn);
                 System.out.println("saving location of scanner");
-                System.out.println(h.GetScanners().toString());
-            });
+                System.out.println(WorldGlobalVar.WorldVariables.get(worldIn).Scanners.GetScanners().toString());
+
         }
     }
 
@@ -135,10 +127,9 @@ public class AreaScannerBlock extends Block {
 
     public void removeAreaScannerData(World worldIn, BlockPos pos){
         if (!worldIn.isRemote){
-            worldIn.getCapability(CapabilityScannerArea.SCANNER_AREA).ifPresent(h-> {
-                h.RemoveScanner(pos);
+            WorldGlobalVar.WorldVariables.get(worldIn).Scanners.RemoveScanner(pos);
+            WorldGlobalVar.WorldVariables.get(worldIn).syncData(worldIn);
                 System.out.println("removed location of a scanner");
-            });
         }
     }
 }
