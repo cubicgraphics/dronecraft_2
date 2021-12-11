@@ -26,16 +26,6 @@ public class AreaScannerContainer extends Container {
         playerEntity = player;
         this.playerInventory = new InvWrapper(playerinventory);
         layoutPlayerInventorySlots(8,86);
-
-        /* this is for adding slots if the Tile entity can hold items
-        if (tileEntity != null){
-            tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
-
-            addSlot(new SlotItemHandler(h, 0, 80, 31));
-            });
-        }
-
-         */
     }
 
     public BlockPos getBlockPos(){
