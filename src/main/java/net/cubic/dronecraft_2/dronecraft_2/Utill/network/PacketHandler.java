@@ -1,9 +1,12 @@
 package net.cubic.dronecraft_2.dronecraft_2.Utill.network;
 
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketToggleScannerMode;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -24,6 +27,7 @@ public class PacketHandler {
 
     public PacketHandler(){
         MinecraftForge.EVENT_BUS.register(new WorldGlobalVar(this));
+        this.addNetworkMessage(PacketToggleScannerMode.class,PacketToggleScannerMode::toBytes, PacketToggleScannerMode::new, PacketToggleScannerMode::handle);
     }
 
     private int messageID = 0;
@@ -33,7 +37,7 @@ public class PacketHandler {
         messageID++;
     }
 
-/*
+
     public static void sendToClient(Object packet, ServerPlayerEntity player) {
         PACKET_HANDLER.sendTo(packet, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
@@ -43,5 +47,5 @@ public class PacketHandler {
         PACKET_HANDLER.sendToServer(packet);
     }
 
- */
+
 }

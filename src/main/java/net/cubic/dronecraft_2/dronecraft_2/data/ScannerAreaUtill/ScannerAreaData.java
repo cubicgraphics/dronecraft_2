@@ -52,7 +52,7 @@ public class ScannerAreaData {
             }
         }
     }
-    public String GetAreaMode(BlockPos blockpos){
+    public String GetAreaModeString(BlockPos blockpos){
         int areamode = this.GetScanner(blockpos).AreaMode;
         if(areamode == 0){
             return "sphere";
@@ -64,7 +64,9 @@ public class ScannerAreaData {
             return "AreaMode INVALID";
         }
     }
-
+    public int GetAreaMode(BlockPos blockpos){
+        return this.GetScanner(blockpos).AreaMode;
+    }
 
     public void RemoveScanner(BlockPos blockpos) {
         for (int i = 0; i < Scanners.size(); i++) {

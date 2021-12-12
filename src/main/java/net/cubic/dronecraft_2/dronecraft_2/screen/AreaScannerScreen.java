@@ -2,18 +2,24 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketToggleScannerMode;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.AreaScannerContainer;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill.ScannerFormat;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.NewChatGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +42,16 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
         int i = this.guiLeft;
         int j = this.guiTop;
         this.itemRenderer.renderItemAndEffectIntoGUI(ModBlocks.AREA_SCANNER_BLOCK.get().asItem().getDefaultInstance(),i + 80,j + 36);
-        this.font.drawString(matrixStack, String.valueOf(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetAreaMode(container.getBlockPos())), i + 8, j + 42, -12829636);
 
+        this.font.drawString(matrixStack, String.valueOf(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetScanner(container.getBlockPos()).Range), i +8, j +16, -12829636);
+        this.font.drawString(matrixStack, String.valueOf(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetAreaModeString(container.getBlockPos())), i +8, j +42, -12829636);
 
 
     }
 
+
     int Progress = 0;
+    int semiProgress = 0;
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1f,1f,1f,1f);
@@ -60,10 +69,14 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
             this.blit(matrixStack,i+ 88 - (Progress/2),j + 44 - (Progress/2),226 - (Progress/2),94 - (Progress/2), Progress,Progress);
 
         }
-        if(Progress >= 60){
+        if((Progress >= 60) && (semiProgress < 15)) {
+            semiProgress++;
+        }
+        else if(semiProgress >= 20) {
+            semiProgress = 0;
             Progress = 0;
         }
-        else {
+        else{
             Progress++;
         }
     }
@@ -71,10 +84,17 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.drawString(matrixStack, String.valueOf(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetScanner(container.getBlockPos()).Range), 8, 16, -12829636);
-        //this.font.drawString(matrixStack, String.valueOf(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetAreaMode(container.getBlockPos())), 8, y, -12829636);
 
 
     }
 
+    @Override
+    public void init(Minecraft minecraft, int width, int height) {
+        super.init(minecraft, width, height);
+
+        addButton(new Button(this.guiLeft + 6, this.guiTop + 52, 40, 18, ITextComponent.getTextComponentOrEmpty("MODE"), button -> ToggleAreaMode(container.getBlockPos())));
+    }
+    public void ToggleAreaMode(BlockPos blockpos){
+        PacketHandler.sendToServer(new PacketToggleScannerMode(blockpos));
+    }
 }
