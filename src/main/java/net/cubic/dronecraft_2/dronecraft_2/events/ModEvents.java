@@ -45,7 +45,7 @@ public class ModEvents {
                     if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
                         ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner.ScannerPos);
                         //Do things with scanner here like send a drone to the block or something
-
+                        worldIn.destroyBlock(Pos,true);
 
                     }
                     else{

@@ -69,7 +69,7 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
             this.blit(matrixStack,i+ 88 - (Progress/2),j + 44 - (Progress/2),226 - (Progress/2),94 - (Progress/2), Progress,Progress);
 
         }
-        if((Progress >= 60) && (semiProgress < 15)) {
+        if((Progress >= 60) && (semiProgress < 20)) {
             semiProgress++;
         }
         else if(semiProgress >= 20) {

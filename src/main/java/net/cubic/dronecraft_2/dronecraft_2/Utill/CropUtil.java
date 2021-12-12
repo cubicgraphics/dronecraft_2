@@ -24,6 +24,9 @@ public class CropUtil {
                 e.printStackTrace();
             }
         }
+        else {
+            IsGrown = true;
+        }
         return IsGrown;
     }
 }
