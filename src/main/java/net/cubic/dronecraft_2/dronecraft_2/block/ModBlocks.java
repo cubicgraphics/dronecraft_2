@@ -34,7 +34,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> AREA_SCANNER_BLOCK = registerBlock("area_scanner_block",
             () -> new AreaScannerBlock(AbstractBlock.Properties.create(Material.IRON))); //properties area defined in the AreaScannerBlock class
 
-    public static final RegistryObject<Block> AREA_SCANNER_POST_BLOCK = registerBlock("area_scanner_block",
+    public static final RegistryObject<Block> AREA_SCANNER_POST_BLOCK = registerBlock("area_scanner_post_block",
             () -> new AreaScannerBlock(AbstractBlock.Properties.create(Material.IRON)
                     .harvestLevel(2).harvestTool(ToolType.PICKAXE).setRequiresTool().hardnessAndResistance(6f)));//properties area defined in the AreaScannerBlock class
 
