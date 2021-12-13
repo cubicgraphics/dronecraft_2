@@ -4,11 +4,9 @@ import net.minecraft.block.*;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
 import sun.security.util.Debug;
 
 public class CropUtil {
-
     public static boolean IsFullyGrown(World world, BlockState blockState, BlockPos pos){
         boolean IsGrown = false;
         if (blockState.getBlock().isIn(BlockTags.CROPS)){
@@ -27,16 +25,14 @@ public class CropUtil {
             }
         }
         else {
-            if(world.getBlockState(pos.add(0,-1,0)).getBlock().getDefaultState() == blockState.getBlock().getDefaultState()){//this should cover cactus, bamboo and sugar cane
+            if(world.getBlockState(pos.add(0,-1,0)).getBlock().getDefaultState() == blockState.getBlock().getDefaultState()){//this should cover cactus, bamboo //TODO sugar cane does not get called when it grows, need to use onCropsGrowPost() when a sugar cane grows - somehow overide sugarcane class
                 IsGrown = true;
             }
-            else if(world.getBlockState(pos).getBlock() instanceof StemGrownBlock){//may work
-                IsGrown = true;
-            }
-            else if(world.getBlockState(pos).getBlock() instanceof AttachedStemBlock){//may work
+            else if((world.getBlockState(pos).getBlock() instanceof StemGrownBlock ) || (world.getBlockState(pos).getBlock() instanceof AttachedStemBlock) ){
                 IsGrown = true;
             }
         }
         return IsGrown;
     }
 }
+
