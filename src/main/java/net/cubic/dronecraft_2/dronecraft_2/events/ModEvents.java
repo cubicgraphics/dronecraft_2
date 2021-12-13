@@ -7,6 +7,8 @@ import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill.ScannerFormat;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
@@ -38,15 +40,18 @@ public class ModEvents {
 
     public static void WithinScannerBlock(World worldIn, BlockPos Pos) {
         if (!worldIn.isRemote) {
-            List<ScannerFormat> scanners = WorldGlobalVar.WorldVariables.get(worldIn).Scanners.GetScannersSurveyingBlock(Pos);
+            List<ScannerFormat> scanners = WorldGlobalVar.WorldVariables.get(worldIn).Scanners.GetScannersSurveyingBlock(worldIn, Pos);
             System.out.println("fetched scanners in range");
             if (!scanners.isEmpty()) {
                 for (ScannerFormat scanner : scanners) {
                     if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
                         ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner.ScannerPos);
                         //Do things with scanner here like send a drone to the block or something
-                        worldIn.destroyBlock(Pos,true);
-
+                        BlockState block = worldIn.getBlockState(Pos);
+                        worldIn.destroyBlock(Pos,true); // only here becasue it is
+                        if(block.getBlock() instanceof CropsBlock){
+                           worldIn.setBlockState(Pos,block.getBlock().getDefaultState());
+                        }
                     }
                     else{
                         WorldGlobalVar.WorldVariables.get(worldIn).Scanners.RemoveScanner(scanner.ScannerPos);
@@ -62,14 +67,14 @@ public class ModEvents {
     @SubscribeEvent
     public static void OnCropGrown(BlockEvent.CropGrowEvent.Post CropGrowEvent) {
 
-        if (CropUtil.IsFullyGrown(CropGrowEvent.getState())) {
+        if (CropUtil.IsFullyGrown((World) CropGrowEvent.getWorld(), CropGrowEvent.getState(), CropGrowEvent.getPos())) {
             WithinScannerBlock( (World) CropGrowEvent.getWorld(),CropGrowEvent.getPos() );
         }
     }
 
     @SubscribeEvent
     public static void OnBoneMeal(BonemealEvent event) { //fires before the block grows - will need to find a way to do this after the crop has grown
-        if (CropUtil.IsFullyGrown(event.getBlock())) {
+        if (CropUtil.IsFullyGrown(event.getWorld(), event.getBlock(), event.getPos())) {
             WithinScannerBlock(event.getWorld(),event.getPos() );
 
         }

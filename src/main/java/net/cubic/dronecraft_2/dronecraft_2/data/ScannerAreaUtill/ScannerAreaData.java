@@ -1,7 +1,9 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill;
 
+import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,22 +80,32 @@ public class ScannerAreaData {
 
 
 
-    public Boolean IsInRange(BlockPos blockpos, ScannerFormat scanner) {
+    public Boolean IsInRange(World worldIn, BlockPos blockpos, ScannerFormat scanner) {
         if (scanner.AreaMode == 0) {
             return blockpos.withinDistance(scanner.ScannerPos, scanner.Range + 1);  //checks in a circle around the scanner of its set radius
         }
         else if(scanner.AreaMode == 1){ //checks in a square around the base of the scanner (will have to add a new var to the capability when I add the scanner pole)
-            return ((Math.abs(blockpos.getX() - scanner.ScannerPos.getX()) <= scanner.Range) && (Math.abs(blockpos.getZ() - scanner.ScannerPos.getZ()) <= scanner.Range) && blockpos.getY() == scanner.ScannerPos.getY());
+            boolean search = true;
+            int PostCount = 0;
+            while (search){
+                if(worldIn.getBlockState(blockpos.add(0,-1 - PostCount,0)).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_POST_BLOCK.get().getDefaultState()){
+                    PostCount++;
+                }
+                else{
+                    search = false;
+                }
+            }
+            return ((Math.abs(blockpos.getX() - scanner.ScannerPos.getX()) <= scanner.Range) && (Math.abs(blockpos.getZ() - scanner.ScannerPos.getZ()) <= scanner.Range) && ((blockpos.getY() <= scanner.ScannerPos.getY()) && (blockpos.getY() >= scanner.ScannerPos.getY()-PostCount)));
         }
         else {
             return Boolean.FALSE;
         }
     }
 
-    public List<ScannerFormat> GetScannersSurveyingBlock(BlockPos blockpos) { // returns a lists of scanner blocks
+    public List<ScannerFormat> GetScannersSurveyingBlock(World worldIn, BlockPos blockpos) { // returns a lists of scanner blocks
         List<ScannerFormat> scannerList = new ArrayList<>();
         for (ScannerFormat scannerFormat : Scanners) {
-            if (IsInRange(blockpos, scannerFormat)) {
+            if (IsInRange(worldIn,blockpos, scannerFormat)) {
                 scannerList.add(scannerFormat);
             }
         }

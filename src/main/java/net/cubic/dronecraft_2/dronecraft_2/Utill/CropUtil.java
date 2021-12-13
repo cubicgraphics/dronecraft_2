@@ -1,20 +1,21 @@
 package net.cubic.dronecraft_2.dronecraft_2.Utill;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropsBlock;
+import net.minecraft.block.*;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import sun.security.util.Debug;
-
-//TODO make it work for full block crops(blocks that are called with FullyGrown but do not have the CROPS tag0 - eg: cactus, bamboo, sugarcane & kelp
 
 public class CropUtil {
 
-    public static boolean IsFullyGrown(BlockState blockState){
+    public static boolean IsFullyGrown(World world, BlockState blockState, BlockPos pos){
         boolean IsGrown = false;
         if (blockState.getBlock().isIn(BlockTags.CROPS)){
+            if(world.getBlockState(pos).getBlock() instanceof StemGrownBlock){
+                IsGrown = true;
+            }
             try {
-                CropsBlock crop = (CropsBlock) blockState.getBlock();
-                if (crop.isMaxAge(blockState)) {
+                if (((CropsBlock) blockState.getBlock()).isMaxAge(blockState)) {
                     IsGrown = true;
                 }
             } catch (Exception e) {
@@ -25,7 +26,12 @@ public class CropUtil {
             }
         }
         else {
-            IsGrown = true;
+            if(world.getBlockState(pos.add(0,-1,0)).getBlock().getDefaultState() == blockState.getBlock().getDefaultState()){//this should cover cactus, bamboo and sugar cane
+                IsGrown = true;
+            }
+            else if(world.getBlockState(pos).getBlock() instanceof StemGrownBlock){//may work
+                IsGrown = true;
+            }
         }
         return IsGrown;
     }
