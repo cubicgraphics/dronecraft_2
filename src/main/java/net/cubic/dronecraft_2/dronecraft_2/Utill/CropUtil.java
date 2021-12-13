@@ -4,6 +4,7 @@ import net.minecraft.block.*;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 import sun.security.util.Debug;
 
 public class CropUtil {
@@ -30,6 +31,9 @@ public class CropUtil {
                 IsGrown = true;
             }
             else if(world.getBlockState(pos).getBlock() instanceof StemGrownBlock){//may work
+                IsGrown = true;
+            }
+            else if(world.getBlockState(pos).getBlock() instanceof AttachedStemBlock){//may work
                 IsGrown = true;
             }
         }

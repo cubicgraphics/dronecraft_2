@@ -7,8 +7,10 @@ import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill.ScannerFormat;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropsBlock;
+import net.minecraft.block.*;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.Property;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
@@ -48,6 +50,11 @@ public class ModEvents {
                         ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner.ScannerPos);
                         //Do things with scanner here like send a drone to the block or something
                         BlockState block = worldIn.getBlockState(Pos);
+                        if(block.getBlock() instanceof AttachedStemBlock){
+                           if(worldIn.getBlockState(Pos.offset(block.get(HorizontalFaceBlock.HORIZONTAL_FACING))).getBlock() instanceof StemGrownBlock){
+                                Pos = Pos.offset(block.get(HorizontalFaceBlock.HORIZONTAL_FACING));
+                           }
+                        }
                         worldIn.destroyBlock(Pos,true); // only here becasue it is
                         if(block.getBlock() instanceof CropsBlock){
                            worldIn.setBlockState(Pos,block.getBlock().getDefaultState());
@@ -61,8 +68,6 @@ public class ModEvents {
             }
         }
     }
-
-
 
     @SubscribeEvent
     public static void OnCropGrown(BlockEvent.CropGrowEvent.Post CropGrowEvent) {
@@ -79,6 +84,15 @@ public class ModEvents {
 
         }
     }
+
+    /*@SubscribeEvent
+    public static void BlockUpdateEvent(BlockEvent event){
+        if (CropUtil.IsFullyGrown((World) event.getWorld(), event.getState(), event.getPos())) {
+            WithinScannerBlock( (World) event.getWorld(),event.getPos() );
+        }
+    }
+
+     */
 
 
 }
