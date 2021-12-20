@@ -10,6 +10,7 @@ import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.block.*;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.Property;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -78,10 +79,11 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void OnBoneMeal(BonemealEvent event) { //fires before the block grows - will need to find a way to do this after the crop has grown
-        if (CropUtil.IsFullyGrown(event.getWorld(), event.getBlock(), event.getPos())) {
-            WithinScannerBlock(event.getWorld(),event.getPos() );
-
+    public static void OnBoneMeal(BonemealEvent event) {
+        if((event.getBlock().isIn(BlockTags.CROPS) || (event.getBlock().getBlock() instanceof IGrowable))){
+            if (CropUtil.IsFullyGrown(event.getWorld(), event.getBlock(), event.getPos())) {
+                WithinScannerBlock(event.getWorld(),event.getPos() );
+            }
         }
     }
 

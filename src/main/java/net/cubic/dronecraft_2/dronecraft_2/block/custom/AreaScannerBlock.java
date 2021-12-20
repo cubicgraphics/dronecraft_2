@@ -99,7 +99,6 @@ public class AreaScannerBlock extends Block {
 
 
 
-
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBlockHarvested(worldIn, pos, state, player);

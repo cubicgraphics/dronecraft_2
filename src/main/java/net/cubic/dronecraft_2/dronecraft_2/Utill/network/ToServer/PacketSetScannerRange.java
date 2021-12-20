@@ -8,38 +8,34 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PacketToggleScannerMode {
+public class PacketSetScannerRange {
 
+    private final int NewRange;
     private final BlockPos blockPos;
 
-    public PacketToggleScannerMode(BlockPos blockpos){
+    public PacketSetScannerRange(BlockPos blockpos, int newRange){
         this.blockPos =  blockpos;
+        this.NewRange = newRange;
     }
 
-    public PacketToggleScannerMode(PacketBuffer buf){
+    public PacketSetScannerRange(PacketBuffer buf){
         blockPos = buf.readBlockPos();
+        NewRange = buf.readInt();
     }
 
     public void toBytes(PacketBuffer buf){
         buf.writeBlockPos(blockPos);
+        buf.writeInt(NewRange);
     }
-
 
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx){
         ctx.get().enqueueWork(()->{
             World world = ctx.get().getSender().world;
 
-
-            int scannerMode = WorldGlobalVar.WorldVariables.get(world).Scanners.GetAreaMode(blockPos);
-            if (scannerMode >= 1){
-                scannerMode = 0;
-            }
-            else {
-                scannerMode++;
-            }
-            WorldGlobalVar.WorldVariables.get(world).Scanners.SetAreaMode(blockPos,scannerMode);
+            WorldGlobalVar.WorldVariables.get(world).Scanners.SetScannerRange(blockPos,NewRange);
             WorldGlobalVar.WorldVariables.get(world).syncData(world);// To write to world data
+            System.out.println("Set scanner range and synced from handler");
                 });
         return true;
     }

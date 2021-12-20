@@ -10,6 +10,7 @@
   "block.dronecraft_2.conductium_block": "Conductium block",
   "block.dronecraft_2.carbon_conductium_block": "Carbon-conductium block",
   "block.dronecraft_2.area_scanner_block": "Area scanner",
+  "block.dronecraft_2.area_scanner_post_block": "Area scanner post",
 
   "screen.dronecraft_2.area_scanner_gui": "Area scanner"
 }

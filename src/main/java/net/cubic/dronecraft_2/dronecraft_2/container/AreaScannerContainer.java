@@ -32,6 +32,40 @@ public class AreaScannerContainer extends Container {
         return tileEntity.getPos();
     }
 
+    public int GetMaxScanningRange(){
+        boolean search = true;
+        int PostCount = 0;
+        while (search){
+            if(tileEntity.getWorld().getBlockState(tileEntity.getPos().add(0,-1 - PostCount,0)).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_POST_BLOCK.get().getDefaultState()){
+                PostCount++;
+            }
+            else{
+                search = false;
+            }
+            if(PostCount >= 6){
+                search = false;
+            }
+        }
+        return (int) ((PostCount * 4.5) + 5);
+    }
+    public int GetScannerPosts(){
+        boolean search = true;
+        int PostCount = 0;
+        while (search){
+            if(tileEntity.getWorld().getBlockState(tileEntity.getPos().add(0,-1 - PostCount,0)).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_POST_BLOCK.get().getDefaultState()){
+                PostCount++;
+            }
+            else{
+                search = false;
+            }
+            if(PostCount >= 6){
+                search = false;
+            }
+        }
+        return PostCount;
+    }
+
+
 
 
     @Override

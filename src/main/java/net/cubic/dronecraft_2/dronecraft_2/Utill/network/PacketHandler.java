@@ -1,5 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.Utill.network;
 
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSetScannerRange;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketToggleScannerMode;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -28,6 +29,7 @@ public class PacketHandler {
     public PacketHandler(){
         MinecraftForge.EVENT_BUS.register(new WorldGlobalVar(this));
         this.addNetworkMessage(PacketToggleScannerMode.class,PacketToggleScannerMode::toBytes, PacketToggleScannerMode::new, PacketToggleScannerMode::handle);
+        this.addNetworkMessage(PacketSetScannerRange.class,PacketSetScannerRange::toBytes, PacketSetScannerRange::new, PacketSetScannerRange::handle);
     }
 
     private int messageID = 0;
