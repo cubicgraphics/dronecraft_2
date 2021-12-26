@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.gui.widget.button.OptionButton;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +27,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import net.minecraftforge.fml.client.gui.widget.Slider;
+import sun.java2d.loops.DrawRect;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +67,9 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
 
 
     }
+
+
+
 
 
     int Progress = 0;

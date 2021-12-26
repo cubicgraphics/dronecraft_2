@@ -2,10 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill;
 
 import net.minecraft.util.math.BlockPos;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ScannerFormat {
+public class ScannerFormat { //TODO if this becomes stored in a hashmap then the blockpos will be stored as the key - not needed here
 
     public BlockPos ScannerPos;
     public int Range;

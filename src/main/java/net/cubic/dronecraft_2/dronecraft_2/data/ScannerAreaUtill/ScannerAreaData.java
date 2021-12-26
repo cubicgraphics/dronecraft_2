@@ -1,7 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill;
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
-import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -10,7 +9,7 @@ import java.util.List;
 
 public class ScannerAreaData {
 
-     List<ScannerFormat> Scanners;
+     List<ScannerFormat> Scanners;    //TODO save scanners in a hashmap made from the blocks coordinates instead of a list for higher efficiency when getting scanner data when there are a lot of scanners in the world.
 
      //WorldGlobalVar.WorldVariables.get(world).Scanners.GetScanners() //to retrieve scanners variables
 
@@ -102,7 +101,7 @@ public class ScannerAreaData {
         }
     }
 
-    public List<ScannerFormat> GetScannersSurveyingBlock(World worldIn, BlockPos blockpos) { // returns a lists of scanner blocks
+    public List<ScannerFormat> GetScannersSurveyingBlock(World worldIn, BlockPos blockpos) { // returns a lists of scanner blocks //TODO if this becomes a hashmap stored by blockpos then loop by keyset and get the blockpos directly
         List<ScannerFormat> scannerList = new ArrayList<>();
         for (ScannerFormat scannerFormat : Scanners) {
             if (IsInRange(worldIn,blockpos, scannerFormat)) {

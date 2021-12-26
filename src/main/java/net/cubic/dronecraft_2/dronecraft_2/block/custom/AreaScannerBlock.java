@@ -128,7 +128,6 @@ public class AreaScannerBlock extends Block {
         if (!worldIn.isRemote){
             WorldGlobalVar.WorldVariables.get(worldIn).Scanners.RemoveScanner(pos);
             WorldGlobalVar.WorldVariables.get(worldIn).syncData(worldIn);
-                System.out.println("removed location of a scanner");
         }
     }
 }

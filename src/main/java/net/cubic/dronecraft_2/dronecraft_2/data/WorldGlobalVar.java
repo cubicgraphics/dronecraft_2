@@ -117,6 +117,10 @@ public class WorldGlobalVar {
 
     public static class MapVariables extends WorldSavedData {
         public static final String DATA_NAME = "dronecraft_2_mapvars";
+
+        //global across dimensions
+
+
         public MapVariables() {
             super(DATA_NAME);
         }
