@@ -43,12 +43,12 @@ public class ModEvents {
 
     public static void WithinScannerBlock(World worldIn, BlockPos Pos) {
         if (!worldIn.isRemote) {
-            List<ScannerFormat> scanners = WorldGlobalVar.WorldVariables.get(worldIn).Scanners.GetScannersSurveyingBlock(worldIn, Pos);
+            List<BlockPos> scanners = WorldGlobalVar.WorldVariables.get(worldIn).Scanners.GetScannersSurveyingBlock(worldIn, Pos);
             System.out.println("fetched scanners in range");
             if (!scanners.isEmpty()) {
-                for (ScannerFormat scanner : scanners) {
-                    if (worldIn.getBlockState(scanner.ScannerPos).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
-                        ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner.ScannerPos);
+                for (BlockPos scanner : scanners) {
+                    if (worldIn.getBlockState(scanner).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
+                        ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner);
                         //Do things with scanner here like send a drone to the block or something
                         BlockState block = worldIn.getBlockState(Pos);
                         if(block.getBlock() instanceof AttachedStemBlock){
@@ -62,7 +62,7 @@ public class ModEvents {
                         }
                     }
                     else{
-                        WorldGlobalVar.WorldVariables.get(worldIn).Scanners.RemoveScanner(scanner.ScannerPos);
+                        WorldGlobalVar.WorldVariables.get(worldIn).Scanners.RemoveScanner(scanner);
                         WorldGlobalVar.WorldVariables.get(worldIn).syncData(worldIn);
                     }
                 }

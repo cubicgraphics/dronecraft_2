@@ -5,11 +5,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScannerAreaData {
 
-     List<ScannerFormat> Scanners;    //TODO save scanners in a hashmap made from the blocks coordinates instead of a list for higher efficiency when getting scanner data when there are a lot of scanners in the world.
+    HashMap<BlockPos,ScannerFormat> Scanners;
 
      //WorldGlobalVar.WorldVariables.get(world).Scanners.GetScanners() //to retrieve scanners variables
 
@@ -18,42 +19,28 @@ public class ScannerAreaData {
 
 
     public ScannerAreaData(){
-        Scanners = new ArrayList<>();
+        Scanners = new HashMap<>();
     }
 
 
     public void AddScanner(BlockPos blockPos, int radius, int areaMode) {
-        this.Scanners.add(new ScannerFormat(blockPos, radius,areaMode)); // this now works because I made the default value a new arraylist
+        this.Scanners.put(blockPos,new ScannerFormat(radius,areaMode));
     }
 
-    public void SetScanners(List<ScannerFormat> scannerlist) {
+    public void SetScanners(HashMap<BlockPos,ScannerFormat> scannerlist) {
         this.Scanners = scannerlist;
     }
 
-    public void SetScannerRange(BlockPos blockpos, int range) {
-        for (int i = 0; i < Scanners.size(); i++) {
-            if (Scanners.get(i).ScannerPos.equals(blockpos)){
-                Scanners.set(i,new ScannerFormat(blockpos,range,Scanners.get(i).AreaMode));
-                System.out.println("scanner found and new rnge set");
-            }
-        }
+    public void SetScannerRange(BlockPos blockPos, int range) {
+        SetScanner(blockPos,range,GetAreaMode(blockPos));
     }
-
+    public void SetAreaMode(BlockPos blockPos, int AreaMode) {
+        SetScanner(blockPos,GetRange(blockPos),AreaMode);
+    }
     public void SetScanner(BlockPos blockPos, int range, int AreaMode) {
-        for (int i = 0; i < Scanners.size(); i++) {
-            if (Scanners.get(i).ScannerPos.equals(blockPos)){
-                Scanners.set(i,new ScannerFormat(blockPos,range,AreaMode));
-            }
-        }
+        Scanners.replace(blockPos,new ScannerFormat(range,AreaMode));
     }
 
-    public void SetAreaMode(BlockPos blockpos, int AreaMode) {
-        for (int i = 0; i < Scanners.size(); i++) {
-            if (Scanners.get(i).ScannerPos.equals(blockpos)){
-                Scanners.set(i,new ScannerFormat(blockpos,Scanners.get(i).Range,AreaMode));
-            }
-        }
-    }
     public String GetAreaModeString(BlockPos blockpos){
         int areamode = this.GetScanner(blockpos).AreaMode;
         if(areamode == 0){
@@ -66,63 +53,58 @@ public class ScannerAreaData {
             return "AreaMode INVALID";
         }
     }
+
     public int GetAreaMode(BlockPos blockpos){
         return this.GetScanner(blockpos).AreaMode;
     }
+    public int GetRange(BlockPos blockpos){
+        return this.GetScanner(blockpos).Range;
+    }
 
-    public void RemoveScanner(BlockPos blockpos) {
-        for (int i = 0; i < Scanners.size(); i++) {
-            if (Scanners.get(i).ScannerPos.equals(blockpos)){
-                Scanners.remove(i);
-            }
-        }
+    public void RemoveScanner(BlockPos blockPos) {
+        Scanners.remove(blockPos);
     }
 
 
-    public Boolean IsInRange(World worldIn, BlockPos blockpos, ScannerFormat scanner) {
-        if (scanner.AreaMode == 0) {
-            return blockpos.withinDistance(scanner.ScannerPos, scanner.Range + 1);  //checks in a circle around the scanner of its set radius
+    public Boolean IsInRange(World worldIn, BlockPos blockpos, BlockPos scannerPos) {
+        if (GetAreaMode(scannerPos) == 0) {
+            return blockpos.withinDistance(scannerPos, GetRange(scannerPos) + 1);  //checks in a circle around the scanner of its set radius
         }
-        else if(scanner.AreaMode == 1){ //checks in a square around the base of the scanner (will have to add a new var to the capability when I add the scanner pole)
+        else if(GetAreaMode(scannerPos) == 1){ //checks in a square around the base of the scanner (will have to add a new var to the capability when I add the scanner pole)
             boolean search = true;
             int PostCount = 0;
             while (search){
-                if(worldIn.getBlockState(scanner.ScannerPos.add(0,-1 - PostCount,0)).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_POST_BLOCK.get().getDefaultState()){
+                if(worldIn.getBlockState(scannerPos.add(0,-1 - PostCount,0)).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_POST_BLOCK.get().getDefaultState()){
                     PostCount = PostCount + 1;
                 }
                 else{
                     search = false;
                 }
             }
-            return ((Math.abs(blockpos.getX() - scanner.ScannerPos.getX()) <= scanner.Range) && (Math.abs(blockpos.getZ() - scanner.ScannerPos.getZ()) <= scanner.Range) && ((blockpos.getY() <= scanner.ScannerPos.getY()) && (scanner.ScannerPos.getY() - blockpos.getY() <= PostCount)));
+            return ((Math.abs(blockpos.getX() - scannerPos.getX()) <= GetRange(scannerPos)) && (Math.abs(blockpos.getZ() - scannerPos.getZ()) <= GetRange(scannerPos)) && ((blockpos.getY() <= scannerPos.getY()) && (scannerPos.getY() - blockpos.getY() <= PostCount)));
         }
         else {
             return Boolean.FALSE;
         }
     }
 
-    public List<ScannerFormat> GetScannersSurveyingBlock(World worldIn, BlockPos blockpos) { // returns a lists of scanner blocks //TODO if this becomes a hashmap stored by blockpos then loop by keyset and get the blockpos directly
-        List<ScannerFormat> scannerList = new ArrayList<>();
-        for (ScannerFormat scannerFormat : Scanners) {
-            if (IsInRange(worldIn,blockpos, scannerFormat)) {
-                scannerList.add(scannerFormat);
+    public List<BlockPos> GetScannersSurveyingBlock(World worldIn, BlockPos blockpos) { // returns a lists of blockPos of scanner blockpos
+
+        List<BlockPos> scannerBlockList = new ArrayList<>();
+        for (BlockPos i : Scanners.keySet()) {
+            if (IsInRange(worldIn,blockpos,i)){
+                scannerBlockList.add(i);
             }
         }
-        return scannerList;
+        return scannerBlockList;
     }
 
         //returns null if not found
-    public ScannerFormat GetScanner(BlockPos blockpos) {
-        ScannerFormat found = new ScannerFormat();
-        for (ScannerFormat scanner : Scanners) {
-            if (scanner.ScannerPos.equals(blockpos)) {
-                found =  scanner;
-            }
-        }
-        return found;
+    public ScannerFormat GetScanner(BlockPos blockPos) {
+        return Scanners.get(blockPos);
     }
 
-    public List<ScannerFormat> GetScanners() {
+    public HashMap<BlockPos, ScannerFormat> GetScanners() {
         return this.Scanners;
     }
 

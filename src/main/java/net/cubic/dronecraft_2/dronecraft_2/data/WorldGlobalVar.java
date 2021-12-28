@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -68,12 +70,11 @@ public class WorldGlobalVar {
 
             System.out.println("Reading Dronecraft scanner data from world");
             ListNBT tagList = (ListNBT) nbt.get("ScannerList"); //gets the list from compound nbt
-            List<ScannerFormat> scannerList = new ArrayList<>();
+            HashMap<BlockPos,ScannerFormat> scannerList = new HashMap<>();
             if (tagList != null){
                 for (int i = 0; i < tagList.size(); i++) {
                     CompoundNBT scannerData = tagList.getCompound(i);
-                    scannerList.add(new ScannerFormat(NBTUtil.readBlockPos((scannerData).getCompound("BlockPos")), ((scannerData).getInt("Range")),((scannerData).getInt("AreaMode"))));
-                    System.out.println(scannerList.get(scannerList.size()-1).ScannerPos.toString());
+                    scannerList.put(NBTUtil.readBlockPos((scannerData).getCompound("BlockPos")),new ScannerFormat(((scannerData).getInt("Range")),((scannerData).getInt("AreaMode"))));
                 }
             }
             Scanners.SetScanners(scannerList);
@@ -83,11 +84,11 @@ public class WorldGlobalVar {
         public CompoundNBT write(CompoundNBT nbt) {
 
             ListNBT scannerListNBT = new ListNBT();
-            List<ScannerFormat> scannerList = Scanners.GetScanners();
+            HashMap<BlockPos,ScannerFormat> scannerList = Scanners.GetScanners();
             if (scannerList != null) {
-                for (int i = 0; i < scannerList.size(); i++) {
+                for (BlockPos i : scannerList.keySet()) {
                     CompoundNBT scannerdata = new CompoundNBT();
-                    scannerdata.put("BlockPos", NBTUtil.writeBlockPos(scannerList.get(i).ScannerPos));//sets the blockpos to compound nbt
+                    scannerdata.put("BlockPos", NBTUtil.writeBlockPos(i));//sets the blockpos to compound nbt
                     scannerdata.putInt("Range", scannerList.get(i).Range);//sets the range to compound nbt
                     scannerdata.putInt("AreaMode", scannerList.get(i).AreaMode);
                     scannerListNBT.add(scannerdata);
