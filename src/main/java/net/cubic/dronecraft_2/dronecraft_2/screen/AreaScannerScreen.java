@@ -28,7 +28,6 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
     }
 
     ExtendedButton ModeButton;
-    private ModSettings S = dronecraft_2Main.modSettings;
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -63,14 +62,14 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
     int semiProgress = 0;
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
-        RenderSystem.color4f(S.GetBackgroundValue(0),S.GetBackgroundValue(1),S.GetBackgroundValue(2),S.GetBackgroundValue(3));
+        RenderSystem.color4f(ModSettings.FBackgroundR(),ModSettings.FBackgroundG(),ModSettings.FBackgroundB(),ModSettings.FBackgroundA());
         this.minecraft.getTextureManager().bindTexture(GUI);
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(matrixStack,i,j,0,0,this.xSize,this.ySize);
 
         //Foreground (still background) rendering
-        RenderSystem.color4f(S.GetForegroundValue(0),S.GetForegroundValue(1),S.GetForegroundValue(2),S.GetForegroundValue(3));
+        RenderSystem.color4f(ModSettings.FForegroundR(),ModSettings.FForegroundG(),ModSettings.FForegroundB(),ModSettings.FForegroundA());
         if(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetScanner(container.getBlockPos()).AreaMode == 0){
             this.blit(matrixStack,i+ 58,j + 10,196,128,60,60);
             this.blit(matrixStack,i+ 88 - (Progress/2),j + 40 - (Progress/2),226 - (Progress/2),222 - (Progress/2), Progress,Progress);

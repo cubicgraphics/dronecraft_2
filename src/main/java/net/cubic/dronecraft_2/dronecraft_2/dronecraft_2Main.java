@@ -18,6 +18,7 @@ import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -36,8 +37,6 @@ public class dronecraft_2Main {
 
 
     public static final String MOD_ID = "dronecraft_2";
-    public static ModSettings modSettings = new ModSettings();
-
 
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
@@ -67,9 +66,10 @@ public class dronecraft_2Main {
 
         ModLoadingContext.get().registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY,
-                () -> (mc,screen) -> new ConfigScreen() //adds the config screen
+                () -> (mc,screen) -> new ConfigScreen(screen) //adds the config screen
         );
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT , ModSettings.GENERAL_SPEC, "Dronecraft2ModConfig.toml");
 
     }
 

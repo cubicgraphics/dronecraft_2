@@ -39,14 +39,16 @@ public final class ConfigScreen extends Screen {
     // Not a final field because this cannot be initialized in the constructor,
     // as explained below
     private OptionsRowList optionsRowList;
-    private ModSettings modSettings = dronecraft_2Main.modSettings;
+    private final Screen parentScreen;
 
 
-
-    public ConfigScreen() {
+    public ConfigScreen(Screen parentScreen) {
         // Use the super class' constructor to set the screen's title
         super(ITextComponent.getTextComponentOrEmpty("Dronecraft 2 mod config"));
+        this.parentScreen = parentScreen;
     }
+
+
 
     @Override
     protected void init() {
@@ -72,105 +74,105 @@ public final class ConfigScreen extends Screen {
                 // Text shown on the button
                 new TranslationTextComponent("gui.done"),
                 // Action performed when the button is pressed
-                button -> this.closeScreen()
+                button -> this.onClose()
 
         ));
 
         this.optionsRowList.addOption(new SliderPercentageOption(
                 "screen.dronecraft_2.background.red",
                 0.0,
-                1.0F,
-                (1.0F/255),
-                unused -> (double) modSettings.GetBackgroundValue(0), //gets var
-                (unused, newValue) -> modSettings.SetBackgroundValue(0,newValue.floatValue()), //sets var
+                255,
+                1,
+                unused -> (double) ModSettings.BackgroundR.get(), //gets var
+                (unused, newValue) -> ModSettings.BackgroundR.set(newValue.intValue()), //sets var
                 // BiFunction that returns a string text component
                 // in format "<name>: <value>"
                 (gs, option) -> new StringTextComponent(
                         // Use I18n.get(String) to get a translation key's value
                         I18n.format("screen.dronecraft_2.background.red")
                                 + ": "
-                                + (int) (option.get(gs)*255)
+                                + (int) option.get(gs)
                 )
         ));
         this.optionsRowList.addOption(new SliderPercentageOption(
                 "screen.dronecraft_2.background.green",
                 0.0,
-                1.0F,
-                (1.0F/255),
-                unused -> (double) modSettings.GetBackgroundValue(1), //gets var
-                (unused, newValue) -> modSettings.SetBackgroundValue(1,newValue.floatValue()), //sets var
+                255,
+                1,
+                unused -> (double) ModSettings.BackgroundG.get(), //gets var
+                (unused, newValue) -> ModSettings.BackgroundG.set(newValue.intValue()), //sets var
                 // BiFunction that returns a string text component
                 // in format "<name>: <value>"
                 (gs, option) -> new StringTextComponent(
                         // Use I18n.get(String) to get a translation key's value
                         I18n.format("screen.dronecraft_2.background.green")
                                 + ": "
-                                + (int) (option.get(gs)*255)
+                                + (int) option.get(gs)
                 )
         ));
         this.optionsRowList.addOption(new SliderPercentageOption(
                 "screen.dronecraft_2.background.blue",
                 0.0,
-                1.0F,
-                (1.0F/255),
-                unused -> (double) modSettings.GetBackgroundValue(2), //gets var
-                (unused, newValue) -> modSettings.SetBackgroundValue(2,newValue.floatValue()), //sets var
+                255,
+                1,
+                unused -> (double) ModSettings.BackgroundB.get(), //gets var
+                (unused, newValue) -> ModSettings.BackgroundB.set(newValue.intValue()), //sets var
                 // BiFunction that returns a string text component
                 // in format "<name>: <value>"
                 (gs, option) -> new StringTextComponent(
                         // Use I18n.get(String) to get a translation key's value
                         I18n.format("screen.dronecraft_2.background.blue")
                                 + ": "
-                                + (int) (option.get(gs)*255)
+                                + (int) option.get(gs)
                 )
         ));
 
         this.optionsRowList.addOption(new SliderPercentageOption(
                 "screen.dronecraft_2.background.red",
                 0.0,
-                1.0F,
-                (1.0F/255),
-                unused -> (double) modSettings.GetForegroundValue(0), //gets var
-                (unused, newValue) -> modSettings.SetForegroundValue(0,newValue.floatValue()), //sets var
+                255,
+                1,
+                unused -> (double) ModSettings.ForegroundR.get(), //gets var
+                (unused, newValue) -> ModSettings.ForegroundR.set(newValue.intValue()), //sets var
                 // BiFunction that returns a string text component
                 // in format "<name>: <value>"
                 (gs, option) -> new StringTextComponent(
                         // Use I18n.get(String) to get a translation key's value
                         I18n.format("screen.dronecraft_2.foreground.red")
                                 + ": "
-                                + (int) (option.get(gs)*255)
+                                + (int) option.get(gs)
                 )
         ));
         this.optionsRowList.addOption(new SliderPercentageOption(
                 "screen.dronecraft_2.foreground.green",
                 0.0,
-                1.0F,
-                (1.0F/255),
-                unused -> (double) modSettings.GetForegroundValue(1), //gets var
-                (unused, newValue) -> modSettings.SetForegroundValue(1,newValue.floatValue()), //sets var
+                255,
+                1,
+                unused -> (double) ModSettings.ForegroundG.get(), //gets var
+                (unused, newValue) -> ModSettings.ForegroundG.set(newValue.intValue()), //sets var
                 // BiFunction that returns a string text component
                 // in format "<name>: <value>"
                 (gs, option) -> new StringTextComponent(
                         // Use I18n.get(String) to get a translation key's value
                         I18n.format("screen.dronecraft_2.foreground.green")
                                 + ": "
-                                + (int) (option.get(gs)*255)
+                                + (int) option.get(gs)
                 )
         ));
         this.optionsRowList.addOption(new SliderPercentageOption(
                 "screen.dronecraft_2.foreground.blue",
                 0.0,
-                1.0F,
-                (1.0F/255),
-                unused -> (double) modSettings.GetForegroundValue(2), //gets var
-                (unused, newValue) -> modSettings.SetForegroundValue(2,newValue.floatValue()), //sets var
+                255,
+                1,
+                unused -> (double) ModSettings.ForegroundB.get(), //gets var
+                (unused, newValue) -> ModSettings.ForegroundB.set(newValue.intValue()), //sets var
                 // BiFunction that returns a string text component
                 // in format "<name>: <value>"
                 (gs, option) -> new StringTextComponent(
                         // Use I18n.get(String) to get a translation key's value
                         I18n.format("screen.dronecraft_2.foreground.blue")
                                 + ": "
-                                + (int) (option.get(gs)*255)
+                                + (int) option.get(gs)
                 )
         ));
     }
@@ -188,10 +190,10 @@ public final class ConfigScreen extends Screen {
         drawCenteredString(matrixStack, this.font, this.title.getString(),
                 this.width / 2, TITLE_HEIGHT, 0xFFFFFF);
 
-        RenderSystem.color4f(modSettings.GetBackgroundValue(0),modSettings.GetBackgroundValue(1),modSettings.GetBackgroundValue(2),modSettings.GetBackgroundValue(3));
+        RenderSystem.color4f(ModSettings.FBackgroundR(),ModSettings.FBackgroundG(),ModSettings.FBackgroundB(),ModSettings.FBackgroundA());
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation("minecraft", "textures/gui/accessibility.png"));
         this.blit(matrixStack,0,0,0,0,20,40);
-        RenderSystem.color4f(modSettings.GetForegroundValue(0),modSettings.GetForegroundValue(1),modSettings.GetForegroundValue(2),modSettings.GetForegroundValue(3));
+        RenderSystem.color4f(ModSettings.FForegroundR(),ModSettings.FForegroundG(),ModSettings.FForegroundB(),ModSettings.FForegroundA());
         this.blit(matrixStack,0,50,0,0,20,40);
 
         // Call the super class' method to complete rendering
@@ -200,9 +202,9 @@ public final class ConfigScreen extends Screen {
 
 
     @Override
-    public void closeScreen(){
+    public void onClose(){
         // Save mod configuration
-        modSettings.save();
-        super.closeScreen();
+        //modSettings.save();
+        this.minecraft.currentScreen = parentScreen;  //setScreen(parentScreen);
     }
 }

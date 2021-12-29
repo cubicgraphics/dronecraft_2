@@ -16,7 +16,6 @@ public class PCBEditorScreen extends ContainerScreen<PCBEditorContainer> {
     public PCBEditorScreen(PCBEditorContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
     }
-    private ModSettings S = dronecraft_2Main.modSettings;
 
 
     @Override
@@ -29,7 +28,7 @@ public class PCBEditorScreen extends ContainerScreen<PCBEditorContainer> {
         int j = this.guiTop;
 
 
-        RenderSystem.color4f(S.GetBackgroundValue(0),S.GetBackgroundValue(1),S.GetBackgroundValue(2),S.GetBackgroundValue(3));
+        RenderSystem.color4f(ModSettings.FBackgroundR(),ModSettings.FBackgroundG(),ModSettings.FBackgroundB(),ModSettings.FBackgroundA());
 
     }
 
@@ -38,7 +37,7 @@ public class PCBEditorScreen extends ContainerScreen<PCBEditorContainer> {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
-        RenderSystem.color4f(S.BackgroundGUIColourRGBA[0],S.BackgroundGUIColourRGBA[1],S.BackgroundGUIColourRGBA[2], S.BackgroundGUIColourRGBA[3]);   //works to re-colour anything set below it here. can be stacked to change separately blit textures
+        RenderSystem.color4f((float)1/ModSettings.BackgroundR.get(), (float)1/ModSettings.BackgroundG.get(),(float)1/ModSettings.BackgroundB.get(),(float)1/ModSettings.BackgroundA.get());
         this.minecraft.getTextureManager().bindTexture(GUI);
         int i = this.guiLeft;
         int j = this.guiTop;
