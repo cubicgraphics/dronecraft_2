@@ -42,11 +42,11 @@ public class ScannerAreaData {
     }
 
     public String GetAreaModeString(BlockPos blockpos){
-        int areamode = this.GetScanner(blockpos).AreaMode;
-        if(areamode == 0){
+        int AreaMode = this.GetScanner(blockpos).AreaMode;
+        if(AreaMode == 0){
             return "sphere";
         }
-        else if(areamode == 1){
+        else if(AreaMode == 1){
             return "square";
         }
         else {
@@ -88,11 +88,11 @@ public class ScannerAreaData {
         }
     }
 
-    public List<BlockPos> GetScannersSurveyingBlock(World worldIn, BlockPos blockpos) { // returns a lists of blockPos of scanner blockpos
+    public List<BlockPos> GetScannersSurveyingBlock(World worldIn, BlockPos blockPos) { // returns a lists of blockPos of scanner blockPos
 
         List<BlockPos> scannerBlockList = new ArrayList<>();
         for (BlockPos i : Scanners.keySet()) {
-            if (IsInRange(worldIn,blockpos,i)){
+            if (IsInRange(worldIn,blockPos,i)){
                 scannerBlockList.add(i);
             }
         }

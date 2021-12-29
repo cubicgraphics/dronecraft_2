@@ -7,31 +7,16 @@ import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSetScann
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketToggleScannerMode;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.AreaScannerContainer;
-import net.cubic.dronecraft_2.dronecraft_2.data.ScannerAreaUtill.ScannerFormat;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
-import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
-import net.minecraft.client.AbstractOption;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.NewChatGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.button.CheckboxButton;
-import net.minecraft.client.gui.widget.button.OptionButton;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import net.minecraftforge.fml.client.gui.widget.Slider;
-import sun.java2d.loops.DrawRect;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/area_scanner_gui.png");
@@ -56,9 +41,9 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
 
 
         //TODO add rendering for the post blocks below the main block - render them first starting with the lowest so it is rendered in order
-        for (int k = 8;  k < container.GetScannerPosts(); k++) { //works but they overlap wierdly
-            this.itemRenderer.renderItemAndEffectIntoGUI(ModBlocks.AREA_SCANNER_POST_BLOCK.get().asItem().getDefaultInstance(),i + 80,j + 32 + (k*8));
-        }
+        //for (int k = 8;  k < container.GetScannerPosts(); k++) { //works but they overlap wierdly
+        //    this.itemRenderer.renderItemAndEffectIntoGUI(ModBlocks.AREA_SCANNER_POST_BLOCK.get().asItem().getDefaultInstance(),i + 80,j + 32 + (k*8));
+        //}
 
 
         //this.font.drawString(matrixStack, String.valueOf(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetScanner(container.getBlockPos()).Range), i +8, j +16, -12829636);
@@ -76,13 +61,11 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
     int semiProgress = 0;
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
-        RenderSystem.color4f(1f,1f,1f,1f);
+        RenderSystem.color4f(dronecraft_2Main.BackgroundGUIColourRGBA[0],dronecraft_2Main.BackgroundGUIColourRGBA[1],dronecraft_2Main.BackgroundGUIColourRGBA[2],dronecraft_2Main.BackgroundGUIColourRGBA[3]);   //works to re-colour anything set below it here. can be stacked to change separately blit textures
         this.minecraft.getTextureManager().bindTexture(GUI);
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(matrixStack,i,j,0,0,this.xSize,this.ySize);
-
-
 
         if(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetScanner(container.getBlockPos()).AreaMode == 0){
             this.blit(matrixStack,i+ 58,j + 10,196,128,60,60);

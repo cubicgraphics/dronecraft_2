@@ -17,9 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class WorldGlobalVar {
@@ -101,7 +99,7 @@ public class WorldGlobalVar {
 
         public void syncData(World world) {
             this.markDirty();
-            if (world instanceof World && !world.isRemote())
+            if (world != null && !world.isRemote())
                 PacketHandler.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(((World) world)::getDimensionKey),
                         new WorldSavedDataSyncMessage(1, this));
         }
@@ -141,7 +139,7 @@ public class WorldGlobalVar {
 
         public void syncData(World world) {
             this.markDirty();
-            if (world instanceof World && !world.isRemote())
+            if (world != null && !world.isRemote())
                 PacketHandler.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new WorldSavedDataSyncMessage(0, this));
         }
         static MapVariables clientSide = new MapVariables();

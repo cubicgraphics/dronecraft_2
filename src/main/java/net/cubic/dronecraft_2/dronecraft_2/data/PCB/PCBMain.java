@@ -11,7 +11,6 @@ import java.util.List;
 public class PCBMain {
     PCBComponent[] Components; //built in components
     List<PCBComponent> PlayerMadeComponents; //player made components
-    PCBWire[] Wires; //built in wire types
     HashMap<Integer,String> ComponentToInstruction; //links all built in components by int ID to there respectful instruction
     HashMap<PCBComponent,PCBData> PCBToPCBLayout; //links all PCBComponents to a PCB layout
 
@@ -24,14 +23,22 @@ public class PCBMain {
         PCB_IO[] simpleOut = {
                 new PCB_IO(1,0,"number")
         };
+
+        PCB_IO[] simpleDroneIn = {
+                new PCB_IO(0,2,"DronePositionData"),
+                new PCB_IO(0,5,"DroneGoalData")
+        };
+        PCB_IO[] simpleDroneOut = {
+                new PCB_IO(7,2,"DroneActionData"),
+                //new PCB_IO(7,5,"number")
+        };
         Components = new PCBComponent[]{
             new PCBComponent("Add", 2, 1, simpleIn, simpleOut, Color.fromHex("#2a6e3c")),
             new PCBComponent("Sub", 2, 1, simpleIn, simpleOut, Color.fromHex("#2a6e3c")),
             new PCBComponent("Multiply", 2, 1, simpleIn, simpleOut, Color.fromHex("#2a6e3c")),
             new PCBComponent("Divide", 2, 1, simpleIn, simpleOut, Color.fromHex("#2a6e3c")),
 
-            new PCBComponent("SimpleDroneBrain", 8, 8, simpleIn, simpleOut, Color.fromHex("#2b4532")),
-
+            new PCBComponent("SimpleDroneBrain", 8, 8, simpleDroneIn, simpleDroneOut, Color.fromHex("#2b4532")),
         };
     }
 }

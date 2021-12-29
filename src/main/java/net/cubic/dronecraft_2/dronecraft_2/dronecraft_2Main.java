@@ -33,6 +33,7 @@ public class dronecraft_2Main {
 
 
     public static final String MOD_ID = "dronecraft_2";
+    public static float[] BackgroundGUIColourRGBA = {1f,1f,1f,1f}; //TODO add a mod config so this setting can be changed
 
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
