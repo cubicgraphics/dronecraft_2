@@ -5,6 +5,7 @@ import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.cubic.dronecraft_2.dronecraft_2.screen.AreaScannerScreen;
+import net.cubic.dronecraft_2.dronecraft_2.screen.ConfigScreen;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -13,7 +14,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -33,7 +36,8 @@ public class dronecraft_2Main {
 
 
     public static final String MOD_ID = "dronecraft_2";
-    public static float[] BackgroundGUIColourRGBA = {1f,1f,1f,1f}; //TODO add a mod config so this setting can be changed
+    public static ModSettings modSettings = new ModSettings();
+
 
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
@@ -60,6 +64,13 @@ public class dronecraft_2Main {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        ModLoadingContext.get().registerExtensionPoint(
+                ExtensionPoint.CONFIGGUIFACTORY,
+                () -> (mc,screen) -> new ConfigScreen() //adds the config screen
+        );
+
+
     }
 
     @SubscribeEvent
@@ -78,6 +89,7 @@ public class dronecraft_2Main {
 
 
         ScreenManager.registerFactory(ModContainers.AREA_SCANNER_CONTAINER.get(), AreaScannerScreen::new);
+
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

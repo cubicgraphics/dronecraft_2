@@ -2,6 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.container.PCBEditorContainer;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -15,6 +16,8 @@ public class PCBEditorScreen extends ContainerScreen<PCBEditorContainer> {
     public PCBEditorScreen(PCBEditorContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
     }
+    private ModSettings S = dronecraft_2Main.modSettings;
+
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -26,7 +29,7 @@ public class PCBEditorScreen extends ContainerScreen<PCBEditorContainer> {
         int j = this.guiTop;
 
 
-        RenderSystem.color4f(1f,1f,1f,1f);//implement rendering of pcb's here
+        RenderSystem.color4f(S.GetBackgroundValue(0),S.GetBackgroundValue(1),S.GetBackgroundValue(2),S.GetBackgroundValue(3));
 
     }
 
@@ -35,7 +38,7 @@ public class PCBEditorScreen extends ContainerScreen<PCBEditorContainer> {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
-        RenderSystem.color4f(dronecraft_2Main.BackgroundGUIColourRGBA[0],dronecraft_2Main.BackgroundGUIColourRGBA[1],dronecraft_2Main.BackgroundGUIColourRGBA[2],dronecraft_2Main.BackgroundGUIColourRGBA[3]);   //works to re-colour anything set below it here. can be stacked to change separately blit textures
+        RenderSystem.color4f(S.BackgroundGUIColourRGBA[0],S.BackgroundGUIColourRGBA[1],S.BackgroundGUIColourRGBA[2], S.BackgroundGUIColourRGBA[3]);   //works to re-colour anything set below it here. can be stacked to change separately blit textures
         this.minecraft.getTextureManager().bindTexture(GUI);
         int i = this.guiLeft;
         int j = this.guiTop;
