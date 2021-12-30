@@ -6,6 +6,7 @@ import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.cubic.dronecraft_2.dronecraft_2.screen.AreaScannerScreen;
 import net.cubic.dronecraft_2.dronecraft_2.screen.ConfigScreen;
+import net.cubic.dronecraft_2.dronecraft_2.screen.PCBCrafterScreen;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -89,6 +90,7 @@ public class dronecraft_2Main {
 
 
         ScreenManager.registerFactory(ModContainers.AREA_SCANNER_CONTAINER.get(), AreaScannerScreen::new);
+        ScreenManager.registerFactory(ModContainers.PCB_CRAFTER_CONTAINER.get(), PCBCrafterScreen::new);
 
     }
 

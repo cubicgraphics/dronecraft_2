@@ -17,9 +17,9 @@ public class ModTileEntities {
             TILE_ENTITIES.register("area_scanner_tile_entity", ()-> TileEntityType.Builder.create(
                     AreaScannerTileEntity::new, ModBlocks.AREA_SCANNER_BLOCK.get()).build(null));
 
-    public static RegistryObject<TileEntityType<AreaScannerTileEntity>> PCB_crafter_Tile_Entity =
-            TILE_ENTITIES.register("area_scanner_tile_entity", ()-> TileEntityType.Builder.create(
-                    AreaScannerTileEntity::new, ModBlocks.PCB_CRAFTER_BLOCK.get()).build(null));
+    public static RegistryObject<TileEntityType<PCBCrafterTileEntity>> PCB_crafter_Tile_Entity =
+            TILE_ENTITIES.register("pcb_crafter_tile_entity", ()-> TileEntityType.Builder.create(
+                    PCBCrafterTileEntity::new, ModBlocks.PCB_CRAFTER_BLOCK.get()).build(null));
 
     public static void register(IEventBus eventBus){
         TILE_ENTITIES.register(eventBus);

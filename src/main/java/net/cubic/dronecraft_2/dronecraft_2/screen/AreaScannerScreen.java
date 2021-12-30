@@ -97,7 +97,6 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
 
-
     }
 
     @Override

@@ -21,30 +21,22 @@ public class PCBCrafterContainer extends Container {
     private final IItemHandler playerInventory;
 
     public PCBCrafterContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
-        super(ModContainers.AREA_SCANNER_CONTAINER.get(), WindowID);
+        super(ModContainers.PCB_CRAFTER_CONTAINER.get(), WindowID);
         this.tileEntity = worldIn.getTileEntity(pos);
         playerEntity = player;
         this.playerInventory = new InvWrapper(playerinventory);
         layoutPlayerInventorySlots(8,86);
     }
 
-    //public BlockPos getBlockPos(){
-    //    return tileEntity.getPos();
-    //}
-
-
-
-
-
+    public BlockPos getBlockPos(){
+        return tileEntity.getPos();
+    }
 
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
-        return true; //isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()),
-        //playerIn, ModBlocks.AREA_SCANNER_BLOCK.get());
+        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()),
+        playerIn, ModBlocks.PCB_CRAFTER_BLOCK.get());
     }
-
-
-    //
 
 
 

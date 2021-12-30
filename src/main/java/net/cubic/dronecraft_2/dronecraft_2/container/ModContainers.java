@@ -22,6 +22,14 @@ public class ModContainers {
                 return new AreaScannerContainer(windowId, world, pos, inv, inv.player);
             })));
 
+    public static final RegistryObject<ContainerType<PCBCrafterContainer>> PCB_CRAFTER_CONTAINER
+            = CONTAINERS.register("pcb_crafter_container", ()->
+            IForgeContainerType.create(((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                World world = inv.player.getEntityWorld();
+                return new PCBCrafterContainer(windowId, world, pos, inv, inv.player);
+            })));
+
 
     public static void register(IEventBus eventBus){
         CONTAINERS.register(eventBus);
