@@ -11,8 +11,11 @@
   "block.dronecraft_2.carbon_conductium_block": "Carbon-conductium block",
   "block.dronecraft_2.area_scanner_block": "Area scanner",
   "block.dronecraft_2.area_scanner_post_block": "Area scanner post",
+  "block.dronecraft_2.pcb_crafter_block": "PCB crafter",
 
   "screen.dronecraft_2.area_scanner_gui": "Area scanner",
+
+  "screen.dronecraft_2.pcb_crafter-gui": "PCB crafter",
 
   "screen.dronecraft_2.background.red": "Background red",
   "screen.dronecraft_2.background.green": "Background green",

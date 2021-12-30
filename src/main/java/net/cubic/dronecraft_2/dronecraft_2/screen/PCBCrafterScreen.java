@@ -3,17 +3,17 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
-import net.cubic.dronecraft_2.dronecraft_2.container.PCBEditorContainer;
+import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
-public class PCBEditorScreen extends ContainerScreen<PCBEditorContainer> {
+public class PCBCrafterScreen extends ContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
 
-    public PCBEditorScreen(PCBEditorContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+    public PCBCrafterScreen(PCBCrafterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
     }
 

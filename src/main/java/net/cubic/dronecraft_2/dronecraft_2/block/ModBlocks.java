@@ -1,6 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2.block;
 
 import net.cubic.dronecraft_2.dronecraft_2.block.custom.AreaScannerBlock;
+import net.cubic.dronecraft_2.dronecraft_2.block.custom.PCBCrafterBlock;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItemGroup;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
@@ -39,7 +40,8 @@ public class ModBlocks {
             () -> new Block(AbstractBlock.Properties.create(Material.IRON)
                     .harvestLevel(2).harvestTool(ToolType.PICKAXE).setRequiresTool().hardnessAndResistance(6f)));//properties area defined in the AreaScannerBlock class
 
-
+    public static final RegistryObject<Block> PCB_CRAFTER_BLOCK = registerBlock("pcb_crafter_block",
+            () -> new PCBCrafterBlock(AbstractBlock.Properties.create(Material.IRON))); //properties area defined in the PCBCrafterBlock class
 
 
 

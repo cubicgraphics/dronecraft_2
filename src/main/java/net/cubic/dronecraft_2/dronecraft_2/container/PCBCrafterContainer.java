@@ -15,12 +15,12 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class PCBEditorContainer extends Container {
+public class PCBCrafterContainer extends Container {
     private final TileEntity tileEntity;
     private final PlayerEntity playerEntity;
     private final IItemHandler playerInventory;
 
-    public PCBEditorContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
+    public PCBCrafterContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
         super(ModContainers.AREA_SCANNER_CONTAINER.get(), WindowID);
         this.tileEntity = worldIn.getTileEntity(pos);
         playerEntity = player;
