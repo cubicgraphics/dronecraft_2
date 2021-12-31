@@ -28,10 +28,12 @@ public class RGBA {
         b = (float)B/255;
         g = (float)G/255;
         r = (float)R/255;
+        a = 1.0F;
     }
     public RGBA(float R, float G, float B){
         b = B;
         g = G;
         r = R;
+        a = 1.0F;
     }
 }

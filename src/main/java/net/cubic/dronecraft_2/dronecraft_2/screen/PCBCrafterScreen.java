@@ -4,15 +4,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
-import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-import net.minecraftforge.fml.client.gui.widget.Slider;
 
 public class PCBCrafterScreen extends ContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
@@ -46,6 +44,7 @@ public class PCBCrafterScreen extends ContainerScreen<PCBCrafterContainer> {
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(matrixStack,i,j,0,0,this.xSize,this.ySize);
+        PCBRender.RenderPCBComponent(matrixStack,i+20,j+20, PCBMain.Components[5],this);
     }
 
     @Override
