@@ -5,13 +5,16 @@ import java.util.List;
 
 public class PCBData {
     //this holds what is in the PCB
-
+    public int length; //X
+    public int width;  //Y
     public int[][] PCBWiresArray;
-    public ComponentXY[] ComponentArray;
+    public PCBComponentXY[] ComponentArray;
 
-    public PCBData(int[][] Wires, List<ComponentXY> ComponentList){
+    public PCBData(int Length, int Width, int[][] Wires, List<PCBComponentXY> ComponentList){
+        length = Length;
+        width = Width;
         PCBWiresArray = Wires;
-        ComponentArray = new ComponentXY[ComponentList.size()];
+        ComponentArray = new PCBComponentXY[ComponentList.size()];
         ComponentList.toArray(ComponentArray);
     }
 }

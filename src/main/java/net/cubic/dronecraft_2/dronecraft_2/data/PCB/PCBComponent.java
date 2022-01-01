@@ -12,7 +12,21 @@ public class PCBComponent {
     public PCB_IO[] Outputs;
     public RGBA ComponentColor;
     public PCBData PCBData; //set to null if it is a built-in pcb
+    public String Instruction;
+    public PCBSymbol[] Decals;
 
+
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        PCBData = null;
+        Instruction = null;
+        Decals = null;
+    }
     public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBData PcbData){
         ComponentName = Name;
         Length = length;
@@ -21,5 +35,91 @@ public class PCBComponent {
         Outputs = outputs;
         ComponentColor = color;
         PCBData = PcbData;
+        Instruction = null;
+        Decals = null;
+    }
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        Instruction = instruction;
+        PCBData = null;
+        Decals = null;
+    }
+
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol decal){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        PCBData = null;
+        Instruction = null;
+        Decals = new PCBSymbol[]{
+                decal
+        };
+    }
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBData PcbData, PCBSymbol decal){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        PCBData = PcbData;
+        Instruction = null;
+        Decals = new PCBSymbol[]{
+                decal
+        };
+    }
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol decal){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        Instruction = instruction;
+        PCBData = null;
+        Decals = new PCBSymbol[]{
+                decal
+        };
+    }
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol[] decals){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        PCBData = null;
+        Instruction = null;
+        Decals = decals;
+    }
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBData PcbData, PCBSymbol[] decals){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        PCBData = PcbData;
+        Instruction = null;
+        Decals = decals;
+    }
+    public PCBComponent(String Name, int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol[] decals){
+        ComponentName = Name;
+        Length = length;
+        Width = width;
+        Inputs = inputs;
+        Outputs = outputs;
+        ComponentColor = color;
+        Instruction = instruction;
+        PCBData = null;
+        Decals = decals;
     }
 }

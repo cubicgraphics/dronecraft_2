@@ -2,6 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.container;
 
 
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -25,8 +26,9 @@ public class PCBCrafterContainer extends Container {
         this.tileEntity = worldIn.getTileEntity(pos);
         playerEntity = player;
         this.playerInventory = new InvWrapper(playerinventory);
-        layoutPlayerInventorySlots(8,86);
+        layoutPlayerInventorySlots(48,259);
     }
+
 
     public BlockPos getBlockPos(){
         return tileEntity.getPos();

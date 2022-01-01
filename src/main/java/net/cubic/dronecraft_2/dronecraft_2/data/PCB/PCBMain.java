@@ -2,7 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 
 public class PCBMain {
@@ -24,23 +24,29 @@ public class PCBMain {
     };
 
     public static PCBComponent[] Components= new PCBComponent[]{
-            new PCBComponent("Add", 3, 2, simpleIn, simpleOut, new RGBA(),null),
-            new PCBComponent("Sub", 3, 2, simpleIn, simpleOut, new RGBA(),null),
-            new PCBComponent("Multiply", 3, 2, simpleIn, simpleOut, new RGBA(),null),
-            new PCBComponent("Divide", 3, 2, simpleIn, simpleOut, new RGBA(),null),
-            new PCBComponent("Equals", 3, 2, simpleIn, simpleOut, new RGBA(),null),
+            new PCBComponent("Add", 3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "add",new PCBSymbol(1,0.5F,0,16)),
+            new PCBComponent("Sub", 3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "sub",new PCBSymbol(1,0.5F,8,16)),
+            new PCBComponent("Multiply", 3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "multiply",new PCBSymbol(1,0.5F,24,16)),
+            new PCBComponent("Divide", 3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "divide",new PCBSymbol(1,0.5F,16,16)),
+            new PCBComponent("Equals", 3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "equals",new PCBSymbol(1,0.5F,32,16)),
 
+            new PCBComponent("SimpleDroneBrain", 8, 8, simpleDroneIn, simpleDroneOut, new RGBA(43, 150, 0),new PCBSymbol(3,3,16,32,16,16)),
+    };
 
-            new PCBComponent("SimpleDroneBrain", 8, 8, simpleDroneIn, simpleDroneOut, new RGBA(43, 150, 0),null),
+    public static PCBComponentXY[] componentXY = new PCBComponentXY[]{
+            new PCBComponentXY(3,4,true,0)
+    };
+
+    public static int[][] intarray = new int[8][8];
+    static {
+        intarray[0][0] = 1;
+        intarray[0][1] = 1;
+        intarray[0][2] = 1;
+    }
+
+    public static PCBData[] PCBdataTest = new PCBData[]{
+            new PCBData(8,8,intarray,Arrays.asList(componentXY))
     };
 
     public List<PCBComponent> PlayerMadeComponents; //player made components
-
-    public static HashMap<Integer,String> ComponentToInstruction = new HashMap<Integer,String>(){{
-        put(0, "add");
-        put(1, "sub");
-        put(2, "multiply");
-        put(3, "divide");
-        put(4, "equals");
-    }}; //links all built in components by int ID to there respectful instruction, if they have one
 }
