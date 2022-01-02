@@ -1,8 +1,10 @@
 package net.cubic.dronecraft_2.dronecraft_2.container;
 
 
+import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -20,6 +22,7 @@ public class PCBCrafterContainer extends Container {
     private final TileEntity tileEntity;
     private final PlayerEntity playerEntity;
     private final IItemHandler playerInventory;
+    private int GuiScale;
 
     public PCBCrafterContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
         super(ModContainers.PCB_CRAFTER_CONTAINER.get(), WindowID);
@@ -27,6 +30,11 @@ public class PCBCrafterContainer extends Container {
         playerEntity = player;
         this.playerInventory = new InvWrapper(playerinventory);
         layoutPlayerInventorySlots(48,259);
+        if(worldIn.isRemote() && ModSettings.GuiRescaling.get()){
+            GuiScale = Minecraft.getInstance().gameSettings.guiScale;
+            Minecraft.getInstance().gameSettings.guiScale = 2;
+            Minecraft.getInstance().updateWindowSize();
+        }
     }
 
 
@@ -40,11 +48,14 @@ public class PCBCrafterContainer extends Container {
         playerIn, ModBlocks.PCB_CRAFTER_BLOCK.get());
     }
 
-
-
-
-
-
+    @Override
+    public void onContainerClosed(PlayerEntity playerIn) {
+        super.onContainerClosed(playerIn);
+        if(playerIn.world.isRemote() && ModSettings.GuiRescaling.get()){
+            Minecraft.getInstance().gameSettings.guiScale = GuiScale;
+            Minecraft.getInstance().updateWindowSize();
+        }
+    }
 
     private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {

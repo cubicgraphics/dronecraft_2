@@ -29,16 +29,8 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void ScanBlock(BlockEvent.BreakEvent BlockEvent) {
-        String name = BlockEvent.getPlayer().getDisplayName().toString();
-        if (name.equals( "noicdeppilf")) { //friend requested this
-            Random rand = new Random();
-            if (rand.nextInt(100) == 5) { //he said the number 5
-                BlockEvent.setCanceled(true);
-                BlockEvent.getPlayer().sendMessage(ITextComponent.getTextComponentOrEmpty("HA"), BlockEvent.getPlayer().getUniqueID()); // might work else may cause a crash IDK
-            }
-        }
+        //do stuff for broken block
 
-        System.out.println("blockupdt-" + BlockEvent.getPos().toString());
     }
 
     public static void WithinScannerBlock(World worldIn, BlockPos Pos) {
@@ -48,7 +40,7 @@ public class ModEvents {
             if (!scanners.isEmpty()) {
                 for (BlockPos scanner : scanners) {
                     if (worldIn.getBlockState(scanner).getBlock().getDefaultState() == ModBlocks.AREA_SCANNER_BLOCK.get().getDefaultState()) {
-                        ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner);
+                        //ServerUtil.SendToAllPlayers("Crop grown at " + Pos.toString() + "Scanned by " + scanner);
                         //Do things with scanner here like send a drone to the block or something
                         BlockState block = worldIn.getBlockState(Pos);
                         if(block.getBlock() instanceof AttachedStemBlock){
@@ -56,7 +48,7 @@ public class ModEvents {
                                 Pos = Pos.offset(block.get(HorizontalFaceBlock.HORIZONTAL_FACING));
                            }
                         }
-                        worldIn.destroyBlock(Pos,true); // only here becasue it is
+                        worldIn.destroyBlock(Pos,true); // only here becasue i have not added drones yet
                         if(block.getBlock() instanceof CropsBlock){
                            worldIn.setBlockState(Pos,block.getBlock().getDefaultState());
                         }

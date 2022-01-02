@@ -23,5 +23,6 @@
 
   "screen.dronecraft_2.foreground.red": "Foreground red",
   "screen.dronecraft_2.foreground.green": "Foreground green",
-  "screen.dronecraft_2.foreground.blue": "Foreground blue"
+  "screen.dronecraft_2.foreground.blue": "Foreground blue",
+  "screen.dronecraft_2.gui_rescale": "GUI Rescale"
 }

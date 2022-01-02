@@ -25,6 +25,8 @@ public class ModSettings {
     public static ForgeConfigSpec.IntValue ForegroundB;
     public static ForgeConfigSpec.IntValue ForegroundA;
 
+    public static ForgeConfigSpec.BooleanValue GuiRescaling;
+
 
     private static void setupConfig(ForgeConfigSpec.Builder builder) {
         builder.comment("Dronecraft 2 client config");
@@ -39,6 +41,10 @@ public class ModSettings {
         ForegroundG = builder.defineInRange("Foreground Green", 255, 0, 255);
         ForegroundB = builder.defineInRange("Foreground Blue", 255, 0, 255);
         ForegroundA = builder.defineInRange("Foreground Alpha", 255, 0, 255);
+        builder.pop();
+        builder.push("GUI Rescaling");
+        builder.comment("This config enables/disables the ability for certain gui's like the PCB crafter gui the ability to change the gui scale when it is in focus");
+        GuiRescaling = builder.define("Gui Rescaling",true);
     }
 
     public static float  FBackgroundR(){

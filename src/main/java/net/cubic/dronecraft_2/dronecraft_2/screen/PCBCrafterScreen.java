@@ -7,6 +7,7 @@ import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
+import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,6 +17,7 @@ import net.minecraft.util.text.ITextComponent;
 public class PCBCrafterScreen extends ContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
     private final ResourceLocation GUI2 = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui_2.png");
+    private int GuiScale;
 
     public PCBCrafterScreen(PCBCrafterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
@@ -70,4 +72,5 @@ public class PCBCrafterScreen extends ContainerScreen<PCBCrafterContainer> {
     public void init(Minecraft minecraft, int width, int height) {
         super.init(minecraft, width, height);
     }
+
 }

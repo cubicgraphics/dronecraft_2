@@ -1,66 +1,23 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
-import java.util.Objects;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.instructions.*;
+
+import java.util.HashMap;
 
 public class PCBInstructions {
-    public static Object Process(String Instruction, Object[] Data){ //This contains the instruction set for the built-in PCB components
-        Object returnValue = new Object();
 
-        if (Objects.equals(Instruction, "add")){
-            if(AllOfDataType(Data,double.class)){
-                returnValue = 0;
-                for (Object datum : Data) {
-                    returnValue = (double)returnValue + (double) datum;
-                }
-            }
-        }
+    public static HashMap<String, Instruction<?>> InstructionMap = new HashMap<>();
+    //To add a new pcb instruction just put a new one into this hashmap
 
-        else if (Objects.equals(Instruction, "sub")){
-            if(AllOfDataType(Data,double.class)){
-                returnValue = 0;
-                for (Object datum : Data) {
-                    returnValue = (double)returnValue - (double) datum;
-                }
-            }
-        }
+    static {
+        InstructionMap.put("add", new Instruction<>(new addInstruction()));
+        InstructionMap.put("sub", new Instruction<>(new subInstruction()));
+        InstructionMap.put("multiply", new Instruction<>(new multiplyInstruction()));
+        InstructionMap.put("divide", new Instruction<>(new divideInstruction()));
+        InstructionMap.put("equals", new Instruction<>(new EqualsInstruction()));
 
-        else if (Objects.equals(Instruction, "multiply")){
-            if(AllOfDataType(Data,double.class)){
-                    returnValue = 1;
-                    for (Object datum : Data) {
-                        returnValue = (double) returnValue * (double) datum;
-                    }
-                }
-        }
-
-        else if (Objects.equals(Instruction, "divide")) {
-            if(AllOfDataType(Data,double.class)) {
-                return (double) Data[0] / (double) Data[1];
-            }
-        }
-
-        else if (Objects.equals(Instruction, "Equ")) {
-            returnValue = true;
-            for (int i = 1; i < Data.length; i++) {
-                if (Data[i] != Data[i - 1]) {
-                    returnValue = false;
-                    break;
-                }
-            }
-        }
-        return returnValue;
     }
+    //TODO need to add a check that is run to make sure that the data is all of equal type - should be run in the thing that creates the pcb before any instructions are called anyway
 
-
-
-    public static boolean AllOfDataType(Object[] Data, Class<?> type){
-        boolean returnValue = true;
-        for (Object datum : Data) {
-            if (datum.getClass() != type) {
-                returnValue = false;
-                break;
-            }
-        }
-        return returnValue;
-    }
+    //PCBInstructions.InstructionMap.get("add").instruction.run(Data);
 }

@@ -6,6 +6,7 @@ import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.PCBCrafterTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -43,7 +44,6 @@ public class PCBCrafterBlock extends Block {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
             if (!player.isCrouching()){
                 if (tileEntity instanceof PCBCrafterTileEntity){
-
                     INamedContainerProvider containerProvider = createContainerProvider(worldIn,pos);
 
                     NetworkHooks.openGui(((ServerPlayerEntity) player), containerProvider,tileEntity.getPos());

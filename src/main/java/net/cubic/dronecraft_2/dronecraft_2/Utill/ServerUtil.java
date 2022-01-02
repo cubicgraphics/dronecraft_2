@@ -9,7 +9,6 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 public class ServerUtil {
 
     public static void SendToAllPlayers(String text){
-        MinecraftServer mcServer = ServerLifecycleHooks.getCurrentServer();
-        mcServer.getPlayerList().func_232641_a_(new StringTextComponent(text), ChatType.SYSTEM, Util.DUMMY_UUID);
+        ServerLifecycleHooks.getCurrentServer().getPlayerList().func_232641_a_(new StringTextComponent(text), ChatType.SYSTEM, Util.DUMMY_UUID);
     }
 }

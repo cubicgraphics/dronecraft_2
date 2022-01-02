@@ -9,12 +9,14 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.OptionsRowList;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.BooleanOption;
 import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
+import javax.swing.*;
 
 
 public final class ConfigScreen extends Screen {
@@ -175,6 +177,8 @@ public final class ConfigScreen extends Screen {
                                 + (int) option.get(gs)
                 )
         ));
+
+        this.optionsRowList.addOption(new BooleanOption("screen.dronecraft_2.gui_rescale",unused -> ModSettings.GuiRescaling.get(),(unused, newValue)-> ModSettings.GuiRescaling.set(newValue)));
     }
 
     @Override
