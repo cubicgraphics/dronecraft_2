@@ -1,7 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB.instructions;
 
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_ID;
-
+/*
 public class multiplyInstruction implements GenericInstruction{
 
     @Override
@@ -18,3 +18,5 @@ public class multiplyInstruction implements GenericInstruction{
         }
     }
 }
+
+ */

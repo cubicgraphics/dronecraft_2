@@ -7,7 +7,6 @@ import net.cubic.dronecraft_2.dronecraft_2.item.ModItemGroup;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

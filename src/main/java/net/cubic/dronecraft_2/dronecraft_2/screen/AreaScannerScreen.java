@@ -13,7 +13,6 @@ import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -40,14 +39,12 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
         int j = this.guiTop;
 
 
-        //this.setBlitOffset(200);
         this.itemRenderer.zLevel = 200.0F;
         this.itemRenderer.renderItemAndEffectIntoGUI(ModBlocks.AREA_SCANNER_BLOCK.get().asItem().getDefaultInstance(),i + 80,j + 32);
         for (int k = 0;  k < container.GetScannerPosts(); k++) { //works but they overlap wierdly
             this.itemRenderer.zLevel = this.itemRenderer.zLevel - 20.0F;
             this.itemRenderer.renderItemAndEffectIntoGUI(ModBlocks.AREA_SCANNER_POST_BLOCK.get().asItem().getDefaultInstance(),i + 80,j + 40 + (k*8));
         }
-        //this.setBlitOffset(0);
         this.itemRenderer.zLevel = 0F;
 
         //this.font.drawString(matrixStack, String.valueOf(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetScanner(container.getBlockPos()).Range), i +8, j +16, -12829636);

@@ -1,7 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
-import net.minecraft.util.text.Color;
 
 public class PCBComponent {
     //A component is a part of the PCB - they get dragged into place in the builder gui
