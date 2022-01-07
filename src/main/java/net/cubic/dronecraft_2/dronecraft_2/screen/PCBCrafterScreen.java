@@ -13,6 +13,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
+import java.util.Arrays;
+
 public class PCBCrafterScreen extends ContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
     private final ResourceLocation GUI2 = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui_2.png");
@@ -31,6 +33,7 @@ public class PCBCrafterScreen extends ContainerScreen<PCBCrafterContainer> {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
 
         this.renderHoveredTooltip(matrixStack,mouseX,mouseY);
+        PCBRender.RenderPCBTooltips(matrixStack, PCBMain.PCBdataTest[0], mouseX, mouseY,this.guiLeft + 5,this.guiTop + 5,this);
         int i = this.guiLeft;
         int j = this.guiTop;
 

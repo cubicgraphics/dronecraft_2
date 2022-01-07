@@ -3,12 +3,18 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
+import net.java.games.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class PCBRender {
     // only call these functions from within a gui screen
@@ -58,7 +64,6 @@ public class PCBRender {
         }
 
 
-
         //top screen.blit(matrix,left,top,40,0,8,8);
         //Right screen.blit(matrix,left,top,48,0,8,8);
         //bottom screen.blit(matrix,left,top,56,0,8,8);
@@ -69,11 +74,6 @@ public class PCBRender {
         //bottomRight screen.blit(matrix,left,top,48,8,8,8);
         //topLeft screen.blit(matrix,left,top,64,8,8,8);
     }
-
-
-
-
-
 
     public static void RenderPCBComponent(MatrixStack matrix, int left, int top, PCBComponent Component, ContainerScreen<?> screen){
         ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
@@ -130,5 +130,31 @@ public class PCBRender {
         //bottomLeft screen.blit(matrix,left,top,24,8,8,8);
         //bottomRight screen.blit(matrix,left,top,16,8,8,8);
         //topLeft screen.blit(matrix,left,top,32,8,8,8);
+    }
+
+    public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
+
+        for (int i = 0; i < PCB.ComponentArray.length; i++) {
+            if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Length*8))
+            && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Width*8)))
+            {
+                screen.renderTooltip(matrix, ITextComponent.getTextComponentOrEmpty(PCBMain.Components[PCB.ComponentArray[i].ComponentID].ComponentName),MouseX,MouseY);
+            }
+        }
+
+
+
+    }
+    public static void RenderPCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY> Components, int MouseX, int MouseY, ContainerScreen<?> screen){
+
+        for (int i = 0; i < Components.size(); i++) {
+            if (Components.get(i) != null && ((MouseX >= Components.get(i).x)
+                    && (MouseX <= Components.get(i).x + PCBMain.Components[Components.get(i).ComponentID].Length))
+                    && ((MouseY >= Components.get(i).y)
+                    && (MouseY <= Components.get(i).y + PCBMain.Components[Components.get(i).ComponentID].PCBData.width))){
+                screen.renderTooltip(matrix, ITextComponent.getTextComponentOrEmpty(PCBMain.Components[Components.get(i).ComponentID].ComponentName),MouseX,MouseY);
+
+            }
+        }
     }
 }
