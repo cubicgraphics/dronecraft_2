@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -22,6 +23,10 @@ public class PCBCrafterContainer extends Container {
     private final PlayerEntity playerEntity;
     private final IItemHandler playerInventory;
     private int GuiScale;
+    public int LeftPCBGrid = 17;
+    public int TopPCBGrid = 111;
+    public int PCBTileWidth = 16;
+    public int PCBTileLength = 16;
 
     public PCBCrafterContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
         super(ModContainers.PCB_CRAFTER_CONTAINER.get(), WindowID);
@@ -33,6 +38,11 @@ public class PCBCrafterContainer extends Container {
             GuiScale = Minecraft.getInstance().gameSettings.guiScale;
             Minecraft.getInstance().gameSettings.guiScale = 2;
             Minecraft.getInstance().updateWindowSize();
+        }
+        if(tileEntity != null){
+            tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
+                addSlot(new SlotItemHandler(h,0,73,92)); //adds slots to the gui
+            } );
         }
     }
 
