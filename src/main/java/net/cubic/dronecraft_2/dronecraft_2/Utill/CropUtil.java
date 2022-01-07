@@ -4,7 +4,6 @@ import net.minecraft.block.*;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sun.security.util.Debug;
 
 public class CropUtil {
     public static boolean IsFullyGrown(World world, BlockState blockState, BlockPos pos){
@@ -18,8 +17,6 @@ public class CropUtil {
                     IsGrown = true;
                 }
             } catch (Exception e) {
-                Debug debug = new Debug();
-                debug.println("Dronecraft 2 does not like the fact you put a block that doesn't extend CropBlocks into the crop tag, the offending block is: " + blockState.getBlock());
                 System.out.println("Dronecraft 2 does not like the fact you put a block that doesn't extend CropBlocks into the crop tag, the offending block is: " + blockState.getBlock());
                 e.printStackTrace();
             }

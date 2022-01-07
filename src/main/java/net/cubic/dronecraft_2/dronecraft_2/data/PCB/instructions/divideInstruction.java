@@ -2,15 +2,17 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB.instructions;
 
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_ID;
 
-/*
-public class divideInstruction implements GenericInstruction{
+
+public class divideInstruction<T> implements GenericInstruction<T>{
 
     @Override
-    public PCB_ID<?> run(PCB_ID<?>[] data) {
-        if(data[0].data instanceof Double){
-            double v = (double)data[0].data / (double) data[1].data;
+    public PCB_ID<?> run(PCB_ID<T>[] data) {
+        if(data[0].data instanceof Number && data[1].data instanceof Number){
+            double v = (Double)data[0].data / (Double) data[1].data;
             for (int i = 2; i < data.length; i++) {
-                v = v / (double)data[i].data;
+                if(data[i].data instanceof Number) {
+                    v = v / (Double) data[i].data;
+                }
             }
             return new PCB_ID<>(v);
         }
@@ -19,5 +21,3 @@ public class divideInstruction implements GenericInstruction{
         }
     }
 }
-
- */
