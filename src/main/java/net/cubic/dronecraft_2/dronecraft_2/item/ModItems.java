@@ -2,6 +2,9 @@ package net.cubic.dronecraft_2.dronecraft_2.item;
 
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 
+import net.cubic.dronecraft_2.dronecraft_2.item.circuits.PCBLayered;
+import net.cubic.dronecraft_2.dronecraft_2.item.circuits.PCBSubstrate;
+import net.cubic.dronecraft_2.dronecraft_2.item.circuits.PCBTemplate;
 import net.cubic.dronecraft_2.dronecraft_2.item.circuits.PrintedCircuitBoard;
 import net.minecraft.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -29,6 +32,13 @@ public class ModItems {
     public static final RegistryObject<Item> PrintedCircuitBoard = ITEMS.register("printed-circuit-board",
             () -> new PrintedCircuitBoard(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
 
+    public static final RegistryObject<Item> PCBTemplate = ITEMS.register("pcb-template",
+            () -> new PCBTemplate(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+
+    public static final RegistryObject<Item> PCBSubstrate = ITEMS.register("pcb-substrate",
+            () -> new PCBSubstrate(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+    public static final RegistryObject<Item> PCBLayered = ITEMS.register("pcb-layered",
+            () -> new PCBLayered(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
 
 
     public static void register(IEventBus eventbus){

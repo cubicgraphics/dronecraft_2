@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 @Mod(dronecraft_2Main.MOD_ID)
 public class dronecraft_2Main {
 
+    //TODO add in create compatibility for a machine that can place components onto PCBLayered item on a transport belt. Mainly so PCB's can be made in a visual way that could be entertaining to watch. BUT also put a limit on the size of pcb that can be crafted this way. - make the create machine place components one at a time
 
     public static final String MOD_ID = "dronecraft_2";
 

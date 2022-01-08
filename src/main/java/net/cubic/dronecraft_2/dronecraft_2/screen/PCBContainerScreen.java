@@ -29,15 +29,4 @@ public class PCBContainerScreen<T extends Container> extends ContainerScreen<T> 
         }
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
 }

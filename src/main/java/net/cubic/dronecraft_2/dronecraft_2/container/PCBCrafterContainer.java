@@ -25,8 +25,10 @@ public class PCBCrafterContainer extends Container {
     private int GuiScale;
     public int LeftPCBGrid = 17;
     public int TopPCBGrid = 111;
-    public int PCBTileWidth = 16;
-    public int PCBTileLength = 16;
+    public int PCBEditorTileWidth = 16;
+    public int PCBEditorTileLength = 16;  //TODO add in max width and max length for crafter block - add in pcb template creater block(more advanced version of crafter but makes templates to be used in crafting machines)
+    public int PCBMaxTileWidth = 16;
+    public int PCBMaxTileLength = 16;
 
     public PCBCrafterContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
         super(ModContainers.PCB_CRAFTER_CONTAINER.get(), WindowID);

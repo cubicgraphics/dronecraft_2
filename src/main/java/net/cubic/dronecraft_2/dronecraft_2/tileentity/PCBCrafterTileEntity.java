@@ -52,7 +52,7 @@ public class PCBCrafterTileEntity extends TileEntity {
             }
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack itemStack){
-                    return itemStack.getItem() == ModItems.PrintedCircuitBoard.get() && slot == 0;
+                    return itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0;
             }
 
             @Override
