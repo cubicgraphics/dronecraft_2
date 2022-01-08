@@ -10,11 +10,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 
 public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
     private final ResourceLocation GUI2 = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui_2.png");
 
+    ExtendedButton SavePCBButton;
 
     public PCBCrafterScreen(PCBCrafterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
@@ -46,7 +48,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         this.blit(matrixStack,i+40,j+173,0,0,176,166);
 
         //PCBRender.RenderPCBComponent(matrixStack,i+20,j+20, PCBMain.Components[5],this);
-        PCBRender.RenderPCB(matrixStack,i + container.LeftPCBGrid,j + container.TopPCBGrid,/*PCBMain.PCBdataTest[0]*/ container.getDataFromItem(), this);
+        PCBRender.RenderPCB(matrixStack,i + container.LeftPCBGrid,j + container.TopPCBGrid, container.SetAndGetPCBDataFromItem(), this);
     }
 
     @Override
@@ -58,6 +60,13 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     @Override
     public void init(Minecraft minecraft, int width, int height) {
         super.init(minecraft, width, height);
+
+        SavePCBButton = new ExtendedButton(this.guiLeft + 161, this.guiTop + 111, 78, 20, ITextComponent.getTextComponentOrEmpty("Solder Components"), button -> SavePCBButtonPressed());
+        addButton(SavePCBButton);
+    }
+    public void SavePCBButtonPressed(){
+        System.out.println("ButtonPressed");
+        container.SavePCBToItem();
     }
 
 
@@ -71,6 +80,4 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         return super.mouseReleased(mouseX, mouseY, button);
     }
-
-
 }

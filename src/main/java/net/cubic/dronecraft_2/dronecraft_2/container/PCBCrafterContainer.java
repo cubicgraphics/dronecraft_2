@@ -2,13 +2,17 @@ package net.cubic.dronecraft_2.dronecraft_2.container;
 
 
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBDataPCBCrafter;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
+import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -34,6 +38,8 @@ public class PCBCrafterContainer extends Container {
     public int PCBEditorTileLength = 16;  //TODO add in max width and max length for crafter block - add in pcb template creater block(more advanced version of crafter but makes templates to be used in crafting machines)
     public int PCBMaxTileWidth = 16;
     public int PCBMaxTileLength = 16;
+    public PCBData CurrentPCB = null;
+
 
     public PCBCrafterContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
         super(ModContainers.PCB_CRAFTER_CONTAINER.get(), WindowID);
@@ -54,22 +60,30 @@ public class PCBCrafterContainer extends Container {
     }
 
 
-    PCBData test = null;
-    public PCBData getDataFromItem(){
+    public void SetDataFromItem(int slotid){
         tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
-            if(h.getStackInSlot(0) != ItemStack.EMPTY){
-                h.getStackInSlot(0).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
-                    test = e.getPCBData();
+            if(h.getStackInSlot(slotid) != ItemStack.EMPTY){
+                h.getStackInSlot(slotid).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
+                    CurrentPCB = e.getPCBData();
                 });
             }
             else{
-                test = null;
+                CurrentPCB = null;
             }
         });
-        return test;
-
     }
-
+    public PCBData SetAndGetPCBDataFromItem(){
+        SetDataFromItem(0);
+        return CurrentPCB;
+    }
+    public void SetPCBData(int SlotId,PCBData pcbData){
+            System.out.println("Sending packet to server to save data to the item");
+            PacketHandler.sendToServer(new PacketSendPCBDataPCBCrafter(SlotId,pcbData,getBlockPos()));
+        // should work
+    }
+    public void SavePCBToItem(){
+        SetPCBData(0,CurrentPCB);
+    }
 
     public BlockPos getBlockPos(){
         return tileEntity.getPos();
@@ -132,7 +146,7 @@ public class PCBCrafterContainer extends Container {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 0;  // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
+    private static final int TE_INVENTORY_SLOT_COUNT = 1;  // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {

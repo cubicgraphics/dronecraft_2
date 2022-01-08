@@ -1,5 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.Utill.network;
 
+import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBDataPCBCrafter;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSetScannerRange;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketToggleScannerMode;
 import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
@@ -30,6 +31,7 @@ public class PacketHandler {
         MinecraftForge.EVENT_BUS.register(new WorldGlobalVar(this));
         this.addNetworkMessage(PacketToggleScannerMode.class,PacketToggleScannerMode::toBytes, PacketToggleScannerMode::new, PacketToggleScannerMode::handle);
         this.addNetworkMessage(PacketSetScannerRange.class,PacketSetScannerRange::toBytes, PacketSetScannerRange::new, PacketSetScannerRange::handle);
+        this.addNetworkMessage(PacketSendPCBDataPCBCrafter.class,PacketSendPCBDataPCBCrafter::toBytes, PacketSendPCBDataPCBCrafter::new, PacketSendPCBDataPCBCrafter::handle);
     }
 
     private int messageID = 0;
