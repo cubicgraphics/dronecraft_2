@@ -17,4 +17,11 @@ public class PCBData {
         ComponentArray = new PCBComponentXY[ComponentList.size()];
         ComponentList.toArray(ComponentArray);
     }
+
+    public PCBData() {
+        length = 16;
+        width = 16;
+        PCBWiresArray = new int[16][16];
+        ComponentArray = new PCBComponentXY[0];
+    }
 }

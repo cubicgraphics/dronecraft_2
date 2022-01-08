@@ -20,49 +20,50 @@ public class PCBRender {
     // only call these functions from within a gui screen
 
     public static void RenderPCB(MatrixStack matrix, int left, int top, PCBData PCB, ContainerScreen<?> screen){
-        ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
-        Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
-        //should draw wires if there are any
-        RenderSystem.color4f(1.0F, 1.0F, 0.0F,1.0F);
-        if (PCB.PCBWiresArray != null){
-            for (int x = 0; x < PCB.length - 1; x++) {
-                for (int y = 0; y < PCB.width - 1; y++) {
-                    if(PCB.PCBWiresArray[x][y] == 1){
-                        screen.blit(matrix,left+ (x*8),top+ (y*8),0,0,8,8);
+        if(PCB != null){
+            ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
+            Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
+            //should draw wires if there are any
+            RenderSystem.color4f(1.0F, 1.0F, 0.0F,1.0F);
+            if (PCB.PCBWiresArray != null){
+                for (int x = 0; x < PCB.length - 1; x++) {
+                    for (int y = 0; y < PCB.width - 1; y++) {
+                        if(PCB.PCBWiresArray[x][y] == 1){
+                            screen.blit(matrix,left+ (x*8),top+ (y*8),0,0,8,8);
+                        }
                     }
                 }
             }
-        }
-        //For drawing an outline
-        //for the corners
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F,1.0F);
-        screen.blit(matrix,left,top,64,8,8,8);
-        screen.blit(matrix,left +((PCB.length-1)*8),top,40,8,8,8);
-        screen.blit(matrix,left,top + ((PCB.width-1)*8),56,8,8,8);
-        screen.blit(matrix,left+ ((PCB.length-1)*8),top+ ((PCB.width-1)*8),48,8,8,8);
+            //For drawing an outline
+            //for the corners
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F,1.0F);
+            screen.blit(matrix,left,top,64,8,8,8);
+            screen.blit(matrix,left +((PCB.length-1)*8),top,40,8,8,8);
+            screen.blit(matrix,left,top + ((PCB.width-1)*8),56,8,8,8);
+            screen.blit(matrix,left+ ((PCB.length-1)*8),top+ ((PCB.width-1)*8),48,8,8,8);
 
-        //top row
-        for (int x = 1; x < PCB.length - 1; x++) {
-            screen.blit(matrix,left +(x*8) ,top,40,0,8,8);
-        }
-        //bottom row
-        for (int x = 1; x < PCB.length - 1; x++) {
-            screen.blit(matrix,left +(x*8) ,top+ ((PCB.width-1)*8),56,0,8,8);
-        }
-        //left down row
-        for (int y = 1; y < PCB.width - 1; y++) {
-            screen.blit(matrix,left  ,top+(y*8),64,0,8,8);
-        }
-        //right bottom down
-        for (int y = 1; y < PCB.width - 1; y++) {
-            screen.blit(matrix,left + ((PCB.length-1) * 8) ,top+(y*8),48,0,8,8);
-        }
+            //top row
+            for (int x = 1; x < PCB.length - 1; x++) {
+                screen.blit(matrix,left +(x*8) ,top,40,0,8,8);
+            }
+            //bottom row
+            for (int x = 1; x < PCB.length - 1; x++) {
+                screen.blit(matrix,left +(x*8) ,top+ ((PCB.width-1)*8),56,0,8,8);
+            }
+            //left down row
+            for (int y = 1; y < PCB.width - 1; y++) {
+                screen.blit(matrix,left  ,top+(y*8),64,0,8,8);
+            }
+            //right bottom down
+            for (int y = 1; y < PCB.width - 1; y++) {
+                screen.blit(matrix,left + ((PCB.length-1) * 8) ,top+(y*8),48,0,8,8);
+            }
 
-        //next render the components on top of the wires
-        for (int i = 0; i < PCB.ComponentArray.length; i++){
-            RenderPCBComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),PCBMain.Components[PCB.ComponentArray[i].ComponentID],screen);
+            //next render the components on top of the wires
+            for (int i = 0; i < PCB.ComponentArray.length; i++){
+                RenderPCBComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),PCBMain.Components[PCB.ComponentArray[i].ComponentID],screen);
+            }
         }
-
 
         //top screen.blit(matrix,left,top,40,0,8,8);
         //Right screen.blit(matrix,left,top,48,0,8,8);

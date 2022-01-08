@@ -1,7 +1,8 @@
 package net.cubic.dronecraft_2.dronecraft_2.tileentity;
 
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
+import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
-import net.cubic.dronecraft_2.dronecraft_2.item.circuits.PrintedCircuitBoard;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -52,7 +53,7 @@ public class PCBCrafterTileEntity extends TileEntity {
             }
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack itemStack){
-                    return itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0;
+                    return (itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0) || (itemStack.getItem() == ModItems.PrintedCircuitBoard.get() && slot == 0); //TODO if is a printed circuit board then allow it to be edited if its within the max size
             }
 
             @Override
@@ -69,6 +70,7 @@ public class PCBCrafterTileEntity extends TileEntity {
             }
         };
     }
+
 
     @Nonnull
     @Override

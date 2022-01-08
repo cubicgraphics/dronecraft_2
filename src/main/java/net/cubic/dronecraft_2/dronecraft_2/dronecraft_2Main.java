@@ -4,6 +4,7 @@ import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
+import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.cubic.dronecraft_2.dronecraft_2.screen.AreaScannerScreen;
 import net.cubic.dronecraft_2.dronecraft_2.screen.ConfigScreen;
@@ -82,6 +83,7 @@ public class dronecraft_2Main {
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
         //register capabilities here
+        CapabilityPCB.register();
 
 
     }

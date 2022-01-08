@@ -46,7 +46,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         this.blit(matrixStack,i+40,j+173,0,0,176,166);
 
         //PCBRender.RenderPCBComponent(matrixStack,i+20,j+20, PCBMain.Components[5],this);
-        PCBRender.RenderPCB(matrixStack,i + container.LeftPCBGrid,j + container.TopPCBGrid,PCBMain.PCBdataTest[0],this);
+        PCBRender.RenderPCB(matrixStack,i + container.LeftPCBGrid,j + container.TopPCBGrid,/*PCBMain.PCBdataTest[0]*/ container.getDataFromItem(), this);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     }
 
 
-    /*
+
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         return super.mouseClicked(mouseX, mouseY, button);
@@ -69,8 +69,8 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
-     */
+
 
 }
