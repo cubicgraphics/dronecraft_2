@@ -82,6 +82,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     }
     public void SavePCBButtonPressed(){
         System.out.println("ButtonPressed");
+        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button, with a max of using one stack of any one thing.
         container.SavePCBToItem();
     }
 

@@ -36,11 +36,18 @@ public class ModItems {
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
     public static final RegistryObject<Item> SILICON_INGOT = ITEMS.register("silicon_ingot", // two low purity silica makes one silicon ingot when melted in smeltry - one high purity silicon
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
-    public static final RegistryObject<Item> CRYSTALLISED_SILICON = ITEMS.register("crystallised_silicon", // made in a silicon crystalliser or something from pure silicon.
+    public static final RegistryObject<Item> CRYSTALLISED_SILICON = ITEMS.register("crystallised_silicon", // made in a crystalliser with high temperatures
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
     public static final RegistryObject<Item> SILICON_WAFER = ITEMS.register("silicon_wafer", //make 4 from one ingot or 8 from one crystallised silicon - made in cutter thing
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
     public static final RegistryObject<Item> CUT_SILICON_WAFER = ITEMS.register("cut_silicon_wafer", // - put silicon wafer in cutter thing to make 1 wafer into 8 cut silicon wafer
+            () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+
+    public static final RegistryObject<Item> HIGH_PURITY_REDSTONE_DUST = ITEMS.register("high_purity_redstone_dust", //refine redstone dust in similar way to high purity silicon
+            () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+    public static final RegistryObject<Item> CRYSTALLISED_REDSTONE = ITEMS.register("crystallised_redstone", //made in a crystalliser with high temperatures
+            () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+    public static final RegistryObject<Item> REDSTONE_WAFER = ITEMS.register("redstone_wafer", //made in cutter - from crystallised redstone or from a redstone block
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
 
 

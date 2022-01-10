@@ -17,6 +17,7 @@ public class PCBData {
     public int width;  //Y
     public int[][] PCBWiresArray;
     public PCBComponentXY[] ComponentArray;
+    //TODO add PCB_IO for inputs and outputs of the pcb
 
     public PCBData(int Length, int Width, int[][] Wires, List<PCBComponentXY> ComponentList){
         length = Length;
