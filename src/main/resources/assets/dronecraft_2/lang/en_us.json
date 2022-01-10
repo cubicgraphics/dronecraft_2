@@ -11,6 +11,15 @@
   "item.dronecraft_2.pcb-substrate": "PCB substrate",
   "item.dronecraft_2.pcb-template": "PCB template",
 
+  "item.dronecraft_2.silica": "Silica(silicon-dioxide",
+  "item.dronecraft_2.low_purity_silicon": "Low purity silicon",
+  "item.dronecraft_2.high_purity_silicon": "High purity silicon",
+  "item.dronecraft_2.silicon_ingot": "Silicon ingot",
+  "item.dronecraft_2.crystallised_silicon": "Crystallised silicon",
+  "item.dronecraft_2.silicon_wafer": "Silicon wafer",
+  "item.dronecraft_2.cut_silicon_wafer": "Cut silicon wafer",
+
+
   "block.dronecraft_2.conductium_block": "Conductium block",
   "block.dronecraft_2.carbon_conductium_block": "Carbon-conductium block",
   "block.dronecraft_2.area_scanner_block": "Area scanner",

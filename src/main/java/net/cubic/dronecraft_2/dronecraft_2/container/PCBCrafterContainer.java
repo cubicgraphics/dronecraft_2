@@ -57,6 +57,22 @@ public class PCBCrafterContainer extends Container {
         if(tileEntity != null){
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
                 addSlot(new SlotItemHandler(h,0,73,92)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,1,165,19)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,2,183,19)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,3,201,19)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,4,219,19)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,5,165,37)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,6,183,37)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,7,201,37)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,8,219,37)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,9,165,55)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,10,183,55)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,11,201,55)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,12,219,55)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,13,165,73)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,14,183,73)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,15,201,73)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,16,219,73)); //adds slots to the gui
             } );
         }
     }
@@ -155,7 +171,7 @@ public class PCBCrafterContainer extends Container {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 1;  // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
+    private static final int TE_INVENTORY_SLOT_COUNT = 17;  // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {

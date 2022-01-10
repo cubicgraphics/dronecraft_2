@@ -134,12 +134,13 @@ public class PCBRender {
     }
 
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
-
-        for (int i = 0; i < PCB.ComponentArray.length; i++) {
-            if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Length*8))
-            && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Width*8)))
-            {
-                screen.renderTooltip(matrix, ITextComponent.getTextComponentOrEmpty(PCBMain.Components[PCB.ComponentArray[i].ComponentID].ComponentName),MouseX,MouseY);
+        if(PCB != null){
+            for (int i = 0; i < PCB.ComponentArray.length; i++) {
+                if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Length*8))
+                        && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Width*8)))
+                {
+                    screen.renderTooltip(matrix, ITextComponent.getTextComponentOrEmpty(PCBMain.Components[PCB.ComponentArray[i].ComponentID].ComponentName),MouseX,MouseY);
+                }
             }
         }
     }

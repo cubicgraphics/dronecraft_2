@@ -44,19 +44,24 @@ public class PCBCrafterTileEntity extends TileEntity {
 
 
     private ItemStackHandler createHandler(){
-        return new ItemStackHandler(1){
+        return new ItemStackHandler(17){
             @Override
             protected void onContentsChanged(int slot){
                 markDirty();
             }
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack itemStack){
-                return (itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0) || (itemStack.getItem() == ModItems.PrintedCircuitBoard.get() && slot == 0);
+                return (itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0) || (itemStack.getItem() == ModItems.PrintedCircuitBoard.get() && slot == 0 || slot > 0);
             }
 
             @Override
             public int getSlotLimit(int slot){
-                return 1;
+                if(slot == 0){
+                    return 1;
+                }
+                else{
+                    return 64;
+                }
             }
             @Nonnull
             @Override

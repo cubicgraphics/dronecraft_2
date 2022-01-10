@@ -108,7 +108,7 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
         Slider slide = new Slider(this.guiLeft + 4, this.guiTop + 72, 168, 12,
                 ITextComponent.getTextComponentOrEmpty("Range: "),ITextComponent.getTextComponentOrEmpty(""),
                 1,container.GetMaxScanningRange(),WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetScanner(container.getBlockPos()).Range,
-                false,true, null/*slider ->SetScanningRange(container.getBlockPos(), ((Slider) slider).getValueInt())*/,onPress());
+                false,true, null,onPress());
         addButton(ModeButton);
         addButton(slide);
         ModeButton.setMessage(ITextComponent.getTextComponentOrEmpty(WorldGlobalVar.WorldVariables.get(playerInventory.player.world).Scanners.GetAreaModeString(container.getBlockPos())));
