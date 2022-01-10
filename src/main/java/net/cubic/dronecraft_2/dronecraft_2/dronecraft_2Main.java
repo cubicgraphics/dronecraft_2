@@ -81,6 +81,8 @@ public class dronecraft_2Main {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT , ModSettings.GENERAL_SPEC, "Dronecraft2ModConfig.toml");
 
+
+
     }
 
     @SubscribeEvent
@@ -93,11 +95,7 @@ public class dronecraft_2Main {
 
 
     }
-    @SubscribeEvent
-    public void registerItemColors(ColorHandlerEvent.Item event){
-        System.out.println("registering item colors");
-        event.getItemColors().register(new PCBSubstrateColor(), ModItems.PCBSubstrate::get);
-    }
+
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
@@ -131,6 +129,8 @@ public class dronecraft_2Main {
         LOGGER.info("HELLO from server starting");
     }
 
+
+
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -140,5 +140,13 @@ public class dronecraft_2Main {
             // register a new block here
             LOGGER.info("HELLO from Register Block");
         }
+        @SubscribeEvent
+        public void registerItemColors(ColorHandlerEvent.Item event){//seems to not work
+            System.out.println("registering item colors");
+            LOGGER.info("HELLO from Register color handler");
+            event.getItemColors().register(new PCBSubstrateColor(), ModItems.PCBSubstrate.get());
+        }
+
     }
+
 }

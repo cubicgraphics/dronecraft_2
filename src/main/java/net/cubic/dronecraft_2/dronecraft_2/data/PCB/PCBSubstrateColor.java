@@ -18,6 +18,7 @@ public class PCBSubstrateColor implements IItemColor
             return color.ToRawInt();
         }
         else{
+            System.out.println("has no color, returning white");
             return (0xFFFFFFFF);
         }
     }
