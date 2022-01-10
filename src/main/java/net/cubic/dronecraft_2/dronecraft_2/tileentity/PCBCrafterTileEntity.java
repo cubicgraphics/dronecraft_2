@@ -23,8 +23,6 @@ public class PCBCrafterTileEntity extends TileEntity {
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-
-
     public PCBCrafterTileEntity(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
     }
@@ -53,7 +51,7 @@ public class PCBCrafterTileEntity extends TileEntity {
             }
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack itemStack){
-                    return (itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0) || (itemStack.getItem() == ModItems.PrintedCircuitBoard.get() && slot == 0); //TODO if is a printed circuit board then allow it to be edited if its within the max size
+                return (itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0) || (itemStack.getItem() == ModItems.PrintedCircuitBoard.get() && slot == 0);
             }
 
             @Override

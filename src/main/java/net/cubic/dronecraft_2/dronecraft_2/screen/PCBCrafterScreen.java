@@ -3,6 +3,7 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
+import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
@@ -49,6 +50,10 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
 
         //PCBRender.RenderPCBComponent(matrixStack,i+20,j+20, PCBMain.Components[5],this);
         PCBRender.RenderPCB(matrixStack,i + container.LeftPCBGrid,j + container.TopPCBGrid, container.SetAndGetPCBDataFromItem(), this);
+        if(container.CurrentPCB.width > container.PCBMaxTileWidth && container.CurrentPCB.length > container.PCBMaxTileLength){
+            //render max size text here
+            this.font.drawString(matrixStack,"The PCB is too detailed to edit by hand",17,3,new RGBA(255,0,0).ToRawInt());
+        }
     }
 
     @Override

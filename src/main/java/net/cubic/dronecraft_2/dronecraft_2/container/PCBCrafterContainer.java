@@ -10,6 +10,7 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
+import net.cubic.dronecraft_2.dronecraft_2.tileentity.PCBCrafterTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -33,12 +34,12 @@ public class PCBCrafterContainer extends Container {
     private final PlayerEntity playerEntity;
     private final IItemHandler playerInventory;
     private int GuiScale;
-    public int LeftPCBGrid = 17;
-    public int TopPCBGrid = 111;
-    public int PCBEditorTileWidth = 16;
-    public int PCBEditorTileLength = 16;  //TODO add in max width and max length for crafter block - add in pcb template creater block(more advanced version of crafter but makes templates to be used in crafting machines)
-    public int PCBMaxTileWidth = 16;
-    public int PCBMaxTileLength = 16;
+    public final int LeftPCBGrid = 17;
+    public final int TopPCBGrid = 111;
+    public final int PCBEditorTileWidth = 16;
+    public final int PCBEditorTileLength = 16;  //TODO add in pcb template creater block(more advanced version of crafter but makes templates to be used in crafting machines)
+    public final int PCBMaxTileWidth = 16;
+    public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;
 
 
@@ -62,10 +63,16 @@ public class PCBCrafterContainer extends Container {
 
 
     public void SetDataFromItem(int slotid){
+
         tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
             if(h.getStackInSlot(slotid) != ItemStack.EMPTY){
                 h.getStackInSlot(slotid).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
-                    CurrentPCB = e.getPCBData();
+                    if(e.getPCBData().length <= PCBMaxTileLength && e.getPCBData().width <= PCBMaxTileWidth){
+                        CurrentPCB = e.getPCBData();
+                    }
+                    else{
+                        CurrentPCB = null;
+                    }
                 });
             }
             else{
