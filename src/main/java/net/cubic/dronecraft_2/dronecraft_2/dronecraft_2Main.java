@@ -13,6 +13,7 @@ import net.cubic.dronecraft_2.dronecraft_2.screen.PCBCrafterScreen;
 import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
@@ -93,7 +94,7 @@ public class dronecraft_2Main {
         //register capabilities here
         CapabilityPCB.register();
 
-
+        Minecraft.getInstance().getItemColors().register(new PCBSubstrateColor(), ModItems.PCBSubstrate.get());
     }
 
 
@@ -104,7 +105,6 @@ public class dronecraft_2Main {
 
         ScreenManager.registerFactory(ModContainers.AREA_SCANNER_CONTAINER.get(), AreaScannerScreen::new);
         ScreenManager.registerFactory(ModContainers.PCB_CRAFTER_CONTAINER.get(), PCBCrafterScreen::new);
-
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -139,13 +139,19 @@ public class dronecraft_2Main {
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
             LOGGER.info("HELLO from Register Block");
+            System.out.println("possibly registered item to color thing");
         }
+
+
+        /*
         @SubscribeEvent
         public void registerItemColors(ColorHandlerEvent.Item event){//seems to not work
             System.out.println("registering item colors");
             LOGGER.info("HELLO from Register color handler");
+
             event.getItemColors().register(new PCBSubstrateColor(), ModItems.PCBSubstrate.get());
         }
+        */
 
     }
 
