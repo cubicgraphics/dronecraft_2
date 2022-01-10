@@ -49,7 +49,7 @@ public class PCBCrafterContainer extends Container {
         playerEntity = player;
         this.playerInventory = new InvWrapper(playerinventory);
         layoutPlayerInventorySlots(48,259);
-        if(worldIn.isRemote() && ModSettings.GuiRescaling.get()){
+        if(worldIn.isRemote() && ModSettings.GuiRescaling.get() && Minecraft.getInstance().gameSettings.guiScale > 2){
             GuiScale = Minecraft.getInstance().gameSettings.guiScale;
             Minecraft.getInstance().gameSettings.guiScale = 2;
             Minecraft.getInstance().updateWindowSize();
