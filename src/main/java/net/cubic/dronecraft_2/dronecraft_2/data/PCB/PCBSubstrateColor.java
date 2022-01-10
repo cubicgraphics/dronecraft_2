@@ -13,12 +13,10 @@ public class PCBSubstrateColor implements IItemColor
     public int getColor(@Nonnull ItemStack stack, int tintIndex)
     {
         if(((PCBSubstrate)stack.getItem()).hasColor(stack)){
-            System.out.println("getting the color");
             RGBA color = new RGBA(((PCBSubstrate)stack.getItem()).getColor(stack).r,((PCBSubstrate)stack.getItem()).getColor(stack).g,((PCBSubstrate)stack.getItem()).getColor(stack).b);
             return color.ToRawInt();
         }
         else{
-            System.out.println("has no color, returning white");
             return (0xFFFFFFFF);
         }
     }

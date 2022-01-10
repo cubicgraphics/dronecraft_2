@@ -139,7 +139,6 @@ public class dronecraft_2Main {
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
             LOGGER.info("HELLO from Register Block");
-            System.out.println("possibly registered item to color thing");
         }
 
 
@@ -148,7 +147,6 @@ public class dronecraft_2Main {
         public void registerItemColors(ColorHandlerEvent.Item event){//seems to not work
             System.out.println("registering item colors");
             LOGGER.info("HELLO from Register color handler");
-
             event.getItemColors().register(new PCBSubstrateColor(), ModItems.PCBSubstrate.get());
         }
         */

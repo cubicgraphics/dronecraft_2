@@ -1,7 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.item.circuits;
 
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -41,17 +40,5 @@ public class PCBSubstrate extends Item {
         stack.getOrCreateChildTag("display").putFloat("colorG", color.g);
         stack.getOrCreateChildTag("display").putFloat("colorB", color.b);
     }
-
-    @Override
-    public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
-        System.out.println("dropped");
-        this.setColor(item,new RGBA(255,0,0));
-        return super.onDroppedByPlayer(item, player);
-    }
-
     //The pcb before the Layered pcb item - should work
-
-
-
-
 }
