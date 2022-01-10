@@ -36,4 +36,10 @@ public class RGBA {
         r = R;
         a = 1.0F;
     }
+    public int ToRawInt(){
+        int rgb = Math.max(Math.min(0xFF, (int)r*255), 0);
+        rgb = (rgb << 8) + Math.max(Math.min(0xFF, (int)g*255), 0);
+        rgb = (rgb << 8) + Math.max(Math.min(0xFF, (int)b*255), 0);
+        return rgb;
+    }
 }

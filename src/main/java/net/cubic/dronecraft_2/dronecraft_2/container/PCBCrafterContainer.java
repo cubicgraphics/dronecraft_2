@@ -7,6 +7,7 @@ import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBD
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.client.Minecraft;
@@ -76,13 +77,14 @@ public class PCBCrafterContainer extends Container {
         SetDataFromItem(0);
         return CurrentPCB;
     }
-    public void SetPCBData(int SlotId,PCBData pcbData){
-            System.out.println("Sending packet to server to save data to the item");
-            PacketHandler.sendToServer(new PacketSendPCBDataPCBCrafter(SlotId,pcbData,getBlockPos()));
+    public void SetPCBItemData(int SlotId,PCBData pcbData){
+        System.out.println("Sending packet to server to save data to the item");
+        PacketHandler.sendToServer(new PacketSendPCBDataPCBCrafter(SlotId, pcbData,getBlockPos()));
         // should work
     }
+
     public void SavePCBToItem(){
-        SetPCBData(0,CurrentPCB);
+        SetPCBItemData(0,CurrentPCB);
     }
 
     public BlockPos getBlockPos(){

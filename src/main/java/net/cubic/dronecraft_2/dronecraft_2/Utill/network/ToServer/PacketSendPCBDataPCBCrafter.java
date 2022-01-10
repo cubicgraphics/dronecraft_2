@@ -57,7 +57,7 @@ public class PacketSendPCBDataPCBCrafter {
                     });
                 }
                 else if(h.getStackInSlot(SlotID).getItem() == ModItems.PCBSubstrate.get()){
-                    h.extractItem(SlotID,64,false);
+                    h.extractItem(SlotID,1,false);
                     h.insertItem(SlotID,ModItems.PrintedCircuitBoard.get().getDefaultInstance(),false);
                     h.getStackInSlot(SlotID).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
                         e.setPCBData(pcbData);

@@ -37,6 +37,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> PCBSubstrate = ITEMS.register("pcb-substrate",
             () -> new PCBSubstrate(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+
     public static final RegistryObject<Item> PCBLayered = ITEMS.register("pcb-layered",
             () -> new PCBLayered(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
 

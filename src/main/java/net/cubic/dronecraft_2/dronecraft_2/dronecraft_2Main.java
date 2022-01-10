@@ -4,6 +4,7 @@ import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSubstrateColor;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.cubic.dronecraft_2.dronecraft_2.screen.AreaScannerScreen;
@@ -13,6 +14,10 @@ import net.cubic.dronecraft_2.dronecraft_2.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.item.Item;
+import net.minecraft.util.IItemProvider;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -31,6 +36,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.rmi.registry.RegistryHandler;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -86,6 +92,11 @@ public class dronecraft_2Main {
         CapabilityPCB.register();
 
 
+    }
+    @SubscribeEvent
+    public void registerItemColors(ColorHandlerEvent.Item event){
+        System.out.println("registering item colors");
+        event.getItemColors().register(new PCBSubstrateColor(), ModItems.PCBSubstrate::get);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
