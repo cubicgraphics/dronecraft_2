@@ -61,7 +61,7 @@ public class PCBRender {
 
             //next render the components on top of the wires
             for (int i = 0; i < PCB.ComponentArray.length; i++){
-                RenderPCBComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),PCBMain.Components[PCB.ComponentArray[i].ComponentID],screen);
+                RenderPCBComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),PCB.ComponentArray[i].getComponent(),screen);
             }
         }
 
@@ -136,10 +136,10 @@ public class PCBRender {
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
         if(PCB != null){
             for (int i = 0; i < PCB.ComponentArray.length; i++) {
-                if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Length*8))
-                        && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Width*8)))
+                if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCB.ComponentArray[i].getComponent().Length*8))
+                        && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCB.ComponentArray[i].getComponent().Width*8)))
                 {
-                    screen.renderTooltip(matrix, ITextComponent.getTextComponentOrEmpty(PCBMain.Components[PCB.ComponentArray[i].ComponentID].ComponentName),MouseX,MouseY);
+                    screen.renderTooltip(matrix, PCB.ComponentArray[i].getComponent().getName(),MouseX,MouseY);
                 }
             }
         }
@@ -149,10 +149,10 @@ public class PCBRender {
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen, int TileLength, int TileWidth, int scrollX, int scrollY){
 
         for (int i = 0; i < PCB.ComponentArray.length; i++) {
-            if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Length*8))
-                    && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCBMain.Components[PCB.ComponentArray[i].ComponentID].Width*8)))
+            if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCB.ComponentArray[i].getComponent().Length*8))
+                    && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCB.ComponentArray[i].getComponent().Width*8)))
             {
-                screen.renderTooltip(matrix, ITextComponent.getTextComponentOrEmpty(PCBMain.Components[PCB.ComponentArray[i].ComponentID].ComponentName),MouseX,MouseY);
+                screen.renderTooltip(matrix, PCB.ComponentArray[i].getComponent().getName(),MouseX,MouseY);
             }
         }
     }
@@ -163,10 +163,10 @@ public class PCBRender {
 
         for (int i = 0; i < Components.size(); i++) {
             if (Components.get(i) != null && ((MouseX >= Components.get(i).x)
-                    && (MouseX <= Components.get(i).x + PCBMain.Components[Components.get(i).ComponentID].Length))
+                    && (MouseX <= Components.get(i).x + Components.get(i).getComponent().Length))
                     && ((MouseY >= Components.get(i).y)
-                    && (MouseY <= Components.get(i).y + PCBMain.Components[Components.get(i).ComponentID].PCBData.width))){
-                screen.renderTooltip(matrix, ITextComponent.getTextComponentOrEmpty(PCBMain.Components[Components.get(i).ComponentID].ComponentName),MouseX,MouseY);
+                    && (MouseY <= Components.get(i).y + Components.get(i).getComponent().Width))){
+                screen.renderTooltip(matrix, Components.get(i).getComponent().getName(), MouseX,MouseY);
 
             }
         }

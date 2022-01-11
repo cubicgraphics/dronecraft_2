@@ -25,7 +25,7 @@ public class PCBContainerScreen<T extends Container> extends ContainerScreen<T> 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if(SelectedComponent != null){
-            PCBRender.RenderPCBComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y, PCBMain.Components[SelectedComponent.ComponentID],this);
+            PCBRender.RenderPCBComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y, SelectedComponent.getComponent(),this);
         }
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }

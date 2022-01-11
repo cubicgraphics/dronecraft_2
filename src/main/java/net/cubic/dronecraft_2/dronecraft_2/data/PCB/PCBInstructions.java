@@ -17,7 +17,6 @@ public class PCBInstructions {
         InstructionMap.put("equals", new Instruction<>(new EqualsInstruction()));
         */
     }
-    //TODO need to add a check that is run to make sure that the data is all of equal type - should be run in the thing that creates the pcb before any instructions are called anyway
-
+    //TODO fix this stuff
     //PCBInstructions.InstructionMap.get("add").instruction.run(Data);
 }

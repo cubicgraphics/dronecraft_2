@@ -1,15 +1,25 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 public class PCBComponentXY {
     public int x;
     public int y;
-    public boolean BuiltInComponent;
-    public int ComponentID;
+    public net.minecraft.util.ResourceLocation ComponentID;
 
-    public PCBComponentXY(int X, int Y, Boolean BuiltIn, int componentID){
+
+    public PCBComponentXY(int X, int Y, PCBComponent pcbComponent){
         x = X;
         y = Y;
-        BuiltInComponent = BuiltIn;
-        ComponentID = componentID;
+        ComponentID = GameRegistry.findRegistry(PCBComponent.class).getKey(pcbComponent);
+    }
+    public PCBComponentXY(int X, int Y, net.minecraft.util.ResourceLocation ComponentId){
+        x = X;
+        y = Y;
+        ComponentID = ComponentId;
+    }
+
+    public PCBComponent getComponent(){
+        return GameRegistry.findRegistry(PCBComponent.class).getValue(ComponentID);
     }
 }

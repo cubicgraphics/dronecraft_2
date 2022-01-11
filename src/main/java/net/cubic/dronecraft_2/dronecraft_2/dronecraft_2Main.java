@@ -3,6 +3,8 @@ package net.cubic.dronecraft_2.dronecraft_2;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponents;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSubstrateColor;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
@@ -18,6 +20,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -34,6 +37,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,6 +59,12 @@ public class dronecraft_2Main {
 
     public PacketHandler packetHandler;
 
+
+
+
+
+
+
     public dronecraft_2Main() {
         // Register the setup method for modloading
         packetHandler = new PacketHandler();
@@ -63,6 +74,7 @@ public class dronecraft_2Main {
         ModBlocks.register(modEventBus);
         ModTileEntities.register(modEventBus);
         ModContainers.register(modEventBus);
+
 
         modEventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
@@ -130,7 +142,6 @@ public class dronecraft_2Main {
     }
 
 
-
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -142,14 +153,6 @@ public class dronecraft_2Main {
         }
 
 
-        /*
-        @SubscribeEvent
-        public void registerItemColors(ColorHandlerEvent.Item event){//seems to not work
-            System.out.println("registering item colors");
-            LOGGER.info("HELLO from Register color handler");
-            event.getItemColors().register(new PCBSubstrateColor(), ModItems.PCBSubstrate.get());
-        }
-        */
 
     }
 

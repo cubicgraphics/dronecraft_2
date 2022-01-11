@@ -1,12 +1,8 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
 
-import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.IPCB;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
+import net.minecraft.nbt.*;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +13,8 @@ public class PCBData {
     public int width;  //Y
     public int[][] PCBWiresArray;
     public PCBComponentXY[] ComponentArray;
+    public PCB_IO[] Inputs;
+    public PCB_IO[] Outputs;
     //TODO add PCB_IO for inputs and outputs of the pcb
 
     public PCBData(int Length, int Width, int[][] Wires, List<PCBComponentXY> ComponentList){
@@ -25,6 +23,18 @@ public class PCBData {
         PCBWiresArray = Wires;
         ComponentArray = new PCBComponentXY[ComponentList.size()];
         ComponentList.toArray(ComponentArray);
+        Inputs = null;
+        Outputs = null;
+    }
+
+    public PCBData(int Length, int Width, int[][] Wires, List<PCBComponentXY> ComponentList,PCB_IO[] inputs,PCB_IO[] outputs){
+        length = Length;
+        width = Width;
+        PCBWiresArray = Wires;
+        ComponentArray = new PCBComponentXY[ComponentList.size()];
+        ComponentList.toArray(ComponentArray);
+        Inputs = inputs;
+        Outputs = outputs;
     }
 
     public PCBData() {
@@ -51,13 +61,13 @@ public class PCBData {
         ListNBT Components = new ListNBT();
         for (int i = 0; i < ComponentArray.length; i++) {
             CompoundNBT Component = new CompoundNBT();
-            Component.putInt("ID",ComponentArray[i].ComponentID);
+            Component.putString("ID",ComponentArray[i].ComponentID.toString());
             Component.putInt("x",ComponentArray[i].x);
             Component.putInt("y",ComponentArray[i].y);
-            Component.putBoolean("Built-In",ComponentArray[i].BuiltInComponent);
             Components.add(Component);
         }
         PCBDATA.put("Components", Components);
+        //TODO add input and output saving
         tag.put("PCBData",PCBDATA);
         return tag;
     }
@@ -72,7 +82,6 @@ public class PCBData {
             ListNBT wireTagList = (ListNBT) (pcbData).get("2dWireArray");
             if(wireTagList != null){
                 CompoundNBT E = wireTagList.getCompound(0);
-                //intWireArray = new int[E.size()][E.getIntArray("Wire").length];
                 for (int i = 0; i < wireTagList.size(); i++) {
                     CompoundNBT WireArray = wireTagList.getCompound(i);
                     intWireArray[i] = WireArray.getIntArray("Wire");
@@ -83,11 +92,13 @@ public class PCBData {
             if(componentsTagList != null){
                 for (int i = 0; i < componentsTagList.size(); i++) {
                     CompoundNBT Component = componentsTagList.getCompound(i);
-                    ComponentsList.add(new PCBComponentXY(Component.getInt("x"),Component.getInt("y"),Component.getBoolean("Built-In"),Component.getInt("Id")));
+                    ComponentsList.add(new PCBComponentXY(Component.getInt("x"),Component.getInt("y"),new ResourceLocation(Component.getString("ID"))));
                 }
             }
             length = pcbData.getInt("length");
             width = pcbData.getInt("width");
+            //TODO add input and output loading
+
             PCBWiresArray = intWireArray;
             ComponentArray = ComponentsList.toArray(ComponentArray);
         }
@@ -110,7 +121,6 @@ public class PCBData {
             ListNBT wireTagList = (ListNBT) (pcbData).get("2dWireArray");
             if(wireTagList != null){
                 CompoundNBT E = wireTagList.getCompound(0);
-                //intWireArray = new int[E.size()][E.getIntArray("Wire").length];
                 for (int i = 0; i < wireTagList.size(); i++) {
                     CompoundNBT WireArray = wireTagList.getCompound(i);
                     intWireArray[i] = WireArray.getIntArray("Wire");
@@ -121,9 +131,11 @@ public class PCBData {
             if(componentsTagList != null){
                 for (int i = 0; i < componentsTagList.size(); i++) {
                     CompoundNBT Component = componentsTagList.getCompound(i);
-                    ComponentArray.add(new PCBComponentXY(Component.getInt("x"),Component.getInt("y"),Component.getBoolean("Built-In"),Component.getInt("Id")));
+                    ComponentArray.add(new PCBComponentXY(Component.getInt("x"),Component.getInt("y"),new ResourceLocation(Component.getString("ID"))));
                 }
             }
+            //TODO add input and output loading
+
             data = new PCBData(pcbData.getInt("length"), pcbData.getInt("width"),intWireArray,ComponentArray);
         }
         return data;

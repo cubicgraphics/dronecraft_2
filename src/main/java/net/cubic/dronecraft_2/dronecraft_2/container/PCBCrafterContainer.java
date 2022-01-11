@@ -49,7 +49,7 @@ public class PCBCrafterContainer extends Container {
         playerEntity = player;
         this.playerInventory = new InvWrapper(playerinventory);
         layoutPlayerInventorySlots(48,259);
-        if(worldIn.isRemote() && ModSettings.GuiRescaling.get() && Minecraft.getInstance().gameSettings.guiScale > 2){
+        if(worldIn.isRemote() && ModSettings.GuiRescaling.get()){
             GuiScale = Minecraft.getInstance().gameSettings.guiScale;
             Minecraft.getInstance().gameSettings.guiScale = 2;
             Minecraft.getInstance().updateWindowSize();
@@ -107,7 +107,7 @@ public class PCBCrafterContainer extends Container {
     }
 
     public void SavePCBToItem(){
-        SetPCBItemData(0,CurrentPCB);
+        SetPCBItemData(0,PCBMain.PCBdataTest[0]);
     }
 
     public BlockPos getBlockPos(){
