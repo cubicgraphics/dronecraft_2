@@ -15,19 +15,19 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.*;
 public class PCBComponents {
 
     public static PCB_IO[] simpleIn = {
-            new PCB_IO(0,0,"number"),
-            new PCB_IO(2,0,"number")
+            new PCB_IO(0,0,PCBVarTypes.NUMBER),
+            new PCB_IO(2,0,PCBVarTypes.NUMBER)
     };
     public static PCB_IO[] simpleOut = {
-            new PCB_IO(1,1,"number")
+            new PCB_IO(1,1,PCBVarTypes.NUMBER)
     };
 
     public static PCB_IO[] simpleDroneIn = {
-            new PCB_IO(0,2,"DronePositionData"),
-            new PCB_IO(0,5,"DroneGoalData")
+            new PCB_IO(0,2,PCBVarTypes.XYZ),
+            new PCB_IO(0,5,PCBVarTypes.XYZ)
     };
     public static PCB_IO[] simpleDroneOut = {
-            new PCB_IO(7,2,"DroneActionData"),
+            new PCB_IO(7,2,PCBVarTypes.XYZ),
     };
 
     public static PCBComponent SMALL_ADD;

@@ -20,11 +20,11 @@ public class PCBRender {
             ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
             Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
             //should draw wires if there are any
-            RenderSystem.color4f(1.0F, 1.0F, 0.0F,1.0F);
             if (PCB.PCBWiresArray != null){
-                for (int x = 0; x < PCB.length - 1; x++) {
-                    for (int y = 0; y < PCB.width - 1; y++) {
-                        if(PCB.PCBWiresArray[x][y] == 1){
+                for (int x = 0; x < PCB.length; x++) {
+                    for (int y = 0; y < PCB.width; y++) {
+                        if(PCB.PCBWiresArray[x][y] != null){
+                            RenderSystem.color4f(PCB.PCBWiresArray[x][y].getColor().r, PCB.PCBWiresArray[x][y].getColor().g, PCB.PCBWiresArray[x][y].getColor().b,PCB.PCBWiresArray[x][y].getColor().a);
                             screen.blit(matrix,left+ (x*8),top+ (y*8),0,0,8,8);
                         }
                     }

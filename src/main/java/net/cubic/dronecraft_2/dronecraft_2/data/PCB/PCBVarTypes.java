@@ -28,9 +28,9 @@ public class PCBVarTypes {
     public static void onPCBRegistry(final RegistryEvent.Register<VarType> event) {
         NUMBER = new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number");
         BOOLEAN = new VarType(new RGBA(40,240,30),Boolean.class).setRegistryName("boolean");
-        XYZ = new VarType(new RGBA(255,255,0), Vector3f.class).setRegistryName("xyz");
+        XYZ = new VarType(new RGBA(255,40,255), Vector3f.class).setRegistryName("xyz");
 
-        event.getRegistry().registerAll(NUMBER);
+        event.getRegistry().registerAll(NUMBER,BOOLEAN,XYZ);
     }
     @SubscribeEvent
     public static void PCBRegister(RegistryEvent.NewRegistry event){
