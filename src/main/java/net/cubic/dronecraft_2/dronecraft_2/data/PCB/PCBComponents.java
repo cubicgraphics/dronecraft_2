@@ -52,7 +52,7 @@ public class PCBComponents {
     @SubscribeEvent
     public static void PCBRegister(RegistryEvent.NewRegistry event){
         RegistryBuilder<PCBComponent> builder = new RegistryBuilder<>();
-        builder.setType(PCBComponent.class);
+        //builder.setType();
         ResourceLocation key = new ResourceLocation(dronecraft_2Main.MOD_ID, "pcb_components");
         builder.setName(key);
         builder.setDefaultKey(key);

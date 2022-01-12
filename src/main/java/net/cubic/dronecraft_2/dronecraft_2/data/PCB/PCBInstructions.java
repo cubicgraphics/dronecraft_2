@@ -17,6 +17,6 @@ public class PCBInstructions {
         InstructionMap.put("equals", new Instruction<>(new EqualsInstruction()));
         */
     }
-    //TODO fix this stuff
+    //TODO register instructions like how i have registered PCB components
     //PCBInstructions.InstructionMap.get("add").instruction.run(Data);
 }
