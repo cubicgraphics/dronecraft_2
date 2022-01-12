@@ -5,16 +5,12 @@ import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBDataPCBCrafter;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBMain;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBtest;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
-import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
-import net.cubic.dronecraft_2.dronecraft_2.tileentity.PCBCrafterTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -26,8 +22,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-
-import java.util.ArrayList;
 
 public class PCBCrafterContainer extends Container {
     private final TileEntity tileEntity;
@@ -107,7 +101,7 @@ public class PCBCrafterContainer extends Container {
     }
 
     public void SavePCBToItem(){
-        SetPCBItemData(0,PCBMain.PCBdataTest[0]);
+        SetPCBItemData(0, PCBtest.PCBdataTest[0]);
     }
 
     public BlockPos getBlockPos(){

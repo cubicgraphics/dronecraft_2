@@ -1,5 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PCBComponentXY {

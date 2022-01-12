@@ -8,6 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 import net.minecraftforge.registries.RegistryBuilder;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.*;
 
 @ObjectHolder(dronecraft_2Main.MOD_ID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -52,7 +53,7 @@ public class PCBComponents {
     @SubscribeEvent
     public static void PCBRegister(RegistryEvent.NewRegistry event){
         RegistryBuilder<PCBComponent> builder = new RegistryBuilder<>();
-        //builder.setType();
+        builder.setType(PCBComponent.class);
         ResourceLocation key = new ResourceLocation(dronecraft_2Main.MOD_ID, "pcb_components");
         builder.setName(key);
         builder.setDefaultKey(key);

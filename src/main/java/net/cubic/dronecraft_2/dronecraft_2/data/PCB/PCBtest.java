@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class PCBMain {
+public class PCBtest {
 
     //this is a test pcb for testing purposes
     public static PCBComponentXY[] componentXY = new PCBComponentXY[]{

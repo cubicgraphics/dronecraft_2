@@ -1,4 +1,4 @@
-package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
+package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;

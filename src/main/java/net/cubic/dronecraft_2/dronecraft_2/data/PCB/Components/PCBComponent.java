@@ -1,8 +1,10 @@
-package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
+package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSymbol;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
