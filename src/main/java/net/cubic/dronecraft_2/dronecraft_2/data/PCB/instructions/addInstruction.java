@@ -1,11 +1,15 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB.instructions;
 
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_ID;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import javax.annotation.Nullable;
 import java.io.Serializable;
 
 
 public class addInstruction<T> implements GenericInstruction<T>{
+    ResourceLocation ID;
 
     @Override
     public PCB_ID<?> run(PCB_ID<T>[] data) {
