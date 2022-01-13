@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:blocks/carbon_conductium"
+    }
+  ],
+  "result": {
+    "item": "dronecraft_2:carbon_conductium_ingot",
+    "count": 9
+  }
+}

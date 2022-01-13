@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredients": [
+    {
+      "item": "dronecraft_2:low_purity_silicon",
+    }
+  ],
+  "result": {
+    "item": "dronecraft_2:silicon"
+  }
+}
