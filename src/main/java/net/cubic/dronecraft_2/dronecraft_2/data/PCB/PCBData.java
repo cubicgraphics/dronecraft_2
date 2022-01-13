@@ -81,21 +81,25 @@ public class PCBData {
 
 
         ListNBT InputsList = new ListNBT();
-        for (PCB_IO input : Inputs) {
-            CompoundNBT N = new CompoundNBT();
-            N.putString("R", input.DataType.getRegistryName().toString());
-            N.putInt("X", input.X);
-            N.putInt("Y", input.Y);
-            InputsList.add(N);
+        if(Inputs != null){
+            for (PCB_IO input : Inputs) {
+                CompoundNBT N = new CompoundNBT();
+                N.putString("R", input.DataType.getRegistryName().toString());
+                N.putInt("X", input.X);
+                N.putInt("Y", input.Y);
+                InputsList.add(N);
+            }
         }
         tag.put("Inputs",InputsList);
         ListNBT OutputsList = new ListNBT();
-        for (PCB_IO input : Inputs) {
-            CompoundNBT N = new CompoundNBT();
-            N.putString("R", input.DataType.getRegistryName().toString());
-            N.putInt("X", input.X);
-            N.putInt("Y", input.Y);
-            InputsList.add(N);
+        if(Outputs != null){
+            for (PCB_IO input : Outputs) {
+                CompoundNBT N = new CompoundNBT();
+                N.putString("R", input.DataType.getRegistryName().toString());
+                N.putInt("X", input.X);
+                N.putInt("Y", input.Y);
+                InputsList.add(N);
+            }
         }
         tag.put("Outputs",OutputsList);
         tag.put("PCBData",PCBDATA);
