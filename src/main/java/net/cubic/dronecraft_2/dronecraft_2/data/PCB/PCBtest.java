@@ -1,14 +1,8 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
-import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class PCBtest {
 

@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
-import net.cubic.dronecraft_2.dronecraft_2.data.WorldGlobalVar;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
@@ -82,7 +81,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     }
     public void SavePCBButtonPressed(){
         System.out.println("ButtonPressed");
-        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button, with a max of using one stack of any one thing.
+        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button.
         container.SavePCBToItem();
     }
 

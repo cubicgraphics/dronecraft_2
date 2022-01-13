@@ -1,6 +1,5 @@
 package net.cubic.dronecraft_2.dronecraft_2.Utill;
 
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;

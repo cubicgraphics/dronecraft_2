@@ -1,7 +1,5 @@
 package net.cubic.dronecraft_2.dronecraft_2.tileentity;
 
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
-import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;

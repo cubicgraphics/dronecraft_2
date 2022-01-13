@@ -2,7 +2,9 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
 
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 

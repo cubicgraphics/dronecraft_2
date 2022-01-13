@@ -2,9 +2,6 @@ package net.cubic.dronecraft_2.dronecraft_2;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class ModSettings {
 
     public static final ForgeConfigSpec GENERAL_SPEC;

@@ -1,10 +1,8 @@
 package net.cubic.dronecraft_2.dronecraft_2.screen;
-import com.google.common.eventbus.Subscribe;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
-import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.OptionsRowList;
@@ -15,8 +13,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-
-import javax.swing.*;
 
 
 public final class ConfigScreen extends Screen {

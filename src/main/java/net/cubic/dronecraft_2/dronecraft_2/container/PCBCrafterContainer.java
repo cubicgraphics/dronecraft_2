@@ -31,7 +31,7 @@ public class PCBCrafterContainer extends Container {
     public final int LeftPCBGrid = 17;
     public final int TopPCBGrid = 111;
     public final int PCBEditorTileWidth = 16;
-    public final int PCBEditorTileLength = 16;  //TODO add in pcb template creater block(more advanced version of crafter but makes templates to be used in crafting machines)
+    public final int PCBEditorTileLength = 16;  //TODO add in pcb template crafter block(more advanced version of this but instead makes templates to be used in machines to make larger more complex pcb's)
     public final int PCBMaxTileWidth = 16;
     public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;

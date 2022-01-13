@@ -115,7 +115,7 @@ public class AreaScannerScreen extends ContainerScreen<AreaScannerContainer> {
     }
 
 
-    protected final Slider.ISlider onPress(){ //TODO quite inefficient as this gets called around 5 times even if it is clicked once - bad cos it has to loop though all the scanners at least twice - But it does work
+    protected final Slider.ISlider onPress(){
         return slider -> {
             SetScanningRange(container.getBlockPos(), slider.getValueInt());
         };

@@ -55,7 +55,7 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void OnCropGrown(BlockEvent.CropGrowEvent.Post CropGrowEvent) {
+    public static void OnCropGrown(BlockEvent.CropGrowEvent.Post CropGrowEvent) {  //TODO sugar cane does not get called when it grows
 
         if (CropUtil.IsFullyGrown((World) CropGrowEvent.getWorld(), CropGrowEvent.getState(), CropGrowEvent.getPos())) {
             WithinScannerBlock( (World) CropGrowEvent.getWorld(),CropGrowEvent.getPos() );
@@ -70,15 +70,4 @@ public class ModEvents {
             }
         }
     }
-
-    /*@SubscribeEvent
-    public static void BlockUpdateEvent(BlockEvent event){
-        if (CropUtil.IsFullyGrown((World) event.getWorld(), event.getState(), event.getPos())) {
-            WithinScannerBlock( (World) event.getWorld(),event.getPos() );
-        }
-    }
-
-     */
-
-
 }

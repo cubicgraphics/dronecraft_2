@@ -88,7 +88,7 @@ public class PCBRender {
         }
     }
 
-    //TODO change code in this function for rendering a scrollable PCB also make it click and hold to pan possibly??
+    //TODO change code in this function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so large pcb's that may not fit within the screen can be displayed
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen, int TileLength, int TileWidth, int scrollX, int scrollY){
 
         for (int i = 0; i < PCB.ComponentArray.length; i++) {

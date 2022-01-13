@@ -2,15 +2,10 @@ package net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer;
 
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
-import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.IPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 

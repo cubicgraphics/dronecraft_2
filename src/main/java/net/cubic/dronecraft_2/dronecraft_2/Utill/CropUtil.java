@@ -1,6 +1,9 @@
 package net.cubic.dronecraft_2.dronecraft_2.Utill;
 
-import net.minecraft.block.*;
+import net.minecraft.block.AttachedStemBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CropsBlock;
+import net.minecraft.block.StemGrownBlock;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -22,7 +25,7 @@ public class CropUtil {
             }
         }
         else {
-            if(world.getBlockState(pos.add(0,-1,0)).getBlock().getDefaultState() == blockState.getBlock().getDefaultState()){//this should cover cactus, bamboo //TODO sugar cane does not get called when it grows, need to use onCropsGrowPost() when a sugar cane grows - somehow overide sugarcane class
+            if(world.getBlockState(pos.add(0,-1,0)).getBlock().getDefaultState() == blockState.getBlock().getDefaultState()){
                 IsGrown = true;
             }
             else if((world.getBlockState(pos).getBlock() instanceof StemGrownBlock ) || (world.getBlockState(pos).getBlock() instanceof AttachedStemBlock) ){

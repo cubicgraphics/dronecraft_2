@@ -53,7 +53,6 @@ public class dronecraft_2Main {
 
 
 
-
     public dronecraft_2Main() {
         // Register the setup method for modloading
         packetHandler = new PacketHandler();
