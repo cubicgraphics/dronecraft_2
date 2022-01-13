@@ -8,6 +8,7 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
@@ -27,9 +28,10 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     public String Instruction;
     public PCBSymbol[] Decals;
     public String translationKey;
+    public Ingredient Ingredients;
 
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color,Ingredient ingredients){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -37,9 +39,10 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = null;
         Decals = null;
+        Ingredients = ingredients;
     }
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction,Ingredient ingredients){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -47,9 +50,10 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = instruction;
         Decals = null;
+        Ingredients = ingredients;
     }
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol decal){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol decal,Ingredient ingredients){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -59,8 +63,9 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         Decals = new PCBSymbol[]{
                 decal
         };
+        Ingredients = ingredients;
     }
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol decal){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol decal,Ingredient ingredients){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -70,8 +75,9 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         Decals = new PCBSymbol[]{
                 decal
         };
+        Ingredients = ingredients;
     }
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol[] decals){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol[] decals,Ingredient ingredients){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -79,9 +85,10 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = null;
         Decals = decals;
+        Ingredients = ingredients;
     }
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol[] decals){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol[] decals,Ingredient ingredients){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -89,6 +96,7 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = instruction;
         Decals = decals;
+        Ingredients = ingredients;
     }
 
 
@@ -175,5 +183,10 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     @Override
     public String getTranslationKey() {
         return this.getDefaultTranslationKey();
+    }
+
+    @Override
+    public Ingredient getIngredients() {
+        return Ingredients;
     }
 }

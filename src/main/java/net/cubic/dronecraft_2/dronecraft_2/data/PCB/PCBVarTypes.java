@@ -4,8 +4,11 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,9 +29,9 @@ public class PCBVarTypes {
 
     @SubscribeEvent
     public static void onPCBRegistry(final RegistryEvent.Register<VarType> event) {
-        NUMBER = new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number");
-        BOOLEAN = new VarType(new RGBA(40,240,30),Boolean.class).setRegistryName("boolean");
-        XYZ = new VarType(new RGBA(255,40,255), Vector3f.class).setRegistryName("xyz");
+        NUMBER = new VarType(new RGBA(255,255,0),Float.class, Ingredient.fromTag(Tags.Items.NUGGETS_IRON)).setRegistryName("number");//TODO add custom wire items that can be used here
+        BOOLEAN = new VarType(new RGBA(40,240,30),Boolean.class, Ingredient.fromTag(Tags.Items.DUSTS_REDSTONE)).setRegistryName("boolean");
+        XYZ = new VarType(new RGBA(255,40,255), Vector3f.class, Ingredient.fromTag(Tags.Items.NUGGETS_GOLD)).setRegistryName("xyz");
 
         event.getRegistry().registerAll(NUMBER,BOOLEAN,XYZ);
     }
