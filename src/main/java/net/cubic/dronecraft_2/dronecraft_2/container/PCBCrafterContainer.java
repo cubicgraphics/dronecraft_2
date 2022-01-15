@@ -5,12 +5,21 @@ import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBDataPCBCrafter;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponents;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBtest;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBComponentRecipe;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBRecipeTypes;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBWireRecipe;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
+import net.cubic.dronecraft_2.dronecraft_2.tileentity.PCBCrafterTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -18,10 +27,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class PCBCrafterContainer extends Container {
     private final TileEntity tileEntity;
@@ -30,11 +45,26 @@ public class PCBCrafterContainer extends Container {
     private int GuiScale;
     public final int LeftPCBGrid = 17;
     public final int TopPCBGrid = 111;
-    public final int PCBEditorTileWidth = 16;
+    public final int PCBEditorTileWidth = 16; //size of the pcb tile grid(*8 for size in pixels)
     public final int PCBEditorTileLength = 16;  //TODO add in pcb template crafter block(more advanced version of this but instead makes templates to be used in machines to make larger more complex pcb's)
-    public final int PCBMaxTileWidth = 16;
+    public final int PCBMaxTileWidth = 16; //max size of pcb allowed to be edited
     public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;
+    public List<PCBComponentXY> SelectablePCBComponents = new ArrayList<>();
+    public final int LeftPCBSelectionBar = 17;
+    public final int TopPCBSelectionBar = 19;
+    public final int PCBSelectionBarWidth = 128;
+    public final int PCBSelectionBarHeight = 52;
+    public int SelectablePCBComponentsPixelWidth = 0;
+    public int ScrollOffset = 0;
+
+    public List<VarType> SelectablePCBWires = new ArrayList<>();
+    public final int LeftWireSelectionBar = 17;
+    public final int TopWireSelectionBar = 81;
+    public final int PCBWireBarWidth = 128;
+    public final int PCBWireBarHeight = 8;
+
+
 
 
     public PCBCrafterContainer(int WindowID, World worldIn, BlockPos pos, PlayerInventory playerinventory, PlayerEntity player){
@@ -50,7 +80,7 @@ public class PCBCrafterContainer extends Container {
         }
         if(tileEntity != null){
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
-                addSlot(new SlotItemHandler(h,0,73,92)); //adds slots to the gui
+                addSlot(new SlotItemHandler(h,0,73,92)); //adds slots to the gui //this slot is the circuit board slot
                 addSlot(new SlotItemHandler(h,1,165,19)); //adds slots to the gui
                 addSlot(new SlotItemHandler(h,2,183,19)); //adds slots to the gui
                 addSlot(new SlotItemHandler(h,3,201,19)); //adds slots to the gui
@@ -69,6 +99,62 @@ public class PCBCrafterContainer extends Container {
                 addSlot(new SlotItemHandler(h,16,219,73)); //adds slots to the gui
             } );
         }
+    }
+
+    public void UpdateSelecrablePCBComponentsAndWires(){
+        List<PCBComponent> components = GetCraftablePCBComponents();
+        List<PCBComponentXY> componentXYList = new ArrayList<>();
+        int pixelsAcross = 0;
+        for (PCBComponent component : components) {
+            componentXYList.add(new PCBComponentXY(pixelsAcross, 0, component));
+            pixelsAcross = pixelsAcross + 8 + component.Length*8;
+        }
+        SelectablePCBComponentsPixelWidth = pixelsAcross;
+        SelectablePCBComponents = componentXYList;
+        SelectablePCBWires = GetCraftablePCBWires();
+    }
+
+
+
+    public List<PCBComponent> GetCraftablePCBComponents(){
+        Optional<IItemHandler> itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve();
+        if(itemHandler.isPresent()){
+            Inventory craftingItemsGrid = new Inventory(itemHandler.get().getSlots()-1);
+            for (int i = 0; i < craftingItemsGrid.getSizeInventory(); i++) {
+                craftingItemsGrid.setInventorySlotContents(i,itemHandler.get().getStackInSlot(i+1));
+            }
+            List<PCBComponentRecipe> recipes = tileEntity.getWorld().getRecipeManager()
+                    .getRecipes(PCBRecipeTypes.PCB_COMPONENT_RECIPE, craftingItemsGrid, tileEntity.getWorld());
+            List<PCBComponent> componentsList = new ArrayList<>();
+            for (PCBComponentRecipe recipe : recipes) {
+                componentsList.add(recipe.getComponentResult());
+            }
+            return componentsList;
+        }
+        else {
+            return null;
+        }
+
+    }
+    public List<VarType> GetCraftablePCBWires(){
+        Optional<IItemHandler> itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve();
+        if(itemHandler.isPresent()){
+            Inventory craftingItemsGrid = new Inventory(itemHandler.get().getSlots() - 1);
+            for (int i = 0; i < craftingItemsGrid.getSizeInventory(); i++) {
+                craftingItemsGrid.setInventorySlotContents(i,itemHandler.get().getStackInSlot(i+1));
+            }
+            List<PCBWireRecipe> recipes = tileEntity.getWorld().getRecipeManager()
+                    .getRecipes(PCBRecipeTypes.PCB_WIRE_RECIPE, craftingItemsGrid, tileEntity.getWorld());
+            List<VarType> wiresList = new ArrayList<>();
+            for (PCBWireRecipe recipe : recipes) {
+                wiresList.add(recipe.getComponentResult());
+            }
+            return wiresList;
+        }
+        else {
+            return null;
+        }
+
     }
 
 

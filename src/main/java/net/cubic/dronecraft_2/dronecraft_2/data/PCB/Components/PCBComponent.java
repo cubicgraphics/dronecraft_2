@@ -28,10 +28,8 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     public String Instruction;
     public PCBSymbol[] Decals;
     public String translationKey;
-    public Ingredient Ingredients;
 
-
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color,Ingredient ingredients){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -39,10 +37,9 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = null;
         Decals = null;
-        Ingredients = ingredients;
     }
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction,Ingredient ingredients){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -50,10 +47,9 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = instruction;
         Decals = null;
-        Ingredients = ingredients;
     }
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol decal,Ingredient ingredients){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol decal){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -63,9 +59,8 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         Decals = new PCBSymbol[]{
                 decal
         };
-        Ingredients = ingredients;
     }
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol decal,Ingredient ingredients){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol decal){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -75,9 +70,8 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         Decals = new PCBSymbol[]{
                 decal
         };
-        Ingredients = ingredients;
     }
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol[] decals,Ingredient ingredients){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol[] decals){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -85,10 +79,9 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = null;
         Decals = decals;
-        Ingredients = ingredients;
     }
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol[] decals,Ingredient ingredients){
+    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol[] decals){
         Length = length;
         Width = width;
         Inputs = inputs;
@@ -96,7 +89,6 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         ComponentColor = color;
         Instruction = instruction;
         Decals = decals;
-        Ingredients = ingredients;
     }
 
 
@@ -111,7 +103,7 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     /**
      * Override this for custom pcb rendering - eg if the custom pcb holds an item or number filter that may want rendering
      */
-    public void RenderComponent(MatrixStack matrix, int left, int top, ContainerScreen<?> screen) {
+    public void RenderComponent(MatrixStack matrix, int left, int top, int right, int bottom, ContainerScreen<?> screen) { //TODO fix pcb rendering with right and bottom, if right or bottom are 0 though then ignore them
         ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
         Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
         int length = this.Length;
@@ -183,10 +175,5 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     @Override
     public String getTranslationKey() {
         return this.getDefaultTranslationKey();
-    }
-
-    @Override
-    public Ingredient getIngredients() {
-        return Ingredients;
     }
 }

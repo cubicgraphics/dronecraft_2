@@ -9,5 +9,4 @@ public interface IVarType {
 
     Class<?> getDataType();
 
-    Ingredient getWireIngredients();
 }

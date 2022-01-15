@@ -4,6 +4,7 @@ import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.container.ModContainers;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSubstrateColor;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBRecipeTypes;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.cubic.dronecraft_2.dronecraft_2.screen.AreaScannerScreen;
@@ -63,7 +64,7 @@ public class dronecraft_2Main {
         ModTileEntities.register(modEventBus);
         ModContainers.register(modEventBus);
 
-
+        PCBRecipeTypes.register(modEventBus);
         modEventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
         modEventBus.addListener(this::enqueueIMC);

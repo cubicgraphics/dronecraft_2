@@ -5,13 +5,22 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBComponentRecipe;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBRecipeTypes;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import net.minecraftforge.fml.client.gui.widget.Slider;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
@@ -56,6 +65,8 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 this.font.drawString(matrixStack,"The PCB is too detailed to edit by hand",17,3,new RGBA(255,0,0).ToRawInt());
             }
         }
+        container.UpdateSelecrablePCBComponentsAndWires();
+        PCBRender.RenderSelectablePCBComponents(matrixStack,container.LeftPCBSelectionBar,container.TopPCBSelectionBar, container.ScrollOffset, container.PCBSelectionBarWidth, container.SelectablePCBComponents,this);
 
     }
 
@@ -81,7 +92,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     }
     public void SavePCBButtonPressed(){
         System.out.println("ButtonPressed");
-        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button.
+        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button or some way to diaplay whats needed
         container.SavePCBToItem();
     }
 
@@ -90,6 +101,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         return super.mouseClicked(mouseX, mouseY, button);
+        //SelectedComponent = new PCBComponentXY();
     }
 
     @Override

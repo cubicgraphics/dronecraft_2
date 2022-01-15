@@ -10,6 +10,7 @@
   "item.dronecraft_2.pcb-layered": "Unfinished PCB",
   "item.dronecraft_2.pcb-substrate": "PCB substrate",
   "item.dronecraft_2.pcb-template": "PCB template",
+  "item.dronecraft_2.dummy_pcb_component": "PCB component",
 
   "item.dronecraft_2.silica": "Silica(silicon-dioxide",
   "item.dronecraft_2.low_purity_silicon": "Low purity silicon",

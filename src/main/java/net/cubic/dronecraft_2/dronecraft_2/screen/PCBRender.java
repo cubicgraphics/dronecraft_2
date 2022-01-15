@@ -57,7 +57,7 @@ public class PCBRender {
 
             //next render the components on top of the wires
             for (int i = 0; i < PCB.ComponentArray.length; i++){
-                PCB.ComponentArray[i].getComponent().RenderComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),screen);
+                PCB.ComponentArray[i].getComponent().RenderComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),0,0,screen);
             }
         }
 
@@ -72,9 +72,23 @@ public class PCBRender {
         //topLeft screen.blit(matrix,left,top,64,8,8,8);
     }
 
-    public static void RenderPCBComponent(MatrixStack matrix, int left, int top, PCBComponent Component, ContainerScreen<?> screen){
-        Component.RenderComponent(matrix, left, top, screen);
+    public static void RenderPCBComponent(MatrixStack matrix, int left, int top, int right, int bottom, PCBComponent Component, ContainerScreen<?> screen){
+        Component.RenderComponent(matrix, left, top, right, bottom, screen);
     }
+    public static void RenderPCBComponents(MatrixStack matrix, List<PCBComponentXY> Components, ContainerScreen<?> screen){
+        for (PCBComponentXY component : Components) {
+            component.getComponent().RenderComponent(matrix, component.x, component.y,0,0, screen);
+        }
+    }
+    public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top,int scrollOffset,int SelectionBarWidth, List<PCBComponentXY> Components, ContainerScreen<?> screen){
+        for (PCBComponentXY component : Components) {
+            if(!(component.x - scrollOffset < 0) && component.x - scrollOffset < SelectionBarWidth){
+                component.getComponent().RenderComponent(matrix, component.x - scrollOffset + left, component.y + top,0,0, screen);
+            }
+        }
+    }
+
+
 
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
         if(PCB != null){
@@ -88,7 +102,7 @@ public class PCBRender {
         }
     }
 
-    //TODO change code in this function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so large pcb's that may not fit within the screen can be displayed
+    //TODO change code in this function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so that large pcb's that may not fit within the screen can be displayed
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen, int TileLength, int TileWidth, int scrollX, int scrollY){
 
         for (int i = 0; i < PCB.ComponentArray.length; i++) {

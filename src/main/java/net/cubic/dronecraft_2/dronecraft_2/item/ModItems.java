@@ -50,6 +50,10 @@ public class ModItems {
             () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
 
 
+
+    public static final RegistryObject<Item> DUMMY_PCB_COMPONENT = ITEMS.register("dummy_pcb_component", //so pcb components can be displayed in jei or something
+            () -> new Item(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
+
     public static final RegistryObject<Item> PrintedCircuitBoard = ITEMS.register("printed-circuit-board",
             () -> new PrintedCircuitBoard(new Item.Properties().group(ModItemGroup.DRONECRAFT2_GROUP)));
 

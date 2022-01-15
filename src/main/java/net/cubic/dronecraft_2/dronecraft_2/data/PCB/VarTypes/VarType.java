@@ -6,12 +6,10 @@ import net.minecraft.item.crafting.Ingredient;
 public class VarType extends net.minecraftforge.registries.ForgeRegistryEntry<VarType> implements IVarType{
     private final Class<?> DataType;
     private final RGBA Color;
-    private final Ingredient Ingredients;
 
-    public VarType(RGBA color, Class<?> dataType, Ingredient ingredients){
+    public VarType(RGBA color, Class<?> dataType){
         DataType = dataType;
         Color = color;
-        Ingredients = ingredients;
     }
 
     @Override
@@ -23,11 +21,5 @@ public class VarType extends net.minecraftforge.registries.ForgeRegistryEntry<Va
     public Class<?> getDataType() {
         return DataType;
     }
-
-    @Override
-    public Ingredient getWireIngredients() {
-        return Ingredients;
-    }
-
 
 }

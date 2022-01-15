@@ -1,0 +1,12 @@
+{
+  "type": "dronecraft_2:pcb_component_recipe",
+  "pcb_component": "dronecraft_2:small_subtract",
+  "ingredients": [
+    {
+      "item": "dronecraft_2:cut_silicon_wafer"
+    },
+    {
+      "item": "dronecraft_2:high_purity_redstone_dust"
+    }
+  ]
+}
