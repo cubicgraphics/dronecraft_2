@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSymbol;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.cubic.dronecraft_2.dronecraft_2.screen.PCBRender;
 import net.minecraft.client.Minecraft;
@@ -115,10 +116,13 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         //draw inputs
         RenderSystem.color4f(1f, 1f, 0.1f,1f);
         for (PCB_IO input : this.Inputs) {
+            RenderSystem.color4f(input.DataType.getColor().r, input.DataType.getColor().g, input.DataType.getColor().b,input.DataType.getColor().a);
             screen.blit(matrix, left + (input.X * 8), top + (input.Y * 8), 0, 8, 8, 8);
         }
         //draw outputs
         for (PCB_IO output : this.Outputs) {
+
+            RenderSystem.color4f(output.DataType.getColor().r, output.DataType.getColor().g, output.DataType.getColor().b,output.DataType.getColor().a);
             screen.blit(matrix, left + (output.X * 8), top + (output.Y * 8), 0, 8, 8, 8);
         }
         //draw pcb body
@@ -172,12 +176,14 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         int length = this.Length;
         int width = this.Width;
         //draw inputs
-        RenderSystem.color4f(1f, 1f, 0.1f,1f);
         for (PCB_IO input : this.Inputs) {
+            RenderSystem.color4f(input.DataType.getColor().r, input.DataType.getColor().g, input.DataType.getColor().b,input.DataType.getColor().a);
             PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (input.X * 8), RelY + (input.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
         }
         //draw outputs
         for (PCB_IO output : this.Outputs) {
+            RenderSystem.color4f(output.DataType.getColor().r, output.DataType.getColor().g, output.DataType.getColor().b,output.DataType.getColor().a);
+
             PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (output.X * 8), RelY + (output.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
         }
         //draw pcb body

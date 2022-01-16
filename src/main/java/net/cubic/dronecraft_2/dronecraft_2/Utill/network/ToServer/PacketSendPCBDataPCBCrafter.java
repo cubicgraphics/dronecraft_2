@@ -46,12 +46,12 @@ public class PacketSendPCBDataPCBCrafter {
     public boolean handle(Supplier<NetworkEvent.Context> ctx){
         ctx.get().enqueueWork(()->{
             ctx.get().getSender().world.getTileEntity(blockPos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
-                if(h.getStackInSlot(SlotID).getItem() == ModItems.PrintedCircuitBoard.get()){
+                if(h.getStackInSlot(SlotID).getItem().getClass() == ModItems.PrintedCircuitBoard.get().getClass()){//todo this has randomly stopped working
                     h.getStackInSlot(SlotID).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
                         e.setPCBData(pcbData);
                     });
                 }
-                else if(h.getStackInSlot(SlotID).getItem() == ModItems.PCBSubstrate.get()){
+                else if(h.getStackInSlot(SlotID).getItem().getDefaultInstance() == ModItems.PCBSubstrate.get().getDefaultInstance()){
                     h.extractItem(SlotID,1,false);
                     h.insertItem(SlotID,ModItems.PrintedCircuitBoard.get().getDefaultInstance(),false);
                     h.getStackInSlot(SlotID).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
