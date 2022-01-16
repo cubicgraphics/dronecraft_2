@@ -1,6 +1,6 @@
 {
   "type": "dronecraft_2:pcb_component",
-  "pcb_component": "dronecraft_2:small_subtract",
+  "pcb_component": "dronecraft_2:small_multiply",
   "ingredients": [
     {
       "item": "dronecraft_2:cut_silicon_wafer"

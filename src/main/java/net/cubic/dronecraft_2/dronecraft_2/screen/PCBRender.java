@@ -80,17 +80,25 @@ public class PCBRender {
             component.getComponent().RenderComponent(matrix, component.x, component.y,0,0, screen);
         }
     }
-    public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top,int scrollOffset,int SelectionBarWidth, List<PCBComponentXY> Components, ContainerScreen<?> screen){
-        for (PCBComponentXY component : Components) {
-            if(!(component.x - scrollOffset < 0) && component.x - scrollOffset < SelectionBarWidth){
-                component.getComponent().RenderComponent(matrix, component.x - scrollOffset + left, component.y + top,0,0, screen);
+
+    public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top,int scrollOffset,int SelectionBarWidth,int SelectionBarHeight, List<PCBComponentXY> Components, ContainerScreen<?> screen){
+        if(Components != null && Components.size() >= 1){
+            for (PCBComponentXY component : Components) {
+                if(component.x - scrollOffset >= 0 && component.x - scrollOffset < SelectionBarWidth){
+                    component.getComponent().RenderComponent(matrix, component.x - scrollOffset + left, component.y + top,0,0, screen);
+                }
             }
+        }
+    }
+    public static void RenderSelectablePCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY> Components, int MouseX, int MouseY, int left, int top, int scrollOffset, int SelectionBarWidth, int SelectionBarHeight, ContainerScreen<?> screen) {
+        if(MouseX >= left && MouseX <= left + SelectionBarWidth && MouseY >= top && MouseY <= top + SelectionBarHeight){
+            RenderPCBComponentTooltips(matrix, Components, MouseX, MouseY, screen);
         }
     }
 
 
 
-    public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
+        public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
         if(PCB != null){
             for (int i = 0; i < PCB.ComponentArray.length; i++) {
                 if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCB.ComponentArray[i].getComponent().Length*8))
@@ -102,17 +110,7 @@ public class PCBRender {
         }
     }
 
-    //TODO change code in this function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so that large pcb's that may not fit within the screen can be displayed
-    public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen, int TileLength, int TileWidth, int scrollX, int scrollY){
-
-        for (int i = 0; i < PCB.ComponentArray.length; i++) {
-            if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCB.ComponentArray[i].getComponent().Length*8))
-                    && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCB.ComponentArray[i].getComponent().Width*8)))
-            {
-                screen.renderTooltip(matrix, PCB.ComponentArray[i].getComponent().getName(),MouseX,MouseY);
-            }
-        }
-    }
+    //TODO make a function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so that large pcb's that may not fit within the screen can be displayed
 
 
 

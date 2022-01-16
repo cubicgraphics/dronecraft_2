@@ -101,12 +101,13 @@ public class PCBCrafterContainer extends Container {
         }
     }
 
-    public void UpdateSelecrablePCBComponentsAndWires(){
+    public void UpdateSelectablePCBComponentsAndWires(){
         List<PCBComponent> components = GetCraftablePCBComponents();
         List<PCBComponentXY> componentXYList = new ArrayList<>();
         int pixelsAcross = 0;
         for (PCBComponent component : components) {
             componentXYList.add(new PCBComponentXY(pixelsAcross, 0, component));
+            System.out.println("component is " + component.getRegistryName());
             pixelsAcross = pixelsAcross + 8 + component.Length*8;
         }
         SelectablePCBComponentsPixelWidth = pixelsAcross;
@@ -117,44 +118,20 @@ public class PCBCrafterContainer extends Container {
 
 
     public List<PCBComponent> GetCraftablePCBComponents(){
-        Optional<IItemHandler> itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve();
-        if(itemHandler.isPresent()){
-            Inventory craftingItemsGrid = new Inventory(itemHandler.get().getSlots()-1);
-            for (int i = 0; i < craftingItemsGrid.getSizeInventory(); i++) {
-                craftingItemsGrid.setInventorySlotContents(i,itemHandler.get().getStackInSlot(i+1));
-            }
-            List<PCBComponentRecipe> recipes = tileEntity.getWorld().getRecipeManager()
-                    .getRecipes(PCBRecipeTypes.PCB_COMPONENT_RECIPE, craftingItemsGrid, tileEntity.getWorld());
-            List<PCBComponent> componentsList = new ArrayList<>();
-            for (PCBComponentRecipe recipe : recipes) {
-                componentsList.add(recipe.getComponentResult());
-            }
-            return componentsList;
+        List<PCBComponentRecipe> recipes = tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE);
+        List<PCBComponent> components = new ArrayList<>();
+        for (PCBComponentRecipe recipe : recipes) {
+            components.add(recipe.getComponentResult());
         }
-        else {
-            return null;
-        }
-
+        return components;
     }
     public List<VarType> GetCraftablePCBWires(){
-        Optional<IItemHandler> itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve();
-        if(itemHandler.isPresent()){
-            Inventory craftingItemsGrid = new Inventory(itemHandler.get().getSlots() - 1);
-            for (int i = 0; i < craftingItemsGrid.getSizeInventory(); i++) {
-                craftingItemsGrid.setInventorySlotContents(i,itemHandler.get().getStackInSlot(i+1));
-            }
-            List<PCBWireRecipe> recipes = tileEntity.getWorld().getRecipeManager()
-                    .getRecipes(PCBRecipeTypes.PCB_WIRE_RECIPE, craftingItemsGrid, tileEntity.getWorld());
-            List<VarType> wiresList = new ArrayList<>();
-            for (PCBWireRecipe recipe : recipes) {
-                wiresList.add(recipe.getComponentResult());
-            }
-            return wiresList;
+        List<PCBWireRecipe> recipes = tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_WIRE_RECIPE);
+        List<VarType> wireTypes = new ArrayList<>();
+        for (PCBWireRecipe recipe : recipes) {
+            wireTypes.add(recipe.getWireResult());
         }
-        else {
-            return null;
-        }
-
+        return wireTypes;
     }
 
 
@@ -176,10 +153,18 @@ public class PCBCrafterContainer extends Container {
             }
         });
     }
+
     public PCBData SetAndGetPCBDataFromItem(){
         SetDataFromItem(0);
         return CurrentPCB;
     }
+
+    public List<PCBComponentXY> GetSelectablePCBComponentsList()
+    {
+        return SelectablePCBComponents;
+    }
+
+
     public void SetPCBItemData(int SlotId,PCBData pcbData){
         System.out.println("Sending packet to server to save data to the item");
         PacketHandler.sendToServer(new PacketSendPCBDataPCBCrafter(SlotId, pcbData,getBlockPos()));

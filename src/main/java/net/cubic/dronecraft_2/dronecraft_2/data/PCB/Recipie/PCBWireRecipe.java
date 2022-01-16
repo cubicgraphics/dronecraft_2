@@ -59,7 +59,7 @@ public class PCBWireRecipe implements IPCBWireRecipe {
     public ItemStack getCraftingResult(IInventory inv) {
         return ModItems.DUMMY_PCB_COMPONENT.get().getDefaultInstance();//.setDisplayName(wireOutput.getName());
     }
-    public VarType getComponentResult() {
+    public VarType getWireResult() {
         return wireOutput;
     }
 

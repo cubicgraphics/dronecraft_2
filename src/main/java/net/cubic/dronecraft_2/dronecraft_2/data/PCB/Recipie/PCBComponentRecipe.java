@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
 
 public class PCBComponentRecipe implements IPCBComponentRecipe {
 
@@ -107,15 +106,10 @@ public class PCBComponentRecipe implements IPCBComponentRecipe {
         public PCBComponentRecipe read(ResourceLocation recipeId, JsonObject json) {
             PCBComponent componentOutput = GameRegistry.findRegistry(PCBComponent.class).getValue(new ResourceLocation(JSONUtils.getString(json, "pcb_component")));
             JsonArray ingredients = JSONUtils.getJsonArray(json, "ingredients");
-
-
-
             final NonNullList<Ingredient> input = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
             for (int i = 0; i < ingredients.size(); i++) {
                 input.set(i, Ingredient.deserialize(ingredients.get(i)));
             }
-
-
             return new PCBComponentRecipe(recipeId,componentOutput,
                     input);
         }

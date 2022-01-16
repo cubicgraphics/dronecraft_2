@@ -1,7 +1,9 @@
 {
-  "type": "dronecraft_2:pcb_component_recipe",
+  "type": "dronecraft_2:pcb_component",
   "pcb_component": "dronecraft_2:small_add",
-  "ingredients": {
-    "tag": "forge:nuggets/iron"
-  }
+  "ingredients":[
+    {
+      "tag": "forge:nuggets/iron"
+    }
+  ]
 }
