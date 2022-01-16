@@ -113,12 +113,11 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         int length = this.Length;
         int width = this.Width;
         //draw inputs
-        RenderSystem.color4f(1.0F, 170F/255F, 0.0F,1.0F);
+        RenderSystem.color4f(1f, 1f, 0.1f,1f);
         for (PCB_IO input : this.Inputs) {
             screen.blit(matrix, left + (input.X * 8), top + (input.Y * 8), 0, 8, 8, 8);
         }
         //draw outputs
-        RenderSystem.color4f(1.0F, 200F/255F, 0.0F,1.0F);
         for (PCB_IO output : this.Outputs) {
             screen.blit(matrix, left + (output.X * 8), top + (output.Y * 8), 0, 8, 8, 8);
         }
@@ -173,12 +172,11 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         int length = this.Length;
         int width = this.Width;
         //draw inputs
-        RenderSystem.color4f(1.0F, 170F / 255F, 0.0F, 1.0F);
+        RenderSystem.color4f(1f, 1f, 0.1f,1f);
         for (PCB_IO input : this.Inputs) {
             PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (input.X * 8), RelY + (input.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
         }
         //draw outputs
-        RenderSystem.color4f(1.0F, 200F / 255F, 0.0F, 1.0F);
         for (PCB_IO output : this.Outputs) {
             PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (output.X * 8), RelY + (output.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
         }

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
@@ -34,14 +35,13 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderHoveredTooltip(matrixStack,mouseX,mouseY);
         int i = this.guiLeft;
         int j = this.guiTop;
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
         PCBRender.RenderPCBTooltips(matrixStack, container.CurrentPCB, mouseX, mouseY,this.guiLeft + container.LeftPCBGrid,this.guiTop + container.TopPCBGrid,this);
         PCBRender.RenderSelectablePCBComponentTooltips(matrixStack,container.SelectablePCBComponents,mouseX,mouseY, i +container.LeftPCBSelectionBar,j +  container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, this);
         PCBRender.RenderSelectableWireComponentTooltips(matrixStack,container.SelectablePCBWires,mouseX,mouseY,i+ container.LeftWireSelectionBar,j+ container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, this);
-
 
 
         //RenderSystem.color4f(ModSettings.FBackgroundR(),ModSettings.FBackgroundG(),ModSettings.FBackgroundB(),ModSettings.FBackgroundA());
@@ -157,8 +157,31 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                     return true;
                 }
             }
+            if(SelectedComponent != null){
+                SelectedComponent = null;
+                return true;
+            }
         }
+        if(mouseX >= i+ container.LeftPCBSelectionBar && mouseX <= i+ container.LeftPCBSelectionBar + container.PCBSelectionBarWidth && mouseY >= j+ container.TopPCBSelectionBar && mouseY <= j+ container.TopWireSelectionBar + container.PCBSelectionBarHeight){
+            if(SelectedComponent != null){
+                SelectedComponent = null;
+                return true;
+            }
+            else{
+                for (int k = 0; k < container.SelectablePCBComponents.size(); k++) {
 
+                    if ((container.SelectablePCBComponents.get(k) != null)
+                            && (mouseX >= i+ container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x)
+                            && (mouseX < i+ container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x + container.SelectablePCBComponents.get(k).getComponent().Width*8 + 8)
+                            && (mouseY >= j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y)
+                            && (mouseY < j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y + container.SelectablePCBComponents.get(k).getComponent().Length*8))
+                            {
+                                SelectedComponent = new PCBComponentXY((int) (i+ container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x - mouseX), (int) (j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y - mouseY),container.SelectablePCBComponents.get(k).getComponent());
+                                return true;
+                            }
+                }
+            }
+        }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
