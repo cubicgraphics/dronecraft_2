@@ -121,7 +121,9 @@ public class PCBCrafterContainer extends Container {
         List<PCBComponentRecipe> recipes = tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE);
         List<PCBComponent> components = new ArrayList<>();
         for (PCBComponentRecipe recipe : recipes) {
-            components.add(recipe.getComponentResult());
+            if(recipe.getComponentResult() != null){
+                components.add(recipe.getComponentResult());
+            }
         }
         return components;
     }
@@ -129,7 +131,9 @@ public class PCBCrafterContainer extends Container {
         List<PCBWireRecipe> recipes = tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_WIRE_RECIPE);
         List<VarType> wireTypes = new ArrayList<>();
         for (PCBWireRecipe recipe : recipes) {
-            wireTypes.add(recipe.getWireResult());
+            if(recipe.getWireResult() != null){
+                wireTypes.add(recipe.getWireResult());
+            }
         }
         return wireTypes;
     }
