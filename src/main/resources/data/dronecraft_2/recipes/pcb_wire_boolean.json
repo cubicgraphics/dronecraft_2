@@ -1,0 +1,9 @@
+{
+  "type": "dronecraft_2:pcb_wire",
+  "pcb_wire": "dronecraft_2:boolean",
+  "ingredients": [
+    {
+      "item": "dronecraft_2:high_purity_redstone_dust"
+    }
+  ]
+}

@@ -27,6 +27,10 @@
   "pcb_component.dronecraft_2.small_equals": "Equals",
   "pcb_component.dronecraft_2.simple_drone_brain": "Simple drone chip",
 
+  "pcb_wire.dronecraft_2.number": "Number",
+  "pcb_wire.dronecraft_2.boolean": "Boolean",
+  "pcb_wire.dronecraft_2.xyz": "Position",
+
 
 
 

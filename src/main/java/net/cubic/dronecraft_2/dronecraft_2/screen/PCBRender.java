@@ -2,6 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
@@ -10,6 +11,9 @@ import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.List;
 
@@ -120,16 +124,25 @@ public class PCBRender {
             }
         }
     }
-    public static void RenderSelectableWires(MatrixStack matrix, int left, int top, int scrollOffsetX, int SelectionBarWidth, int SelectionBarHeight, List<VarType> Wires, ContainerScreen<?> screen){
+    public static void RenderSelectableWires(MatrixStack matrix, int left, int top, int scrollOffsetX, int SelectionBarWidth, int SelectionBarHeight, List<VarType> Wires, ContainerScreen<?> screen, int SelectedWire){
         if(Wires != null && Wires.size() >= 1){
             ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
             Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
             int WireCount = 0;
             for (VarType wires : Wires) {
                 RenderSystem.color4f(wires.getColor().r, wires.getColor().g, wires.getColor().b,wires.getColor().a);
-                BlitWithClipping(matrix,left,top,WireCount,0,SelectionBarWidth,SelectionBarHeight,screen,0,0,8,8);
+                BlitWithClipping(matrix,left,top,WireCount - scrollOffsetX,0,SelectionBarWidth,SelectionBarHeight,screen,0,0,8,8);
                 WireCount = WireCount + 8;
             }
+        }
+        else{
+            System.out.println("No wires found");
+        }
+        if(SelectedWire != -1){
+            RenderSystem.color4f(ModSettings.FForegroundR(),ModSettings.FForegroundG(),ModSettings.FForegroundB(),ModSettings.FForegroundA());
+            ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
+            Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
+            screen.blit(matrix,left-2 + SelectedWire*8,top-2,0,0,12,12);
         }
     }
     public static void RenderSelectablePCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY> Components, int MouseX, int MouseY, int left, int top, int scrollOffsetX,int scrollOffsetY, int SelectionBarWidth, int SelectionBarHeight, ContainerScreen<?> screen) {
@@ -137,7 +150,20 @@ public class PCBRender {
             RenderPCBComponentTooltips(matrix,left,top, Components, MouseX, MouseY,scrollOffsetX,scrollOffsetY, screen);
         }
     }
+    public static void RenderSelectableWireComponentTooltips(MatrixStack matrix, List<VarType> Wires, int MouseX, int MouseY, int left, int top, int scrollOffsetX, int SelectionBarWidth, int SelectionBarHeight, ContainerScreen<?> screen) {
+        if(MouseX >= left && MouseX <= left + SelectionBarWidth && MouseY >= top && MouseY <= top + SelectionBarHeight){
+            for (int i = 0; i < Wires.size(); i++) {
+                if (Wires.get(i) != null
+                        && ((MouseX >= i*8 + left - scrollOffsetX)
+                        && (MouseX < (i+1)*8 + left - scrollOffsetX))
+                        && (MouseY <= top+8)){
+                    screen.renderTooltip(matrix, new TranslationTextComponent(Util.makeTranslationKey("pcb_wire", GameRegistry.findRegistry(VarType.class).getKey(Wires.get(i)))), MouseX,MouseY);
 
+                }
+            }
+
+        }
+    }
 
 
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){

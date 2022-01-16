@@ -10,16 +10,19 @@ import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import net.minecraftforge.fml.client.gui.widget.Slider;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
     private final ResourceLocation GUI2 = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui_2.png");
 
     VarType SelectedWireType;
-    int SelectedWireTypeListIndex;
+    int SelectedWireTypeListIndex = -1;
     ExtendedButton SavePCBButton;
 
     public PCBCrafterScreen(PCBCrafterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
@@ -37,7 +40,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         int j = this.guiTop;
         PCBRender.RenderPCBTooltips(matrixStack, container.CurrentPCB, mouseX, mouseY,this.guiLeft + container.LeftPCBGrid,this.guiTop + container.TopPCBGrid,this);
         PCBRender.RenderSelectablePCBComponentTooltips(matrixStack,container.SelectablePCBComponents,mouseX,mouseY, i +container.LeftPCBSelectionBar,j +  container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, this);
-
+        PCBRender.RenderSelectableWireComponentTooltips(matrixStack,container.SelectablePCBWires,mouseX,mouseY,i+ container.LeftWireSelectionBar,j+ container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, this);
 
 
 
@@ -52,10 +55,10 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         this.minecraft.getTextureManager().bindTexture(GUI2);
         this.blit(matrixStack,i,j,0,0,this.xSize,256);
         this.minecraft.getTextureManager().bindTexture(GUI);
-        this.blit(matrixStack,i+40,j+173,0,0,176,166);
+        this.blit(matrixStack,i+40,j+256,0,84,176,84);
 
         //PCBRender.RenderPCBComponent(matrixStack,i+20,j+20, PCBMain.Components[5],this);
-        PCBRender.RenderSelectableWires(matrixStack,i + container.LeftWireSelectionBar,j + container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, container.GetCraftablePCBWires(),this);
+        PCBRender.RenderSelectableWires(matrixStack,i + container.LeftWireSelectionBar,j + container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, container.SelectablePCBWires,this, SelectedWireTypeListIndex);
         PCBRender.RenderSelectablePCBComponents(matrixStack,i + container.LeftPCBSelectionBar,j +container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, container.GetSelectablePCBComponentsList(),this);
         PCBRender.RenderPCB(matrixStack,i + container.LeftPCBGrid,j + container.TopPCBGrid, container.SetAndGetPCBDataFromItem(), this);
         if(container.CurrentPCB != null){
@@ -135,8 +138,28 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int i = this.guiLeft;
+        int j = this.guiTop;
+        if(mouseX >= i+ container.LeftWireSelectionBar && mouseX <= i+ container.LeftWireSelectionBar + container.SelectableWireBarWidth && mouseY >= j+ container.TopWireSelectionBar && mouseY <= j+ container.TopWireSelectionBar + container.SelectableWireBarHeight){
+            for (int l = 0; l < container.SelectablePCBWires.size(); l++) {
+                if (container.SelectablePCBWires.get(l) != null
+                        && ((mouseX >= l*8 + i+ container.LeftWireSelectionBar - container.SelectableWireScrollOffsetX)
+                        && (mouseX < (l+1)*8 + i+ container.LeftWireSelectionBar - container.SelectableWireScrollOffsetX))
+                        && (mouseY <= j+ container.TopWireSelectionBar+8)){
+                    if(SelectedWireTypeListIndex == l){
+                        SelectedWireTypeListIndex = -1;
+                        SelectedWireType = null;
+                    }
+                    else{
+                        SelectedWireType = container.SelectablePCBWires.get(l);
+                        SelectedWireTypeListIndex = l;
+                    }
+                    return true;
+                }
+            }
+        }
+
         return super.mouseClicked(mouseX, mouseY, button);
-        //SelectedComponent = new PCBComponentXY();
     }
 
     @Override
