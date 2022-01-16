@@ -13,7 +13,7 @@ public class PCBRecipeTypes {
             DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, dronecraft_2Main.MOD_ID);
 
     public static final RegistryObject<PCBComponentRecipe.Serializer> PCB_COMPONENT_RECIPE_SERIALIZER
-            = RECIPE_SERIALIZER.register("pcb_component", PCBComponentRecipe.Serializer::new);       //TODO wires should use craftable wire items from mod(components will not use these use, that way no conflicts when checking recipes)
+            = RECIPE_SERIALIZER.register("pcb_component", PCBComponentRecipe.Serializer::new);
     public static final RegistryObject<PCBWireRecipe.Serializer> PCB_WIRE_RECIPE_SERIALIZER
             = RECIPE_SERIALIZER.register("pcb_wire", PCBWireRecipe.Serializer::new);
 

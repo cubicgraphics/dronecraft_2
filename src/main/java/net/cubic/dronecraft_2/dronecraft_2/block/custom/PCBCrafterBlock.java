@@ -41,9 +41,10 @@ public class PCBCrafterBlock extends Block {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
             if (!player.isCrouching()){
                 if (tileEntity instanceof PCBCrafterTileEntity){
-                    INamedContainerProvider containerProvider = createContainerProvider(worldIn,pos);
 
+                    INamedContainerProvider containerProvider = createContainerProvider(worldIn,pos);
                     NetworkHooks.openGui(((ServerPlayerEntity) player), containerProvider,tileEntity.getPos());
+                    NetworkHooks.openGui(((ServerPlayerEntity) player),containerProvider);
                 }
                 else{
                     throw new IllegalStateException("Our container provider is missing");

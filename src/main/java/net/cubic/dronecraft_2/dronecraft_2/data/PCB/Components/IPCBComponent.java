@@ -13,7 +13,9 @@ public interface IPCBComponent {
     ITextComponent getName();
 
     @OnlyIn(Dist.CLIENT)
-    void RenderComponent(MatrixStack matrix, int left, int top, int right, int bottom, ContainerScreen<?> screen);
+    void RenderComponent(MatrixStack matrix, int left, int top, ContainerScreen<?> screen);
+    @OnlyIn(Dist.CLIENT)
+    void RenderComponent(MatrixStack matrix, int left, int top, int right, int bottom,int x, int y, ContainerScreen<?> screen);
 
     String getDefaultTranslationKey();
 

@@ -56,13 +56,17 @@ public class PCBCrafterContainer extends Container {
     public final int PCBSelectionBarWidth = 128;
     public final int PCBSelectionBarHeight = 52;
     public int SelectablePCBComponentsPixelWidth = 0;
-    public int ScrollOffset = 0;
+    public int SelectablePCBComponentsPixelHeight = 0;
+    public int SelectBoxScrollOffsetX = 0;
+    public int SelectBoxScrollOffsetY = 0;
 
     public List<VarType> SelectablePCBWires = new ArrayList<>();
     public final int LeftWireSelectionBar = 17;
     public final int TopWireSelectionBar = 81;
-    public final int PCBWireBarWidth = 128;
-    public final int PCBWireBarHeight = 8;
+    public final int SelectableWireBarWidth = 128;
+    public final int SelectableWireBarHeight = 8;
+    public int SelectableWiresPixelWidth = 0;
+    public int SelectableWireScrollOffsetX = 0;
 
 
 
@@ -99,20 +103,26 @@ public class PCBCrafterContainer extends Container {
                 addSlot(new SlotItemHandler(h,16,219,73)); //adds slots to the gui
             } );
         }
+        UpdateSelectablePCBComponentsAndWires();
     }
 
     public void UpdateSelectablePCBComponentsAndWires(){
         List<PCBComponent> components = GetCraftablePCBComponents();
         List<PCBComponentXY> componentXYList = new ArrayList<>();
         int pixelsAcross = 0;
+        int pixelsDown = 0;
         for (PCBComponent component : components) {
             componentXYList.add(new PCBComponentXY(pixelsAcross, 0, component));
-            System.out.println("component is " + component.getRegistryName());
             pixelsAcross = pixelsAcross + 8 + component.Length*8;
+            if(pixelsDown < component.Width*8){
+                pixelsDown = component.Width*8;
+            }
         }
-        SelectablePCBComponentsPixelWidth = pixelsAcross;
-        SelectablePCBComponents = componentXYList;
         SelectablePCBWires = GetCraftablePCBWires();
+        SelectableWiresPixelWidth = SelectablePCBWires.size()*8;
+        SelectablePCBComponentsPixelWidth = pixelsAcross;
+        SelectablePCBComponentsPixelHeight = pixelsDown;
+        SelectablePCBComponents = componentXYList;
     }
 
 

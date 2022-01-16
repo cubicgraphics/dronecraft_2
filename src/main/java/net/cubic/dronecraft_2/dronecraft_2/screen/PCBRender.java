@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -57,7 +58,7 @@ public class PCBRender {
 
             //next render the components on top of the wires
             for (int i = 0; i < PCB.ComponentArray.length; i++){
-                PCB.ComponentArray[i].getComponent().RenderComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),0,0,screen);
+                PCB.ComponentArray[i].getComponent().RenderComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),screen);
             }
         }
 
@@ -73,32 +74,73 @@ public class PCBRender {
     }
 
     public static void RenderPCBComponent(MatrixStack matrix, int left, int top, int right, int bottom, PCBComponent Component, ContainerScreen<?> screen){
-        Component.RenderComponent(matrix, left, top, right, bottom, screen);
+        Component.RenderComponent(matrix, left, top, screen);
     }
     public static void RenderPCBComponents(MatrixStack matrix, List<PCBComponentXY> Components, ContainerScreen<?> screen){
         for (PCBComponentXY component : Components) {
-            component.getComponent().RenderComponent(matrix, component.x, component.y,0,0, screen);
+            component.getComponent().RenderComponent(matrix, component.x, component.y, screen);
         }
     }
 
-    public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top,int scrollOffset,int SelectionBarWidth,int SelectionBarHeight, List<PCBComponentXY> Components, ContainerScreen<?> screen){
+    /**
+     * Make sure the texture has been bind before calling this
+     *
+     */
+    public static void BlitWithClipping(MatrixStack matrix, int BoundsLeft, int BoundsTop, int RelX, int RelY, int BoundsWidth, int BoundsHeight, ContainerScreen<?> screen,int TexOffsetX, int TexOffsetY, int TexWidthX, int TexHeightY){
+        int CLeft = BoundsLeft + RelX;
+        int CTop = BoundsTop + RelY;
+        int NewTextureWidth = TexWidthX;
+        int NewTextureHeight = TexHeightY;
+        if(RelX < 0){
+            CLeft = BoundsLeft;
+            TexOffsetX = TexOffsetX - (RelX);
+            NewTextureWidth = NewTextureWidth + RelX;
+        }
+        if(RelY< 0){
+            CTop = BoundsTop;
+            TexOffsetY = TexOffsetY - RelY;
+            NewTextureHeight = NewTextureHeight + RelY;
+        }
+        if(RelX + NewTextureWidth > BoundsWidth){
+            NewTextureWidth = BoundsWidth -RelX;
+        }
+        if(RelY+ NewTextureHeight > BoundsHeight){
+            NewTextureHeight = BoundsHeight -RelY;
+        }
+
+        if(NewTextureWidth > 0 && NewTextureHeight > 0 && NewTextureWidth <= TexWidthX && NewTextureHeight <= TexHeightY){
+            screen.blit(matrix, CLeft, CTop, TexOffsetX, TexOffsetY, NewTextureWidth, NewTextureHeight);
+        }
+    }
+
+    public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top,int scrollOffsetX ,int scrollOffsetY,int SelectionBarWidth,int SelectionBarHeight, List<PCBComponentXY> Components, ContainerScreen<?> screen){
         if(Components != null && Components.size() >= 1){
             for (PCBComponentXY component : Components) {
-                if(component.x - scrollOffset >= 0 && component.x - scrollOffset < SelectionBarWidth){
-                    component.getComponent().RenderComponent(matrix, component.x - scrollOffset + left, component.y + top,0,0, screen);
-                }
+                component.getComponent().RenderComponent(matrix, left, top, SelectionBarWidth, SelectionBarHeight,component.x - scrollOffsetX,component.y - scrollOffsetY, screen);
             }
         }
     }
-    public static void RenderSelectablePCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY> Components, int MouseX, int MouseY, int left, int top, int scrollOffset, int SelectionBarWidth, int SelectionBarHeight, ContainerScreen<?> screen) {
+    public static void RenderSelectableWires(MatrixStack matrix, int left, int top, int scrollOffsetX, int SelectionBarWidth, int SelectionBarHeight, List<VarType> Wires, ContainerScreen<?> screen){
+        if(Wires != null && Wires.size() >= 1){
+            ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
+            Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
+            int WireCount = 0;
+            for (VarType wires : Wires) {
+                RenderSystem.color4f(wires.getColor().r, wires.getColor().g, wires.getColor().b,wires.getColor().a);
+                BlitWithClipping(matrix,left,top,WireCount,0,SelectionBarWidth,SelectionBarHeight,screen,0,0,8,8);
+                WireCount = WireCount + 8;
+            }
+        }
+    }
+    public static void RenderSelectablePCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY> Components, int MouseX, int MouseY, int left, int top, int scrollOffsetX,int scrollOffsetY, int SelectionBarWidth, int SelectionBarHeight, ContainerScreen<?> screen) {
         if(MouseX >= left && MouseX <= left + SelectionBarWidth && MouseY >= top && MouseY <= top + SelectionBarHeight){
-            RenderPCBComponentTooltips(matrix, Components, MouseX, MouseY, screen);
+            RenderPCBComponentTooltips(matrix,left,top, Components, MouseX, MouseY,scrollOffsetX,scrollOffsetY, screen);
         }
     }
 
 
 
-        public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
+    public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
         if(PCB != null){
             for (int i = 0; i < PCB.ComponentArray.length; i++) {
                 if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCB.ComponentArray[i].getComponent().Length*8))
@@ -110,17 +152,17 @@ public class PCBRender {
         }
     }
 
-    //TODO make a function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so that large pcb's that may not fit within the screen can be displayed
+    //TODO make a function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so that large pcb's that may not fit within the screen can be displayed - already made a blit function for it
 
 
 
-    public static void RenderPCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY> Components, int MouseX, int MouseY, ContainerScreen<?> screen){
+    public static void RenderPCBComponentTooltips(MatrixStack matrix,int left, int top, List<PCBComponentXY> Components, int MouseX, int MouseY,int scrollX, int scrollY, ContainerScreen<?> screen){
 
         for (int i = 0; i < Components.size(); i++) {
-            if (Components.get(i) != null && ((MouseX >= Components.get(i).x)
-                    && (MouseX <= Components.get(i).x + Components.get(i).getComponent().Length))
-                    && ((MouseY >= Components.get(i).y)
-                    && (MouseY <= Components.get(i).y + Components.get(i).getComponent().Width))){
+            if (Components.get(i) != null && ((MouseX >= Components.get(i).x + left - scrollX)
+                    && (MouseX <= Components.get(i).x + Components.get(i).getComponent().Length*8 + left - scrollX))
+                    && ((MouseY >= Components.get(i).y + top - scrollY)
+                    && (MouseY <= Components.get(i).y + Components.get(i).getComponent().Width*8 + top - scrollY))){
                 screen.renderTooltip(matrix, Components.get(i).getComponent().getName(), MouseX,MouseY);
 
             }

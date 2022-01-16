@@ -3,14 +3,13 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
-import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 import net.minecraftforge.registries.RegistryBuilder;
+
 
 @ObjectHolder(dronecraft_2Main.MOD_ID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

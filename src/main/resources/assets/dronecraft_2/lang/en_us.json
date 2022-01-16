@@ -21,7 +21,7 @@
   "item.dronecraft_2.cut_silicon_wafer": "Cut silicon wafer",
 
   "pcb_component.dronecraft_2.small_add": "Add",
-  "pcb_component.dronecraft_2.small_sub": "Subtract",
+  "pcb_component.dronecraft_2.small_subtract": "Subtract",
   "pcb_component.dronecraft_2.small_multiply": "Multiply",
   "pcb_component.dronecraft_2.small_divide": "Divide",
   "pcb_component.dronecraft_2.small_equals": "Equals",

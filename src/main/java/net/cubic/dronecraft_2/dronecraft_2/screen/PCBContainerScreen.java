@@ -2,6 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -24,7 +25,7 @@ public class PCBContainerScreen<T extends Container> extends ContainerScreen<T> 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if(SelectedComponent != null){
-            SelectedComponent.getComponent().RenderComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y,0,0,this);
+            SelectedComponent.getComponent().RenderComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y,this);
         }
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
