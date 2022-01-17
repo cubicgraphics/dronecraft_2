@@ -44,7 +44,6 @@ public class PCBCrafterBlock extends Block {
 
                     INamedContainerProvider containerProvider = createContainerProvider(worldIn,pos);
                     NetworkHooks.openGui(((ServerPlayerEntity) player), containerProvider,tileEntity.getPos());
-                    NetworkHooks.openGui(((ServerPlayerEntity) player),containerProvider);
                 }
                 else{
                     throw new IllegalStateException("Our container provider is missing");
