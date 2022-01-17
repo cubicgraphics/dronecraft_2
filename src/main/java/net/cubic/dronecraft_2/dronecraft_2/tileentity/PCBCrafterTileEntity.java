@@ -59,7 +59,7 @@ public class PCBCrafterTileEntity extends TileEntity {
             }
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack itemStack){
-                return (itemStack.getItem() == ModItems.PCBSubstrate.get() && slot == 0) || (itemStack.getItem() == ModItems.PrintedCircuitBoard.get() && slot == 0);
+                return (itemStack.getItem().getDefaultInstance() == ModItems.PCBSubstrate.get().getDefaultInstance() && slot == 0) || (itemStack.getItem().getDefaultInstance() == ModItems.PrintedCircuitBoard.get().getDefaultInstance() && slot == 0 || slot > 0);
             }
 
             @Override
@@ -80,9 +80,6 @@ public class PCBCrafterTileEntity extends TileEntity {
                 return super.insertItem(slot,itemStack,simulate);
             }
         };
-    }
-    public void craft(){
-        //code to actually make and place the items here
     }
 
 

@@ -106,6 +106,13 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         };
     }
 
+    public void SavePCBButtonPressed(){
+        System.out.println("ButtonPressed");
+        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button or some way to display whats needed
+        container.SavePCBToItem();
+    }
+
+
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         int i = this.guiLeft;
@@ -124,12 +131,6 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         }
     }
 
-
-    public void SavePCBButtonPressed(){
-        System.out.println("ButtonPressed");
-        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button or some way to diaplay whats needed
-        container.SavePCBToItem();
-    }
 
 
 
@@ -186,4 +187,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         return super.mouseReleased(mouseX, mouseY, button);
     }
+
+
+    //TODO the inventory is not saving items in place while open
 }

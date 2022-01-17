@@ -42,6 +42,7 @@ public class PCBCrafterContainer extends Container {
     private final TileEntity tileEntity;
     private final PlayerEntity playerEntity;
     private final IItemHandler playerInventory;
+
     private int GuiScale;
     public final int LeftPCBGrid = 17;
     public final int TopPCBGrid = 111;
@@ -76,7 +77,7 @@ public class PCBCrafterContainer extends Container {
         this.tileEntity = worldIn.getTileEntity(pos);
         playerEntity = player;
         this.playerInventory = new InvWrapper(playerinventory);
-        layoutPlayerInventorySlots(48,259);
+        layoutPlayerInventorySlots(48,258);
         if(worldIn.isRemote() && ModSettings.GuiRescaling.get()){
             GuiScale = Minecraft.getInstance().gameSettings.guiScale;
             Minecraft.getInstance().gameSettings.guiScale = 2;
@@ -150,7 +151,6 @@ public class PCBCrafterContainer extends Container {
 
 
     public void SetDataFromItem(int slotid){
-
         tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
             if(h.getStackInSlot(slotid) != ItemStack.EMPTY){
                 h.getStackInSlot(slotid).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
