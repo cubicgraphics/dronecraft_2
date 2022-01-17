@@ -51,7 +51,7 @@ public class PCBCrafterContainer extends Container {
     public final int PCBMaxTileWidth = 16; //max size of pcb allowed to be edited
     public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;
-    public List<PCBComponentXY> SelectablePCBComponents = new ArrayList<>();
+    public List<PCBComponentXY<? extends PCBComponent>> SelectablePCBComponents = new ArrayList<>();
     public final int LeftPCBSelectionBar = 17;
     public final int TopPCBSelectionBar = 19;
     public final int PCBSelectionBarWidth = 128;
@@ -109,11 +109,11 @@ public class PCBCrafterContainer extends Container {
 
     public void UpdateSelectablePCBComponentsAndWires(){
         List<PCBComponent> components = GetCraftablePCBComponents();
-        List<PCBComponentXY> componentXYList = new ArrayList<>();
+        List<PCBComponentXY<? extends PCBComponent>> componentXYList = new ArrayList<>();
         int pixelsAcross = 0;
         int pixelsDown = 0;
         for (PCBComponent component : components) {
-            componentXYList.add(new PCBComponentXY(pixelsAcross, 0, component));
+            componentXYList.add(new PCBComponentXY<>(pixelsAcross, 0, component));
             pixelsAcross = pixelsAcross + 8 + component.Length*8;
             if(pixelsDown < component.Width*8){
                 pixelsDown = component.Width*8;
@@ -173,7 +173,7 @@ public class PCBCrafterContainer extends Container {
         return CurrentPCB;
     }
 
-    public List<PCBComponentXY> GetSelectablePCBComponentsList()
+    public List<PCBComponentXY<? extends PCBComponent>> GetSelectablePCBComponentsList()
     {
         return SelectablePCBComponents;
     }

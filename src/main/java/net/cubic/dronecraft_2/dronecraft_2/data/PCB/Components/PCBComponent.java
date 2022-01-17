@@ -5,13 +5,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSymbol;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.cubic.dronecraft_2.dronecraft_2.screen.PCBRender;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
@@ -19,7 +17,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.w3c.dom.css.Rect;
 
 public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEntry<PCBComponent> implements IPCBComponent {
     //TODO add an ENUM for whether the component is an input, an output, or a process. if its an input or an output then the PCB will use it as an input etc... EG: block location sensor, or constant variable output, or etc...
@@ -33,6 +30,7 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     public String Instruction;
     public PCBSymbol[] Decals;
     public String translationKey;
+    private CompoundNBT nbtdata;
 
     public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color){
         Length = length;
@@ -231,5 +229,35 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     @Override
     public String getTranslationKey() {
         return this.getDefaultTranslationKey();
+    }
+
+
+
+    /**
+     * Save NBT data for custom components
+     * Override it to save custom variables for components as this data will be saved inside the PCB
+     * Custom var can be used for example save an item to the component then possibly render the item as part of the component
+     */
+    @Override
+    public void SaveCustomVarToNBT() {
+
+    }
+    /**
+     * Read NBT data for custom components
+     * Override it to Read custom variables for components as this data will be saved inside the PCB
+     */
+    @Override
+    public void ReadNBTToCustomVar() {
+
+    }
+
+    @Override
+    public void SetNBT(CompoundNBT nbt) {
+        nbtdata = nbt;
+    }
+
+    @Override
+    public CompoundNBT ReadNBT() {
+        return nbtdata;
     }
 }

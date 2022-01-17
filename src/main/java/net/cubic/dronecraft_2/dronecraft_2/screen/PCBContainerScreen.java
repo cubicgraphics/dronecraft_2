@@ -1,6 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -10,7 +11,7 @@ import net.minecraft.util.text.ITextComponent;
 
 public class PCBContainerScreen<T extends Container> extends ContainerScreen<T> {
 
-    public PCBComponentXY SelectedComponent = null;
+    public PCBComponentXY<? extends PCBComponent> SelectedComponent = null;
 
 
     public PCBContainerScreen(T screenContainer, PlayerInventory inv, ITextComponent titleIn) {
@@ -29,7 +30,7 @@ public class PCBContainerScreen<T extends Container> extends ContainerScreen<T> 
         if(SelectedComponent != null){
             int offset = getBlitOffset();
             setBlitOffset(1000);
-            SelectedComponent.getComponent().RenderComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y,this);
+            SelectedComponent.Component.RenderComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y,this);
             setBlitOffset(offset);
         }
     }

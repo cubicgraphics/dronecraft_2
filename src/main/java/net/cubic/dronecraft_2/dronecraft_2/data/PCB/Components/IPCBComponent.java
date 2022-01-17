@@ -3,9 +3,12 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
 
 public interface IPCBComponent {
 
@@ -20,4 +23,11 @@ public interface IPCBComponent {
     String getDefaultTranslationKey();
 
     String getTranslationKey();
+
+    void SaveCustomVarToNBT();
+
+    void ReadNBTToCustomVar();
+
+    void SetNBT(CompoundNBT nbt);
+    CompoundNBT ReadNBT();
 }

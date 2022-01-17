@@ -117,7 +117,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         int i = this.guiLeft;
         int j = this.guiTop;
-        if (mouseX >= container.LeftPCBSelectionBar + i && mouseY >= container.TopPCBSelectionBar + j && mouseX < container.LeftPCBSelectionBar + container.PCBSelectionBarWidth + i && mouseY < container.TopPCBSelectionBar+ container.PCBSelectionBarHeight + j)
+        if (mouseX >= container.LeftPCBSelectionBar + i && mouseY >= container.TopPCBSelectionBar + j && mouseX < container.LeftPCBSelectionBar + container.PCBSelectionBarWidth + i && mouseY < container.TopPCBSelectionBar+ container.PCBSelectionBarHeight + j && SelectedComponent == null)
         {
             if(container.SelectBoxScrollOffsetX - (int)dragX >= 0 && container.SelectBoxScrollOffsetX - (int)dragX <= container.SelectablePCBComponentsPixelWidth - container.PCBSelectionBarWidth){
                 container.SelectBoxScrollOffsetX = container.SelectBoxScrollOffsetX - (int)dragX;
@@ -170,11 +170,11 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
 
                     if ((container.SelectablePCBComponents.get(k) != null)
                             && (mouseX >= i+ container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x)
-                            && (mouseX < i+ container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x + container.SelectablePCBComponents.get(k).getComponent().Width*8 + 8)
+                            && (mouseX < i+ container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x + container.SelectablePCBComponents.get(k).Component.Length*8)// Length is X in the case of components
                             && (mouseY >= j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y)
-                            && (mouseY < j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y + container.SelectablePCBComponents.get(k).getComponent().Length*8))
+                            && (mouseY < j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y + container.SelectablePCBComponents.get(k).Component.Width*8))
                             {
-                                SelectedComponent = new PCBComponentXY((int) (i+ container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x - mouseX), (int) (j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y - mouseY),container.SelectablePCBComponents.get(k).getComponent());
+                                SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x - mouseX), (int) (j + container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y - mouseY), container.SelectablePCBComponents.get(k).Component);
                                 return true;
                             }
                 }
