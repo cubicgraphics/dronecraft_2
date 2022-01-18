@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import java.util.List;
 
 public class PCBRender {
-    // only call these functions from within a gui screen
 
     public static void RenderPCB(MatrixStack matrix, int left, int top, PCBData PCB, ContainerScreen<?> screen){
         if(PCB != null){
@@ -178,7 +177,7 @@ public class PCBRender {
         }
     }
 
-    //TODO make a function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so that large pcb's that may not fit within the screen can be displayed - already made a blit function for it
+    //TODO make a function for rendering a scrollable PCB also make it click and hold to pan possibly?? - this is so that large pcb's that may not fit within the screen can be displayed - made a blit function capable of scrolling, just needs implementing.
 
 
 

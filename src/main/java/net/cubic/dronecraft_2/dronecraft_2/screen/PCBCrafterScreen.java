@@ -53,14 +53,12 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         this.minecraft.getTextureManager().bindTexture(GUI);
         this.blit(matrixStack,i+40,j+256,0,84,176,84);
 
-        //PCBRender.RenderPCBComponent(matrixStack,i+20,j+20, PCBMain.Components[5],this);
         PCBRender.RenderSelectableWires(matrixStack,i + container.LeftWireSelectionBar,j + container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, container.SelectablePCBWires,this, SelectedWireTypeListIndex);
         PCBRender.RenderSelectablePCBComponents(matrixStack,i + container.LeftPCBSelectionBar,j +container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, container.GetSelectablePCBComponentsList(),this);
         PCBRender.RenderPCB(matrixStack,i + container.LeftPCBGrid,j + container.TopPCBGrid, container.SetAndGetPCBDataFromItem(), this);
         if(container.CurrentPCB != null){
             if(container.CurrentPCB.width > container.PCBMaxTileWidth && container.CurrentPCB.length > container.PCBMaxTileLength){
-                //render max size text here
-                this.font.drawString(matrixStack,"The PCB is too detailed to edit by hand",17,3,new RGBA(255,0,0).ToRawInt());
+                this.font.drawString(matrixStack,"The PCB is too detailed to edit by hand, max size of 16x16",17,3,new RGBA(255,0,0).ToRawInt());
             }
         }
 
@@ -181,12 +179,8 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
-
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         return super.mouseReleased(mouseX, mouseY, button);
     }
-
-
-    //TODO the inventory is not saving items in place while open
 }

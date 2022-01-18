@@ -7,8 +7,8 @@ import java.util.Arrays;
 public class PCBtest {
 
     //this is a test pcb for testing purposes
-    public static PCBComponentXY[] componentXY = new PCBComponentXY[]{
-            new PCBComponentXY(3,4, PCBComponents.SMALL_ADD)
+    public static PCBComponentXY<?>[] componentXY = new PCBComponentXY[]{
+            new PCBComponentXY<>(3,4, PCBComponents.SMALL_ADD)
     };
 
     public static VarType[][] wireArray = new VarType[8][8];

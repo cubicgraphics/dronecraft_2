@@ -81,11 +81,11 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
         return new TranslationTextComponent(this.getTranslationKey());
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Override
     /**
      * Override this for custom pcb rendering - eg if the custom pcb holds an item or number filter that may want rendering
      */
+    @OnlyIn(Dist.CLIENT)
+    @Override
     public void RenderComponent(MatrixStack matrix, int left, int top, ContainerScreen<?> screen) {
         ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
         Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);

@@ -17,23 +17,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 @ObjectHolder(dronecraft_2Main.MOD_ID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PCBComponents {
-/*
-    public final static PCB_IO[] simpleIn = {
-            new PCB_IO(0,0,PCBVarTypes.NUMBER),
-            new PCB_IO(2,0,PCBVarTypes.NUMBER)
-    };
-    public final static PCB_IO[] simpleOut = {
-            new PCB_IO(1,1,PCBVarTypes.NUMBER)
-    };
 
-    public final static PCB_IO[] simpleDroneIn = {
-            new PCB_IO(0,2,PCBVarTypes.XYZ),
-            new PCB_IO(0,5,PCBVarTypes.XYZ)
-    };
-    public final static PCB_IO[] simpleDroneOut = {
-            new PCB_IO(7,2,PCBVarTypes.XYZ),
-    };
- */
     public static DefaultPCBComponent SMALL_ADD;
     public static DefaultPCBComponent SMALL_SUB;
     public static DefaultPCBComponent SMALL_MULTIPLY;
@@ -42,13 +26,10 @@ public class PCBComponents {
     public static DefaultPCBComponent SIMPLE_DRONE_BRAIN;
 
 
-
-
-
     @SubscribeEvent
     public static void onPCBRegistry(final RegistryEvent.Register<DefaultPCBComponent> event) {
         PCB_IO[] simpleIn = {
-                new PCB_IO(0,0,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number")), //TODO somehow fetch this from the PCBVarTypes file instead of making new ones here, kind of defeats the point of making it a registry
+                new PCB_IO(0,0,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number")), //cannot fetch the varType from its registry as it would have not been registered fully yet, but make sure it has the right registry name so it can be correctly fetched.
                 new PCB_IO(2,0,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number"))
         };
         PCB_IO[] simpleOut = {
@@ -79,6 +60,5 @@ public class PCBComponents {
         builder.setName(key);
         builder.setDefaultKey(key);
         builder.create();
-
     }
 }

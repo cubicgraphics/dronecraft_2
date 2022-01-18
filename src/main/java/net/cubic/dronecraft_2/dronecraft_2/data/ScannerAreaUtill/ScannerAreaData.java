@@ -17,7 +17,6 @@ public class ScannerAreaData {
      //WorldGlobalVar.WorldVariables.get(world).Scanners.SetScanners(new ArrayList<>());
      //WorldGlobalVar.WorldVariables.get(world).syncData(world);// To write to world data
 
-
     public ScannerAreaData(){
         Scanners = new HashMap<>();
     }
@@ -89,7 +88,6 @@ public class ScannerAreaData {
     }
 
     public List<BlockPos> GetScannersSurveyingBlock(World worldIn, BlockPos blockPos) { // returns a lists of blockPos of scanner blockPos
-
         List<BlockPos> scannerBlockList = new ArrayList<>();
         for (BlockPos i : Scanners.keySet()) {
             if (IsInRange(worldIn,blockPos,i)){

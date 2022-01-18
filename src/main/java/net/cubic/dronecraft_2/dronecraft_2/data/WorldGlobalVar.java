@@ -65,7 +65,6 @@ public class WorldGlobalVar {
         @Override
         public void read(CompoundNBT nbt) {
             //read scanners from nbt here
-
             System.out.println("Reading Dronecraft scanner data from world");
             ListNBT tagList = (ListNBT) nbt.get("ScannerList"); //gets the list from compound nbt
             HashMap<BlockPos,ScannerFormat> scannerList = new HashMap<>();
@@ -80,7 +79,6 @@ public class WorldGlobalVar {
 
         @Override
         public CompoundNBT write(CompoundNBT nbt) {
-
             ListNBT scannerListNBT = new ListNBT();
             HashMap<BlockPos,ScannerFormat> scannerList = Scanners.GetScanners();
             if (scannerList != null) {
@@ -93,7 +91,6 @@ public class WorldGlobalVar {
                 }
             }
             nbt.put("ScannerList", scannerListNBT);
-
             return nbt;
         }
 

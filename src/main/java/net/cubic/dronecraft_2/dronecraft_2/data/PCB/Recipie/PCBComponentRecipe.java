@@ -118,11 +118,9 @@ public class PCBComponentRecipe implements IPCBComponentRecipe {
         @Override
         public PCBComponentRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
             NonNullList<Ingredient> input = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
-
             for (int i = 0; i < input.size(); i++) {
                 input.set(i, Ingredient.read(buffer));
             }
-
             DefaultPCBComponent componentOutput = GameRegistry.findRegistry(DefaultPCBComponent.class).getValue(new ResourceLocation(buffer.readString()));
             return new PCBComponentRecipe(recipeId,componentOutput,
                     input);
@@ -130,12 +128,10 @@ public class PCBComponentRecipe implements IPCBComponentRecipe {
 
         @Override
         public void write(PacketBuffer buffer, PCBComponentRecipe recipe) {
-
             buffer.writeInt(recipe.getIngredients().size());
             for (Ingredient ing : recipe.getIngredients()) {
                 ing.write(buffer);
             }
-
             buffer.writeString(recipe.componentOutput.getRegistryName().toString());
         }
     }

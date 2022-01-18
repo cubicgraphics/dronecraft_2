@@ -85,8 +85,6 @@ public class PCBData {
         }
         PCBDATA.put("Components", Components);
 
-
-
         ListNBT InputsList = new ListNBT();
         if(Inputs != null){
             for (PCB_IO input : Inputs) {
@@ -148,7 +146,6 @@ public class PCBData {
                 PCB_IO[] inputs = new PCB_IO[nbtInputsList.size()];
                 for (int i = 0; i < nbtInputsList.size(); i++) {
                     inputs[i]= new PCB_IO(nbtInputsList.getCompound(i).getInt("X"),nbtInputsList.getCompound(i).getInt("Y"),GameRegistry.findRegistry(VarType.class).getValue(new ResourceLocation(nbtInputsList.getCompound(i).getString("R"))));
-
                 }
                 Inputs = inputs;
             }
@@ -160,15 +157,12 @@ public class PCBData {
                 PCB_IO[] outputs = new PCB_IO[nbtOutputsList.size()];
                 for (int i = 0; i < nbtOutputsList.size(); i++) {
                     outputs[i]= new PCB_IO(nbtOutputsList.getCompound(i).getInt("X"),nbtOutputsList.getCompound(i).getInt("Y"),GameRegistry.findRegistry(VarType.class).getValue(new ResourceLocation(nbtOutputsList.getCompound(i).getString("R"))));
-
                 }
                 Outputs = outputs;
             }
             else{
                 Outputs = null;
             }
-
-
             PCBWiresArray = dataWireArray;
             ComponentArray = ComponentsList.toArray(ComponentArray);
         }
@@ -183,7 +177,6 @@ public class PCBData {
 
     public static PCBData ReadNBT(INBT nbt) {
         PCBData data = new PCBData();
-
         CompoundNBT pcbData = (CompoundNBT) ((CompoundNBT) nbt).get("PCBData");
         if (pcbData != null) {
             //read wire array
@@ -216,7 +209,6 @@ public class PCBData {
                 inputs = new PCB_IO[nbtInputsList.size()];
                 for (int i = 0; i < nbtInputsList.size(); i++) {
                     inputs[i]= new PCB_IO(nbtInputsList.getCompound(i).getInt("X"),nbtInputsList.getCompound(i).getInt("Y"),GameRegistry.findRegistry(VarType.class).getValue(new ResourceLocation(nbtInputsList.getCompound(i).getString("R"))));
-
                 }
             }
             else{
@@ -228,15 +220,11 @@ public class PCBData {
                 outputs = new PCB_IO[nbtOutputsList.size()];
                 for (int i = 0; i < nbtOutputsList.size(); i++) {
                     outputs[i]= new PCB_IO(nbtOutputsList.getCompound(i).getInt("X"),nbtOutputsList.getCompound(i).getInt("Y"),GameRegistry.findRegistry(VarType.class).getValue(new ResourceLocation(nbtOutputsList.getCompound(i).getString("R"))));
-
                 }
             }
             else{
                 outputs = null;
             }
-
-
-
             data = new PCBData(pcbData.getInt("length"), pcbData.getInt("width"),dataWireArray,ComponentArray,inputs,outputs);
         }
         return data;

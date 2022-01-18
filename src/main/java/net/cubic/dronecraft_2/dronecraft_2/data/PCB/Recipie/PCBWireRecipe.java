@@ -94,12 +94,10 @@ public class PCBWireRecipe implements IPCBWireRecipe {
         public PCBWireRecipe read(ResourceLocation recipeId, JsonObject json) {
             VarType wireOutput = GameRegistry.findRegistry(VarType.class).getValue(new ResourceLocation(JSONUtils.getString(json, "pcb_wire")));
             JsonArray ingredients = JSONUtils.getJsonArray(json, "ingredients");
-
             final NonNullList<Ingredient> input = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
             for (int i = 0; i < ingredients.size(); i++) {
                 input.set(i, Ingredient.deserialize(ingredients.get(i)));
             }
-
             return new PCBWireRecipe(recipeId,wireOutput,
                     input);
         }
@@ -108,13 +106,10 @@ public class PCBWireRecipe implements IPCBWireRecipe {
         @Override
         public PCBWireRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
             NonNullList<Ingredient> input = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
-
             for (int i = 0; i < input.size(); i++) {
                 input.set(i, Ingredient.read(buffer));
             }
-
             VarType wireOutput = GameRegistry.findRegistry(VarType.class).getValue(new ResourceLocation(buffer.readString()));
-
             return new PCBWireRecipe(recipeId,wireOutput,
                     input);
         }
