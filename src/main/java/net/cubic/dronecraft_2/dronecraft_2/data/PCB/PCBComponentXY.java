@@ -1,10 +1,8 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
 
-public class PCBComponentXY<T extends PCBComponent> {
+public class PCBComponentXY<T extends DefaultPCBComponent> {
     public int x;
     public int y;
     public T Component;

@@ -1,7 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
 
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -17,11 +17,11 @@ public class PCBData {
     public int length; //X
     public int width;  //Y
     public VarType[][] PCBWiresArray;
-    public PCBComponentXY<? extends PCBComponent>[] ComponentArray;
+    public PCBComponentXY<? extends DefaultPCBComponent>[] ComponentArray;
     public PCB_IO[] Inputs;
     public PCB_IO[] Outputs;
 
-    public PCBData(int Length, int Width, VarType[][] Wires, List<PCBComponentXY<? extends PCBComponent>> ComponentList){
+    public PCBData(int Length, int Width, VarType[][] Wires, List<PCBComponentXY<? extends DefaultPCBComponent>> ComponentList){
         length = Length;
         width = Width;
         PCBWiresArray = Wires;
@@ -31,7 +31,7 @@ public class PCBData {
         Outputs = null;
     }
 
-    public PCBData(int Length, int Width, VarType[][] Wires, List<PCBComponentXY<? extends PCBComponent>> ComponentList, PCB_IO[] inputs, PCB_IO[] outputs){
+    public PCBData(int Length, int Width, VarType[][] Wires, List<PCBComponentXY<? extends DefaultPCBComponent>> ComponentList, PCB_IO[] inputs, PCB_IO[] outputs){
         length = Length;
         width = Width;
         PCBWiresArray = Wires;
@@ -72,7 +72,7 @@ public class PCBData {
         PCBDATA.put("2dWireArray", Wire2dArray);
         //save the components
         ListNBT Components = new ListNBT();
-        for (PCBComponentXY<? extends PCBComponent> pcbComponentXY : ComponentArray) {
+        for (PCBComponentXY<? extends DefaultPCBComponent> pcbComponentXY : ComponentArray) {
             CompoundNBT Component = new CompoundNBT();
             Component.putString("ID", pcbComponentXY.Component.getRegistryName().toString());
             Component.putInt("x", pcbComponentXY.x);
@@ -119,7 +119,7 @@ public class PCBData {
         if (pcbData != null) {
             //read wire array
             VarType[][] dataWireArray = new VarType[pcbData.getInt("length")][pcbData.getInt("width")];
-            List<PCBComponentXY<? extends PCBComponent>> ComponentsList = new ArrayList<>();
+            List<PCBComponentXY<? extends DefaultPCBComponent>> ComponentsList = new ArrayList<>();
             ListNBT wireTagList = (ListNBT) (pcbData).get("2dWireArray");
             if(wireTagList != null){
                 for (int i = 0; i < wireTagList.size(); i++) {
@@ -135,7 +135,7 @@ public class PCBData {
             if(componentsTagList != null){
                 for (int i = 0; i < componentsTagList.size(); i++) {
                     CompoundNBT Component = componentsTagList.getCompound(i);
-                    PCBComponentXY<? extends PCBComponent> temp = new PCBComponentXY<>(Component.getInt("x"),Component.getInt("y"),GameRegistry.findRegistry(PCBComponent.class).getValue(new ResourceLocation(Component.getString("ID"))));
+                    PCBComponentXY<? extends DefaultPCBComponent> temp = new PCBComponentXY<>(Component.getInt("x"),Component.getInt("y"),GameRegistry.findRegistry(DefaultPCBComponent.class).getValue(new ResourceLocation(Component.getString("ID"))));
                     temp.Component.SetNBT((CompoundNBT) Component.get("component_nbt"));
                     temp.Component.SaveCustomVarToNBT();
                     ComponentsList.add(temp);
@@ -188,7 +188,7 @@ public class PCBData {
         if (pcbData != null) {
             //read wire array
             VarType[][] dataWireArray = new VarType[pcbData.getInt("length")][pcbData.getInt("width")];
-            List<PCBComponentXY<? extends PCBComponent>> ComponentArray = new ArrayList<>();
+            List<PCBComponentXY<? extends DefaultPCBComponent>> ComponentArray = new ArrayList<>();
             ListNBT wireTagList = (ListNBT) (pcbData).get("2dWireArray");
             if(wireTagList != null){
                 for (int i = 0; i < wireTagList.size(); i++) {
@@ -204,7 +204,7 @@ public class PCBData {
             if(componentsTagList != null){
                 for (int i = 0; i < componentsTagList.size(); i++) {
                     CompoundNBT Component = componentsTagList.getCompound(i);
-                    PCBComponentXY<? extends PCBComponent> temp = new PCBComponentXY<>(Component.getInt("x"),Component.getInt("y"),GameRegistry.findRegistry(PCBComponent.class).getValue(new ResourceLocation(Component.getString("ID"))));
+                    PCBComponentXY<? extends DefaultPCBComponent> temp = new PCBComponentXY<>(Component.getInt("x"),Component.getInt("y"),GameRegistry.findRegistry(DefaultPCBComponent.class).getValue(new ResourceLocation(Component.getString("ID"))));
                     temp.Component.SetNBT((CompoundNBT) Component.get("component_nbt"));
                     temp.Component.SaveCustomVarToNBT();
                     ComponentArray.add(temp);

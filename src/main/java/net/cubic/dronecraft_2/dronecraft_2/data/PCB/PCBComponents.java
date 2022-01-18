@@ -1,7 +1,8 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.SmallAddComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.util.ResourceLocation;
@@ -33,19 +34,19 @@ public class PCBComponents {
             new PCB_IO(7,2,PCBVarTypes.XYZ),
     };
  */
-    public static PCBComponent SMALL_ADD;
-    public static PCBComponent SMALL_SUB;
-    public static PCBComponent SMALL_MULTIPLY;
-    public static PCBComponent SMALL_DIVIDE;
-    public static PCBComponent SMALL_EQUALS;
-    public static PCBComponent SIMPLE_DRONE_BRAIN;
+    public static DefaultPCBComponent SMALL_ADD;
+    public static DefaultPCBComponent SMALL_SUB;
+    public static DefaultPCBComponent SMALL_MULTIPLY;
+    public static DefaultPCBComponent SMALL_DIVIDE;
+    public static DefaultPCBComponent SMALL_EQUALS;
+    public static DefaultPCBComponent SIMPLE_DRONE_BRAIN;
 
 
 
 
 
     @SubscribeEvent
-    public static void onPCBRegistry(final RegistryEvent.Register<PCBComponent> event) {
+    public static void onPCBRegistry(final RegistryEvent.Register<DefaultPCBComponent> event) {
         PCB_IO[] simpleIn = {
                 new PCB_IO(0,0,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number")), //TODO somehow fetch this from the PCBVarTypes file instead of making new ones here, kind of defeats the point of making it a registry
                 new PCB_IO(2,0,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number"))
@@ -61,19 +62,19 @@ public class PCBComponents {
         PCB_IO[] simpleDroneOut = {
                 new PCB_IO(7,2,new VarType(new RGBA(255,40,255), Vector3f.class).setRegistryName("xyz")),
         };
-        SMALL_ADD = new PCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "add",new PCBSymbol(1,0.5F,0,16)).setRegistryName("small_add");
-        SMALL_SUB = new PCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "sub",new PCBSymbol(1,0.5F,8,16)).setRegistryName("small_subtract");
-        SMALL_MULTIPLY = new PCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "multiply",new PCBSymbol(1,0.5F,24,16)).setRegistryName("small_multiply");
-        SMALL_DIVIDE = new PCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "divide",new PCBSymbol(1,0.5F,16,16)).setRegistryName("small_divide");
-        SMALL_EQUALS = new PCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), "equals",new PCBSymbol(1,0.5F,32,16)).setRegistryName("small_equals");
-        SIMPLE_DRONE_BRAIN = new PCBComponent(8, 8, simpleDroneIn, simpleDroneOut, new RGBA(43, 150, 0),new PCBSymbol(3,3,16,32,16,16)).setRegistryName("simple_drone_brain");
+        SMALL_ADD = new SmallAddComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33), new PCBSymbol(1,0.5F,0,16), DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_add");
+        SMALL_SUB = new DefaultPCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,8,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_subtract");
+        SMALL_MULTIPLY = new DefaultPCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,24,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_multiply");
+        SMALL_DIVIDE = new DefaultPCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,16,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_divide");
+        SMALL_EQUALS = new DefaultPCBComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,32,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_equals");
+        SIMPLE_DRONE_BRAIN = new DefaultPCBComponent(8, 8, simpleDroneIn, simpleDroneOut, new RGBA(43, 150, 0),new PCBSymbol(3,3,16,32,16,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("simple_drone_brain");
 
         event.getRegistry().registerAll(SMALL_ADD, SMALL_SUB, SMALL_MULTIPLY, SMALL_DIVIDE, SMALL_EQUALS, SIMPLE_DRONE_BRAIN);
     }
     @SubscribeEvent
     public static void PCBRegister(RegistryEvent.NewRegistry event){
-        RegistryBuilder<PCBComponent> builder = new RegistryBuilder<>();
-        builder.setType(PCBComponent.class);
+        RegistryBuilder<DefaultPCBComponent> builder = new RegistryBuilder<>();
+        builder.setType(DefaultPCBComponent.class);
         ResourceLocation key = new ResourceLocation(dronecraft_2Main.MOD_ID, "pcb_components");
         builder.setName(key);
         builder.setDefaultKey(key);

@@ -9,25 +9,19 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public interface IPCBComponent {
-
-    @OnlyIn(Dist.CLIENT)
-    ITextComponent getName();
 
     @OnlyIn(Dist.CLIENT)
     void RenderComponent(MatrixStack matrix, int left, int top, ContainerScreen<?> screen);
     @OnlyIn(Dist.CLIENT)
     void RenderComponent(MatrixStack matrix, int left, int top, int right, int bottom,int x, int y, ContainerScreen<?> screen);
 
-    String getDefaultTranslationKey();
-
-    String getTranslationKey();
-
     void SaveCustomVarToNBT();
 
     void ReadNBTToCustomVar();
 
-    void SetNBT(CompoundNBT nbt);
-    CompoundNBT ReadNBT();
-}
+    List<?> CalculateOutput(List<?> inputs);
+
+    }

@@ -5,9 +5,8 @@ import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBDataPCBCrafter;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponents;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBtest;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBComponentRecipe;
@@ -15,11 +14,9 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBRecipeTypes;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBWireRecipe;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
-import net.cubic.dronecraft_2.dronecraft_2.tileentity.PCBCrafterTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -27,16 +24,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class PCBCrafterContainer extends Container {
     private final TileEntity tileEntity;
@@ -51,7 +45,7 @@ public class PCBCrafterContainer extends Container {
     public final int PCBMaxTileWidth = 16; //max size of pcb allowed to be edited
     public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;
-    public List<PCBComponentXY<? extends PCBComponent>> SelectablePCBComponents = new ArrayList<>();
+    public List<PCBComponentXY<? extends DefaultPCBComponent>> SelectablePCBComponents = new ArrayList<>();
     public final int LeftPCBSelectionBar = 17;
     public final int TopPCBSelectionBar = 19;
     public final int PCBSelectionBarWidth = 128;
@@ -108,11 +102,11 @@ public class PCBCrafterContainer extends Container {
     }
 
     public void UpdateSelectablePCBComponentsAndWires(){
-        List<PCBComponent> components = GetCraftablePCBComponents();
-        List<PCBComponentXY<? extends PCBComponent>> componentXYList = new ArrayList<>();
+        List<DefaultPCBComponent> components = GetCraftablePCBComponents();
+        List<PCBComponentXY<? extends DefaultPCBComponent>> componentXYList = new ArrayList<>();
         int pixelsAcross = 0;
         int pixelsDown = 0;
-        for (PCBComponent component : components) {
+        for (DefaultPCBComponent component : components) {
             componentXYList.add(new PCBComponentXY<>(pixelsAcross, 0, component));
             pixelsAcross = pixelsAcross + 8 + component.Length*8;
             if(pixelsDown < component.Width*8){
@@ -128,9 +122,9 @@ public class PCBCrafterContainer extends Container {
 
 
 
-    public List<PCBComponent> GetCraftablePCBComponents(){
+    public List<DefaultPCBComponent> GetCraftablePCBComponents(){
         List<PCBComponentRecipe> recipes = tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE);
-        List<PCBComponent> components = new ArrayList<>();
+        List<DefaultPCBComponent> components = new ArrayList<>();
         for (PCBComponentRecipe recipe : recipes) {
             if(recipe.getComponentResult() != null){
                 components.add(recipe.getComponentResult());
@@ -173,7 +167,7 @@ public class PCBCrafterContainer extends Container {
         return CurrentPCB;
     }
 
-    public List<PCBComponentXY<? extends PCBComponent>> GetSelectablePCBComponentsList()
+    public List<PCBComponentXY<? extends DefaultPCBComponent>> GetSelectablePCBComponentsList()
     {
         return SelectablePCBComponents;
     }

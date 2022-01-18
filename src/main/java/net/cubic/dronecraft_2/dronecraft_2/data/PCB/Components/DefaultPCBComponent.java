@@ -18,8 +18,21 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEntry<PCBComponent> implements IPCBComponent {
+import java.util.List;
+
+/**
+ * Extend this to make more PCB components
+ *
+ */
+public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegistryEntry<DefaultPCBComponent> implements IPCBComponent {
+
     //TODO add an ENUM for whether the component is an input, an output, or a process. if its an input or an output then the PCB will use it as an input etc... EG: block location sensor, or constant variable output, or etc...
+    public enum TYPE{
+        INPUT,
+        PROCESS,
+        OUTPUT
+    }
+
 
     //A component is a part of the PCB - they get dragged into place in the builder gui
     public int Length; //x  Size it will take on the PCB designer
@@ -27,76 +40,43 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     public PCB_IO[] Inputs;
     public PCB_IO[] Outputs;
     public RGBA ComponentColor;
-    public String Instruction;
     public PCBSymbol[] Decals;
     public String translationKey;
+    public TYPE Type;
     private CompoundNBT nbtdata;
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color){
+    public DefaultPCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color,TYPE type){
         Length = length;
         Width = width;
         Inputs = inputs;
         Outputs = outputs;
         ComponentColor = color;
-        Instruction = null;
         Decals = null;
+        Type = type;
     }
 
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction){
+    public DefaultPCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol decal,TYPE type){
         Length = length;
         Width = width;
         Inputs = inputs;
         Outputs = outputs;
         ComponentColor = color;
-        Instruction = instruction;
-        Decals = null;
-    }
-
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol decal){
-        Length = length;
-        Width = width;
-        Inputs = inputs;
-        Outputs = outputs;
-        ComponentColor = color;
-        Instruction = null;
         Decals = new PCBSymbol[]{
                 decal
         };
+        Type = type;
     }
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol decal){
+    public DefaultPCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol[] decals,TYPE type){
         Length = length;
         Width = width;
         Inputs = inputs;
         Outputs = outputs;
         ComponentColor = color;
-        Instruction = instruction;
-        Decals = new PCBSymbol[]{
-                decal
-        };
-    }
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, PCBSymbol[] decals){
-        Length = length;
-        Width = width;
-        Inputs = inputs;
-        Outputs = outputs;
-        ComponentColor = color;
-        Instruction = null;
         Decals = decals;
-    }
-
-    public PCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color, String instruction, PCBSymbol[] decals){
-        Length = length;
-        Width = width;
-        Inputs = inputs;
-        Outputs = outputs;
-        ComponentColor = color;
-        Instruction = instruction;
-        Decals = decals;
+        Type = type;
     }
 
 
-    @OnlyIn(Dist.CLIENT)
-    @Override
     public ITextComponent getName() {
         return new TranslationTextComponent(this.getTranslationKey());
     }
@@ -214,10 +194,9 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
         }
     }
 
-    @Override
     public String getDefaultTranslationKey() {
         if (this.translationKey == null) {
-            this.translationKey = Util.makeTranslationKey("pcb_component", GameRegistry.findRegistry(PCBComponent.class).getKey(this));
+            this.translationKey = Util.makeTranslationKey("pcb_component", GameRegistry.findRegistry(DefaultPCBComponent.class).getKey(this));
         }
 
         return this.translationKey;
@@ -226,7 +205,6 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
     /**
      * Returns the unlocalized name of this item.
      */
-    @Override
     public String getTranslationKey() {
         return this.getDefaultTranslationKey();
     }
@@ -251,13 +229,64 @@ public class PCBComponent extends net.minecraftforge.registries.ForgeRegistryEnt
 
     }
 
-    @Override
     public void SetNBT(CompoundNBT nbt) {
         nbtdata = nbt;
     }
-
-    @Override
     public CompoundNBT ReadNBT() {
         return nbtdata;
     }
+
+
+    /**
+     * returns null if the inputs dont match the varTypes defined, else it will return the values specified in CalculateOutput
+     * @param inputs
+     * @return
+     */
+    private List<?> GetOutput(List<?> inputs){
+        if(CheckDataEquals(inputs)){ //use enum to check if it is an input or an output or a process (process has both)
+            return CalculateOutput(inputs);
+        }
+        else{
+            return null;
+        }
+    }
+
+    /**
+     * Override ME!
+     * If this is an input(defined by the enum) then just return what you want it ot output. (The input will be null).
+     * If this is an output(defined by the enum) then this should be set to return null, only the data types inputted are checked for the correct class type.
+     * If this is a process(defined by the enum) then this should use the inputs to return an output.
+     * MAKE SURE YOU OUTPUT THE CORRECT VAR TYPES YOU HAVE DEFINED
+     *
+     * @param inputs
+     * @return outputs
+     */
+    @Override
+    public List<?> CalculateOutput(List<?> inputs){
+
+        return null;
+    }
+
+    /**
+     * checks the input data has the correct data types
+     *
+     * @param inputs
+     * @return
+     */
+    private boolean CheckDataEquals(List<?> inputs){
+        if(inputs.size() == Inputs.length){
+            boolean check = true;
+            for (int i = 0; i < inputs.size(); i++) {
+                if (inputs.get(i).getClass() != Inputs[i].DataType.getDataType()) {
+                    check = false;
+                    break;
+                }
+            }
+            return check;
+        }
+        else{
+            return false;
+        }
+    }
+
 }

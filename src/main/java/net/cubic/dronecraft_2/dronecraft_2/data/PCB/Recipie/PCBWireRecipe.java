@@ -2,8 +2,6 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBVarTypes;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.inventory.IInventory;

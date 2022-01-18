@@ -2,7 +2,7 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.item.ModItems;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -22,10 +22,10 @@ import javax.annotation.Nullable;
 public class PCBComponentRecipe implements IPCBComponentRecipe {
 
     private final ResourceLocation id;
-    private final PCBComponent componentOutput;
+    private final DefaultPCBComponent componentOutput;
     private final NonNullList<Ingredient> recipeItems;
 
-    public PCBComponentRecipe(ResourceLocation id, PCBComponent componentOutput,
+    public PCBComponentRecipe(ResourceLocation id, DefaultPCBComponent componentOutput,
                               NonNullList<Ingredient> recipeItems) {
         this.id = id;
         this.componentOutput = componentOutput;
@@ -69,7 +69,7 @@ public class PCBComponentRecipe implements IPCBComponentRecipe {
     public ItemStack getCraftingResult(IInventory inv) {
         return ModItems.DUMMY_PCB_COMPONENT.get().getDefaultInstance().setDisplayName(componentOutput.getName());
     }
-    public PCBComponent getComponentResult() {
+    public DefaultPCBComponent getComponentResult() {
         return componentOutput;
     }
 
@@ -104,7 +104,7 @@ public class PCBComponentRecipe implements IPCBComponentRecipe {
 
         @Override
         public PCBComponentRecipe read(ResourceLocation recipeId, JsonObject json) {
-            PCBComponent componentOutput = GameRegistry.findRegistry(PCBComponent.class).getValue(new ResourceLocation(JSONUtils.getString(json, "pcb_component")));
+            DefaultPCBComponent componentOutput = GameRegistry.findRegistry(DefaultPCBComponent.class).getValue(new ResourceLocation(JSONUtils.getString(json, "pcb_component")));
             JsonArray ingredients = JSONUtils.getJsonArray(json, "ingredients");
             final NonNullList<Ingredient> input = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
             for (int i = 0; i < ingredients.size(); i++) {
@@ -123,7 +123,7 @@ public class PCBComponentRecipe implements IPCBComponentRecipe {
                 input.set(i, Ingredient.read(buffer));
             }
 
-            PCBComponent componentOutput = GameRegistry.findRegistry(PCBComponent.class).getValue(new ResourceLocation(buffer.readString()));
+            DefaultPCBComponent componentOutput = GameRegistry.findRegistry(DefaultPCBComponent.class).getValue(new ResourceLocation(buffer.readString()));
             return new PCBComponentRecipe(recipeId,componentOutput,
                     input);
         }

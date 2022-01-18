@@ -3,7 +3,7 @@ package net.cubic.dronecraft_2.dronecraft_2.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.PCBComponent;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
@@ -77,11 +77,11 @@ public class PCBRender {
         //topLeft screen.blit(matrix,left,top,64,8,8,8);
     }
 
-    public static void RenderPCBComponent(MatrixStack matrix, int left, int top, int right, int bottom, PCBComponent Component, ContainerScreen<?> screen){
+    public static void RenderPCBComponent(MatrixStack matrix, int left, int top, int right, int bottom, DefaultPCBComponent Component, ContainerScreen<?> screen){
         Component.RenderComponent(matrix, left, top, screen);
     }
-    public static void RenderPCBComponents(MatrixStack matrix, List<PCBComponentXY<? extends PCBComponent>> Components, ContainerScreen<?> screen){
-        for (PCBComponentXY<? extends PCBComponent> component : Components) {
+    public static void RenderPCBComponents(MatrixStack matrix, List<PCBComponentXY<? extends DefaultPCBComponent>> Components, ContainerScreen<?> screen){
+        for (PCBComponentXY<? extends DefaultPCBComponent> component : Components) {
             component.Component.RenderComponent(matrix, component.x, component.y, screen);
         }
     }
@@ -117,9 +117,9 @@ public class PCBRender {
         }
     }
 
-    public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top,int scrollOffsetX ,int scrollOffsetY,int SelectionBarWidth,int SelectionBarHeight, List<PCBComponentXY<? extends PCBComponent>> Components, ContainerScreen<?> screen){
+    public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top, int scrollOffsetX , int scrollOffsetY, int SelectionBarWidth, int SelectionBarHeight, List<PCBComponentXY<? extends DefaultPCBComponent>> Components, ContainerScreen<?> screen){
         if(Components != null && Components.size() >= 1){
-            for (PCBComponentXY<? extends PCBComponent> component : Components) {
+            for (PCBComponentXY<? extends DefaultPCBComponent> component : Components) {
                 component.Component.RenderComponent(matrix, left, top, SelectionBarWidth, SelectionBarHeight,component.x - scrollOffsetX,component.y - scrollOffsetY, screen);
             }
         }
@@ -145,7 +145,7 @@ public class PCBRender {
             screen.blit(matrix,left-2 + SelectedWire*8,top-2,0,0,12,12);
         }
     }
-    public static void RenderSelectablePCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY<? extends PCBComponent>> Components, int MouseX, int MouseY, int left, int top, int scrollOffsetX,int scrollOffsetY, int SelectionBarWidth, int SelectionBarHeight, ContainerScreen<?> screen) {
+    public static void RenderSelectablePCBComponentTooltips(MatrixStack matrix, List<PCBComponentXY<? extends DefaultPCBComponent>> Components, int MouseX, int MouseY, int left, int top, int scrollOffsetX, int scrollOffsetY, int SelectionBarWidth, int SelectionBarHeight, ContainerScreen<?> screen) {
         if(MouseX >= left && MouseX <= left + SelectionBarWidth && MouseY >= top && MouseY <= top + SelectionBarHeight){
             RenderPCBComponentTooltips(matrix,left,top, Components, MouseX, MouseY,scrollOffsetX,scrollOffsetY, screen);
         }
@@ -182,9 +182,9 @@ public class PCBRender {
 
 
 
-    public static void RenderPCBComponentTooltips(MatrixStack matrix,int left, int top, List<PCBComponentXY<? extends PCBComponent>> Components, int MouseX, int MouseY,int scrollX, int scrollY, ContainerScreen<?> screen){
+    public static void RenderPCBComponentTooltips(MatrixStack matrix, int left, int top, List<PCBComponentXY<? extends DefaultPCBComponent>> Components, int MouseX, int MouseY, int scrollX, int scrollY, ContainerScreen<?> screen){
 
-        for (PCBComponentXY<? extends PCBComponent> component : Components) {
+        for (PCBComponentXY<? extends DefaultPCBComponent> component : Components) {
             if (component != null && ((MouseX >= component.x + left - scrollX)
                     && (MouseX <= component.x + component.Component.Length * 8 + left - scrollX))
                     && ((MouseY >= component.y + top - scrollY)
