@@ -21,11 +21,18 @@
   "item.dronecraft_2.cut_silicon_wafer": "Cut silicon wafer",
 
   "pcb_component.dronecraft_2.small_add": "Add",
+  "pcb_component.dronecraft_2.small_add_shift": "Add - Takes two numbers or two strings",
   "pcb_component.dronecraft_2.small_subtract": "Subtract",
+  "pcb_component.dronecraft_2.small_subtract_shift": "Subtract - Takes two numbers",
   "pcb_component.dronecraft_2.small_multiply": "Multiply",
+  "pcb_component.dronecraft_2.small_multiply_shift": "Multiply - Takes two numbers",
   "pcb_component.dronecraft_2.small_divide": "Divide",
+  "pcb_component.dronecraft_2.small_divide_shift": "Divide - Takes two numbers",
   "pcb_component.dronecraft_2.small_equals": "Equals",
+  "pcb_component.dronecraft_2.small_equals_shift": "Equals - Takes any input",
   "pcb_component.dronecraft_2.simple_drone_brain": "Simple drone chip",
+  "pcb_component.dronecraft_2.wild": "Anything",
+
 
   "pcb_wire.dronecraft_2.number": "Number",
   "pcb_wire.dronecraft_2.boolean": "Boolean",

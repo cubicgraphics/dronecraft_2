@@ -21,12 +21,14 @@ public class PCBVarTypes {
     public static VarType NUMBER;
     public static VarType BOOLEAN;
     public static VarType XYZ;
+    public static VarType WILD;
 
     @SubscribeEvent
     public static void onPCBRegistry(final RegistryEvent.Register<VarType> event) {
         NUMBER = new VarType(new RGBA(255,255,0),Double.class).setRegistryName("number");//TODO add custom wire items that can be used to craft them except boolean
         BOOLEAN = new VarType(new RGBA(240,10,10),Boolean.class).setRegistryName("boolean");
         XYZ = new VarType(new RGBA(255,40,255), Vector3f.class).setRegistryName("xyz");
+        WILD = new VarType(new RGBA(220,10,10),Boolean.class).setRegistryName("wild"); //don't give this a crafting recipe or directly use it
 
         event.getRegistry().registerAll(NUMBER,BOOLEAN,XYZ);
     }

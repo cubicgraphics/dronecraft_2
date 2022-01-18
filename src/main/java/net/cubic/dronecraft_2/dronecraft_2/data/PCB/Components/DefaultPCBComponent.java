@@ -9,11 +9,16 @@ import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.cubic.dronecraft_2.dronecraft_2.screen.PCBRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -79,6 +84,7 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
     public ITextComponent getName() {
         return new TranslationTextComponent(this.getTranslationKey());
     }
+    public ITextComponent getShiftName() {return new TranslationTextComponent(this.getShiftTranslationKey());}
 
     /**
      * Override this for custom pcb rendering - eg if the custom pcb holds an item or number filter that may want rendering
@@ -207,6 +213,9 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
     public String getTranslationKey() {
         return this.getDefaultTranslationKey();
     }
+    public String getShiftTranslationKey() {
+        return this.getDefaultTranslationKey() + "_shift";
+    }
 
 
 
@@ -238,17 +247,20 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
 
     /**
      * returns null if the inputs dont match the varTypes defined, else it will return the values specified in CalculateOutput
+     *
      * @param inputs
      * @return
      */
-    private List<?> GetOutput(List<?> inputs){
+    private List<?> GetOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item){
         if(CheckDataEquals(inputs)){ //use enum to check if it is an input or an output or a process (process has both)
-            return CalculateOutput(inputs);
+            return CalculateOutput(inputs, worldIn, pos, entity, item);
         }
         else{
             return null;
         }
     }
+
+
 
     /**
      * Override ME!
@@ -261,18 +273,18 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
      * @return outputs
      */
     @Override
-    public List<?> CalculateOutput(List<?> inputs){
+    public List<?> CalculateOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item){
 
         return null;
     }
 
     /**
      * checks the input data has the correct data types
-     *
+     * ONLY OVERRIDE IF YOU ARE USING WILD/ANYTHING VAR TYPE
      * @param inputs
      * @return
      */
-    private boolean CheckDataEquals(List<?> inputs){
+    public boolean CheckDataEquals(List<?> inputs){
         if(inputs.size() == Inputs.length){
             boolean check = true;
             for (int i = 0; i < inputs.size(); i++) {

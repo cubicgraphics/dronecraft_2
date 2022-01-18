@@ -9,6 +9,7 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -171,7 +172,12 @@ public class PCBRender {
                 if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCB.ComponentArray[i].Component.Length*8))
                         && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCB.ComponentArray[i].Component.Width*8)))
                 {
-                    screen.renderTooltip(matrix, PCB.ComponentArray[i].Component.getName(),MouseX,MouseY);
+                    if(Screen.hasShiftDown()){
+                        screen.renderTooltip(matrix, PCB.ComponentArray[i].Component.getShiftName(), MouseX, MouseY);
+                    }
+                    else{
+                        screen.renderTooltip(matrix, PCB.ComponentArray[i].Component.getName(), MouseX, MouseY);
+                    }
                 }
             }
         }
@@ -188,8 +194,12 @@ public class PCBRender {
                     && (MouseX <= component.x + component.Component.Length * 8 + left - scrollX))
                     && ((MouseY >= component.y + top - scrollY)
                     && (MouseY <= component.y + component.Component.Width * 8 + top - scrollY))) {
-                screen.renderTooltip(matrix, component.Component.getName(), MouseX, MouseY);
-
+                if(Screen.hasShiftDown()){
+                    screen.renderTooltip(matrix, component.Component.getShiftName(), MouseX, MouseY);
+                }
+                else{
+                    screen.renderTooltip(matrix, component.Component.getName(), MouseX, MouseY);
+                }
             }
         }
     }
