@@ -26,8 +26,7 @@ import java.util.List;
  */
 public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegistryEntry<DefaultPCBComponent> implements IPCBComponent {
 
-    //TODO add an ENUM for whether the component is an input, an output, or a process. if its an input or an output then the PCB will use it as an input etc... EG: block location sensor, or constant variable output, or etc...
-    public enum TYPE{
+    public enum TYPE{//TODO use this when processing data with the pcb
         INPUT,
         PROCESS,
         OUTPUT
