@@ -97,16 +97,18 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
         int length = this.Length;
         int width = this.Width;
         //draw inputs
-        RenderSystem.color4f(1f, 1f, 0.1f,1f);
-        for (PCB_IO input : this.Inputs) {
-            RenderSystem.color4f(input.DataType.getColor().r, input.DataType.getColor().g, input.DataType.getColor().b,input.DataType.getColor().a);
-            screen.blit(matrix, left + (input.X * 8), top + (input.Y * 8), 0, 8, 8, 8);
+        if(this.Inputs != null){
+            for (PCB_IO input : this.Inputs) {
+                RenderSystem.color4f(input.DataType.getColor().r, input.DataType.getColor().g, input.DataType.getColor().b,input.DataType.getColor().a);
+                screen.blit(matrix, left + (input.X * 8), top + (input.Y * 8), 0, 8, 8, 8);
+            }
         }
         //draw outputs
-        for (PCB_IO output : this.Outputs) {
-
-            RenderSystem.color4f(output.DataType.getColor().r, output.DataType.getColor().g, output.DataType.getColor().b,output.DataType.getColor().a);
-            screen.blit(matrix, left + (output.X * 8), top + (output.Y * 8), 0, 8, 8, 8);
+        if(this.Outputs != null){
+            for (PCB_IO output : this.Outputs) {
+                RenderSystem.color4f(output.DataType.getColor().r, output.DataType.getColor().g, output.DataType.getColor().b,output.DataType.getColor().a);
+                screen.blit(matrix, left + (output.X * 8), top + (output.Y * 8), 0, 8, 8, 8);
+            }
         }
         //draw pcb body
         RenderSystem.color4f(this.ComponentColor.r, this.ComponentColor.g,this.ComponentColor.b,this.ComponentColor.a);
@@ -159,15 +161,18 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
         int length = this.Length;
         int width = this.Width;
         //draw inputs
-        for (PCB_IO input : this.Inputs) {
-            RenderSystem.color4f(input.DataType.getColor().r, input.DataType.getColor().g, input.DataType.getColor().b,input.DataType.getColor().a);
-            PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (input.X * 8), RelY + (input.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
+        if(this.Inputs != null){
+            for (PCB_IO input : this.Inputs) {
+                RenderSystem.color4f(input.DataType.getColor().r, input.DataType.getColor().g, input.DataType.getColor().b,input.DataType.getColor().a);
+                PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (input.X * 8), RelY + (input.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
+            }
         }
         //draw outputs
-        for (PCB_IO output : this.Outputs) {
-            RenderSystem.color4f(output.DataType.getColor().r, output.DataType.getColor().g, output.DataType.getColor().b,output.DataType.getColor().a);
-
-            PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (output.X * 8), RelY + (output.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
+        if(this.Outputs != null){
+            for (PCB_IO output : this.Outputs) {
+                RenderSystem.color4f(output.DataType.getColor().r, output.DataType.getColor().g, output.DataType.getColor().b,output.DataType.getColor().a);
+                PCBRender.BlitWithClipping(matrix, BoundsLeft, BoundsTop, RelX + (output.X * 8), RelY + (output.Y * 8), BoundsWidth, BoundsHeight, screen, 0, 8, 8, 8);
+            }
         }
         //draw pcb body
         RenderSystem.color4f(this.ComponentColor.r, this.ComponentColor.g, this.ComponentColor.b, this.ComponentColor.a);

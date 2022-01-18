@@ -1,0 +1,15 @@
+{
+  "type": "dronecraft_2:pcb_component",
+  "pcb_component": "dronecraft_2:time_sensor",
+  "ingredients": [
+    {
+      "item": "dronecraft_2:cut_silicon_wafer"
+    },
+    {
+      "item": "minecraft:compass"
+    },
+    {
+      "item": "dronecraft_2:high_purity_redstone_dust"
+    }
+  ]
+}

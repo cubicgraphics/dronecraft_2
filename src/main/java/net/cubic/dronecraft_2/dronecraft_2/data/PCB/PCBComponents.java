@@ -22,16 +22,17 @@ public class PCBComponents {
     public static DefaultPCBComponent SMALL_MULTIPLY;
     public static DefaultPCBComponent SMALL_DIVIDE;
     public static DefaultPCBComponent SMALL_EQUALS;
+    public static DefaultPCBComponent TIME_SENSOR;
     public static DefaultPCBComponent SIMPLE_DRONE_BRAIN;
 
 
     @SubscribeEvent
     public static void onPCBRegistry(final RegistryEvent.Register<DefaultPCBComponent> event) {
-        PCB_IO[] simpleIn = {
+        PCB_IO[] simpleDoubleIn = {
                 new PCB_IO(0,0,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number")), //cannot fetch the varType from its registry as it would have not been registered fully yet, but make sure it has the right registry name so it can be correctly fetched.
                 new PCB_IO(2,0,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number"))
         };
-        PCB_IO[] simpleOut = {
+        PCB_IO[] simpleDoubleOut = {
                 new PCB_IO(1,1,new VarType(new RGBA(255,255,0),Float.class).setRegistryName("number"))
         };
         PCB_IO[] simpleWildIn = {
@@ -49,14 +50,15 @@ public class PCBComponents {
         PCB_IO[] simpleDroneOut = {
                 new PCB_IO(7,2,new VarType(new RGBA(255,40,255), Vector3f.class).setRegistryName("xyz")),
         };
-        SMALL_ADD = new SmallAddComponent(3, 2, simpleWildIn, simpleOut, new RGBA(0, 130, 33), new PCBSymbol(1,0.5F,0,16), DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_add");
-        SMALL_SUB = new SmallSubtractComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,8,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_subtract");
-        SMALL_MULTIPLY = new SmallMultiplyComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,24,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_multiply");
-        SMALL_DIVIDE = new SmallDivideComponent(3, 2, simpleIn, simpleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,16,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_divide");
+        SMALL_ADD = new SmallAddComponent(3, 2, simpleWildIn, simpleDoubleOut, new RGBA(0, 130, 33), new PCBSymbol(1,0.5F,0,16), DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_add");
+        SMALL_SUB = new SmallSubtractComponent(3, 2, simpleDoubleIn, simpleDoubleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,8,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_subtract");
+        SMALL_MULTIPLY = new SmallMultiplyComponent(3, 2, simpleDoubleIn, simpleDoubleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,24,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_multiply");
+        SMALL_DIVIDE = new SmallDivideComponent(3, 2, simpleDoubleIn, simpleDoubleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,16,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_divide");
         SMALL_EQUALS = new SmallEqualsComponent(3, 2, simpleWildIn, simpleBoolOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,32,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_equals");
+        TIME_SENSOR = new TimeSensorComponent(3, 2, null, simpleDoubleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,32,32),DefaultPCBComponent.TYPE.INPUT).setRegistryName("time_sensor");
         //SIMPLE_DRONE_BRAIN = new DefaultPCBComponent(8, 8, simpleDroneIn, simpleDroneOut, new RGBA(43, 150, 0),new PCBSymbol(3,3,16,32,16,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("simple_drone_brain");
 
-        event.getRegistry().registerAll(SMALL_ADD, SMALL_SUB, SMALL_MULTIPLY, SMALL_DIVIDE, SMALL_EQUALS/*, SIMPLE_DRONE_BRAIN*/);
+        event.getRegistry().registerAll(SMALL_ADD, SMALL_SUB, SMALL_MULTIPLY, SMALL_DIVIDE, SMALL_EQUALS,TIME_SENSOR);
     }
     @SubscribeEvent
     public static void PCBRegister(RegistryEvent.NewRegistry event){
