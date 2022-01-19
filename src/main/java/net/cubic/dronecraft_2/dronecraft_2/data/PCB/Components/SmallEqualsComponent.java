@@ -1,6 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components;
 
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSymbol;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
 import net.minecraft.entity.Entity;
@@ -18,7 +19,7 @@ public class SmallEqualsComponent extends DefaultPCBComponent implements IPCBCom
     }
 
     @Override
-    public List<?> CalculateOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item) {
+    public List<?> CalculateOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item, PCBComponentXY<?> Component) {
         List<Boolean> Out = new ArrayList<>();
         Out.add(Objects.equals(inputs.get(0),inputs.get(1)));
         return Out;

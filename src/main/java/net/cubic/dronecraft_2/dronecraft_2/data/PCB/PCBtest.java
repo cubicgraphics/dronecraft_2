@@ -8,7 +8,8 @@ public class PCBtest {
 
     //this is a test pcb for testing purposes
     public static PCBComponentXY<?>[] componentXY = new PCBComponentXY[]{
-            new PCBComponentXY<>(3,4, PCBComponents.SMALL_ADD)
+            new PCBComponentXY<>(3,4, PCBComponents.SMALL_ADD.delegate.get()),
+            new PCBComponentXY<>(5,4, PCBComponents.STATIC_BOOL.delegate.get())
     };
 
     public static VarType[][] wireArray = new VarType[8][8];

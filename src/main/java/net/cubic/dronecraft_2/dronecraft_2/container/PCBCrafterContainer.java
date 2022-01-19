@@ -40,8 +40,8 @@ public class PCBCrafterContainer extends Container {
     private int GuiScale;
     public final int LeftPCBGrid = 17;
     public final int TopPCBGrid = 111;
-    public final int PCBEditorTileWidth = 16; //size of the pcb tile grid(*8 for size in pixels)
-    public final int PCBEditorTileLength = 16;  //TODO add in pcb template crafter block(more advanced version of this but instead makes templates to be used in machines to make larger more complex pcb's)
+    public final int PCBGridTileWidth = 16; //size of the pcb tile grid(*8 for size in pixels) width is X in this case
+    public final int PCBGridTileLength = 16;  //TODO add in pcb template crafter block(more advanced version of this but instead makes templates to be used in machines to make larger more complex pcb's)
     public final int PCBMaxTileWidth = 16; //max size of pcb allowed to be edited
     public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;

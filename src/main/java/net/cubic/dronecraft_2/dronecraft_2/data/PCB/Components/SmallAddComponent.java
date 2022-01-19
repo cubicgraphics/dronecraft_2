@@ -1,6 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components;
 
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSymbol;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
 import net.minecraft.entity.Entity;
@@ -8,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +19,17 @@ public class SmallAddComponent extends DefaultPCBComponent implements IPCBCompon
     }
 
     @Override
-    public List<?> CalculateOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item) {
-        List<Double> Out = new ArrayList<>();
-        Out.add((Double)inputs.get(0) + (Double)inputs.get(1));
-        return Out;
+    public List<?> CalculateOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item, PCBComponentXY<?> Component) {
+        if(inputs.get(0) instanceof String){
+            List<String> Out = new ArrayList<>();
+            Out.add((String)inputs.get(0) + (String)inputs.get(1));
+            return Out;
+        }
+        else{
+            List<Double> Out = new ArrayList<>();
+            Out.add((Double)inputs.get(0) + (Double)inputs.get(1));
+            return Out;
+        }
     }
 
     @Override

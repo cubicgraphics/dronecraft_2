@@ -61,8 +61,8 @@ public class PCBRender {
             }
 
             //next render the components on top of the wires
-            for (int i = 0; i < PCB.ComponentArray.length; i++){
-                PCB.ComponentArray[i].Component.RenderComponent(matrix,left+(PCB.ComponentArray[i].x*8),top + (PCB.ComponentArray[i].y*8),screen);
+            for (int i = 0; i < PCB.ComponentList.size(); i++){
+                PCB.ComponentList.get(i).RenderComponent(matrix,left+(PCB.ComponentList.get(i).x*8),top + (PCB.ComponentList.get(i).y*8),screen);
             }
         }
 
@@ -77,12 +77,9 @@ public class PCBRender {
         //topLeft screen.blit(matrix,left,top,64,8,8,8);
     }
 
-    public static void RenderPCBComponent(MatrixStack matrix, int left, int top, int right, int bottom, DefaultPCBComponent Component, ContainerScreen<?> screen){
-        Component.RenderComponent(matrix, left, top, screen);
-    }
     public static void RenderPCBComponents(MatrixStack matrix, List<PCBComponentXY<? extends DefaultPCBComponent>> Components, ContainerScreen<?> screen){
         for (PCBComponentXY<? extends DefaultPCBComponent> component : Components) {
-            component.Component.RenderComponent(matrix, component.x, component.y, screen);
+            component.RenderComponent(matrix, component.x, component.y, screen);
         }
     }
 
@@ -120,7 +117,7 @@ public class PCBRender {
     public static void RenderSelectablePCBComponents(MatrixStack matrix, int left, int top, int scrollOffsetX , int scrollOffsetY, int SelectionBarWidth, int SelectionBarHeight, List<PCBComponentXY<? extends DefaultPCBComponent>> Components, ContainerScreen<?> screen){
         if(Components != null && Components.size() >= 1){
             for (PCBComponentXY<? extends DefaultPCBComponent> component : Components) {
-                component.Component.RenderComponent(matrix, left, top, SelectionBarWidth, SelectionBarHeight,component.x - scrollOffsetX,component.y - scrollOffsetY, screen);
+                component.RenderComponent(matrix, left, top, SelectionBarWidth, SelectionBarHeight,component.x - scrollOffsetX,component.y - scrollOffsetY, screen);
             }
         }
     }
@@ -168,15 +165,15 @@ public class PCBRender {
 
     public static void RenderPCBTooltips(MatrixStack matrix, PCBData PCB, int MouseX, int MouseY,int left, int top, ContainerScreen<?> screen){
         if(PCB != null){
-            for (int i = 0; i < PCB.ComponentArray.length; i++) {
-                if (((MouseX > left + PCB.ComponentArray[i].x*8) && (MouseX < left + PCB.ComponentArray[i].x*8 +PCB.ComponentArray[i].Component.Length*8))
-                        && ((MouseY > top + PCB.ComponentArray[i].y*8) && (MouseY < top + PCB.ComponentArray[i].y*8 +PCB.ComponentArray[i].Component.Width*8)))
+            for (int i = 0; i < PCB.ComponentList.size(); i++) {
+                if (((MouseX > left + PCB.ComponentList.get(i).x*8) && (MouseX < left + PCB.ComponentList.get(i).x*8 +PCB.ComponentList.get(i).Component.Length*8))
+                        && ((MouseY > top + PCB.ComponentList.get(i).y*8) && (MouseY < top + PCB.ComponentList.get(i).y*8 +PCB.ComponentList.get(i).Component.Width*8)))
                 {
                     if(Screen.hasShiftDown()){
-                        screen.renderTooltip(matrix, PCB.ComponentArray[i].Component.getShiftName(), MouseX, MouseY);
+                        screen.renderTooltip(matrix, PCB.ComponentList.get(i).Component.getShiftName(), MouseX, MouseY);
                     }
                     else{
-                        screen.renderTooltip(matrix, PCB.ComponentArray[i].Component.getName(), MouseX, MouseY);
+                        screen.renderTooltip(matrix, PCB.ComponentList.get(i).Component.getName(), MouseX, MouseY);
                     }
                 }
             }

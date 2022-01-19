@@ -1,0 +1,15 @@
+{
+  "type": "dronecraft_2:pcb_component",
+  "pcb_component": "dronecraft_2:static_bool",
+  "ingredients": [
+    {
+      "item": "dronecraft_2:cut_silicon_wafer"
+    },
+    {
+      "item": "minecraft:lever"
+    },
+    {
+      "item": "dronecraft_2:high_purity_redstone_dust"
+    }
+  ]
+}

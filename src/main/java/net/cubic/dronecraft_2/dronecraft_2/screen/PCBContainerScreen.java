@@ -29,7 +29,7 @@ public class PCBContainerScreen<T extends Container> extends ContainerScreen<T> 
         if(SelectedComponent != null){
             int offset = getBlitOffset();
             setBlitOffset(offset + 800);
-            SelectedComponent.Component.RenderComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y,this);
+            SelectedComponent.RenderComponent(matrixStack,mouseX+SelectedComponent.x ,mouseY+SelectedComponent.y,this);
             setBlitOffset(offset);
         }
     }

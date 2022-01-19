@@ -23,6 +23,7 @@ public class PCBComponents {
     public static DefaultPCBComponent SMALL_DIVIDE;
     public static DefaultPCBComponent SMALL_EQUALS;
     public static DefaultPCBComponent TIME_SENSOR;
+    public static DefaultPCBComponent STATIC_BOOL;
     public static DefaultPCBComponent SIMPLE_DRONE_BRAIN;
 
 
@@ -56,9 +57,11 @@ public class PCBComponents {
         SMALL_DIVIDE = new SmallDivideComponent(3, 2, simpleDoubleIn, simpleDoubleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,16,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_divide");
         SMALL_EQUALS = new SmallEqualsComponent(3, 2, simpleWildIn, simpleBoolOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,32,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("small_equals");
         TIME_SENSOR = new TimeSensorComponent(3, 2, null, simpleDoubleOut, new RGBA(0, 130, 33),new PCBSymbol(1,0.5F,32,32),DefaultPCBComponent.TYPE.INPUT).setRegistryName("time_sensor");
+        STATIC_BOOL = new StaticBoolComponent(3, 2, null, simpleBoolOut, new RGBA(0, 130, 33),DefaultPCBComponent.TYPE.INPUT).setRegistryName("static_bool");
+
         //SIMPLE_DRONE_BRAIN = new DefaultPCBComponent(8, 8, simpleDroneIn, simpleDroneOut, new RGBA(43, 150, 0),new PCBSymbol(3,3,16,32,16,16),DefaultPCBComponent.TYPE.PROCESS).setRegistryName("simple_drone_brain");
 
-        event.getRegistry().registerAll(SMALL_ADD, SMALL_SUB, SMALL_MULTIPLY, SMALL_DIVIDE, SMALL_EQUALS,TIME_SENSOR);
+        event.getRegistry().registerAll(SMALL_ADD, SMALL_SUB, SMALL_MULTIPLY, SMALL_DIVIDE, SMALL_EQUALS,TIME_SENSOR,STATIC_BOOL);
     }
     @SubscribeEvent
     public static void PCBRegister(RegistryEvent.NewRegistry event){

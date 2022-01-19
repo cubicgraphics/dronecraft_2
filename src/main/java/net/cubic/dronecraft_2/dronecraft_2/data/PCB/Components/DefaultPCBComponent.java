@@ -3,6 +3,7 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSymbol;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
@@ -10,7 +11,6 @@ import net.cubic.dronecraft_2.dronecraft_2.screen.PCBRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -29,9 +29,9 @@ import java.util.List;
  * Extend this to make more PCB components
  *
  */
-public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegistryEntry<DefaultPCBComponent> implements IPCBComponent {
+public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegistryEntry<DefaultPCBComponent> implements IPCBComponent { //TODO Document how all this works in the wiki at some point
 
-    public enum TYPE{//TODO use this when processing data with the pcb
+    public enum TYPE{
         INPUT,
         PROCESS,
         OUTPUT
@@ -47,7 +47,7 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
     public PCBSymbol[] Decals;
     public String translationKey;
     public TYPE Type;
-    private CompoundNBT nbtdata;
+
 
     public DefaultPCBComponent(int length, int width, PCB_IO[] inputs, PCB_IO[] outputs, RGBA color,TYPE type){
         Length = length;
@@ -91,7 +91,7 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void RenderComponent(MatrixStack matrix, int left, int top, ContainerScreen<?> screen) {
+    public void RenderComponent(MatrixStack matrix, int left, int top, ContainerScreen<?> screen, PCBComponentXY<?> componentXY) {
         ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
         Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
         int length = this.Length;
@@ -154,7 +154,7 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void RenderComponent(MatrixStack matrix, int BoundsLeft, int BoundsTop, int BoundsWidth, int BoundsHeight, int RelX, int RelY, ContainerScreen<?> screen) {
+    public void RenderComponent(MatrixStack matrix, int BoundsLeft, int BoundsTop, int BoundsWidth, int BoundsHeight, int RelX, int RelY, ContainerScreen<?> screen,PCBComponentXY<?> componentXY) {
 
         ResourceLocation TEXTURE = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_components.png");
         Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
@@ -223,42 +223,15 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
     }
 
 
-
-    /**
-     * Save NBT data for custom components
-     * Override it to save custom variables for components as this data will be saved inside the PCB
-     * Custom var can be used for example save an item to the component then possibly render the item as part of the component
-     */
-    @Override
-    public void SaveCustomVarToNBT() {
-
-    }
-    /**
-     * Read NBT data for custom components
-     * Override it to Read custom variables for components as this data will be saved inside the PCB
-     */
-    @Override
-    public void ReadNBTToCustomVar() {
-
-    }
-
-    public void SetNBT(CompoundNBT nbt) {
-        nbtdata = nbt;
-    }
-    public CompoundNBT ReadNBT() {
-        return nbtdata;
-    }
-
-
     /**
      * returns null if the inputs dont match the varTypes defined, else it will return the values specified in CalculateOutput
      *
      * @param inputs
      * @return
      */
-    private List<?> GetOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item){
+    private List<?> GetOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item,PCBComponentXY<?> Component){
         if(CheckDataEquals(inputs)){ //use enum to check if it is an input or an output or a process (process has both)
-            return CalculateOutput(inputs, worldIn, pos, entity, item);
+            return CalculateOutput(inputs, worldIn, pos, entity, item,Component);
         }
         else{
             return null;
@@ -278,7 +251,7 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
      * @return outputs
      */
     @Override
-    public List<?> CalculateOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item){
+    public List<?> CalculateOutput(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item, PCBComponentXY<?> Component){
 
         return null;
     }
@@ -305,4 +278,8 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
         }
     }
 
+    public CompoundNBT OnInteract(ContainerScreen<?> screen, PCBComponentXY<?> Component) {
+
+        return null;
+    }
 }

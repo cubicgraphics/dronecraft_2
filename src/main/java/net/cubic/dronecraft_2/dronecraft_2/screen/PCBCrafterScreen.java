@@ -9,6 +9,7 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -83,6 +84,9 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 ITextComponent.getTextComponentOrEmpty("Scroll"),ITextComponent.getTextComponentOrEmpty(""),
                 0,1, 0,
                 true,false, null,onPress2());
+
+
+
         addButton(SavePCBButton);
         addButton(slide);
         addButton(slide2);
@@ -157,7 +161,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 return true;
             }
         }
-        if(mouseX >= i+ container.LeftPCBSelectionBar && mouseX <= i+ container.LeftPCBSelectionBar + container.PCBSelectionBarWidth && mouseY >= j+ container.TopPCBSelectionBar && mouseY <= j+ container.TopWireSelectionBar + container.PCBSelectionBarHeight){
+        if(mouseX >= i + container.LeftPCBSelectionBar && mouseX <= i + container.LeftPCBSelectionBar + container.PCBSelectionBarWidth && mouseY >= j + container.TopPCBSelectionBar && mouseY <= j + container.TopPCBSelectionBar + container.PCBSelectionBarHeight){
             if(SelectedComponent != null){
                 SelectedComponent = null;
                 return true;
@@ -177,8 +181,37 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 }
             }
         }
+        if(mouseX >= i+ container.LeftPCBGrid && mouseX <= i+ container.LeftPCBGrid + container.PCBGridTileWidth*8 && mouseY >= j + container.TopPCBGrid && mouseY <= j+ container.TopPCBGrid + container.PCBGridTileLength*8 && container.CurrentPCB != null){
+            if(SelectedComponent != null){
+                int x = Math.floorDiv((int) (mouseX - (i + container.LeftPCBGrid - SelectedComponent.x)),8);
+                int y = Math.floorDiv((int) (mouseY - (j + container.TopPCBGrid - SelectedComponent.y)),8);
+                container.CurrentPCB.ComponentList.add(new PCBComponentXY<>(x,y,SelectedComponent.Component));
+                SelectedComponent = null;
+            }
+            else{
+                for (int k = 0; k < container.CurrentPCB.ComponentList.size(); k++) {
+                    if (((mouseX > i + container.LeftPCBGrid + container.CurrentPCB.ComponentList.get(k).x*8) && (mouseX < i + container.LeftPCBGrid + container.CurrentPCB.ComponentList.get(k).x*8 +container.CurrentPCB.ComponentList.get(k).Component.Length*8))
+                            && ((mouseY > j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8) && (mouseY < j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 +container.CurrentPCB.ComponentList.get(k).Component.Width*8))){
+                        if(Screen.hasShiftDown()){
+                            container.CurrentPCB.ComponentList.get(k).OnInteract(this);
+                        }
+                        else{
+                            SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBGrid+ container.CurrentPCB.ComponentList.get(k).x*8 - mouseX), (int) (j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 - mouseY), container.CurrentPCB.ComponentList.get(k).Component);
+                            container.CurrentPCB.ComponentList.remove(k);
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+
+
         return super.mouseClicked(mouseX, mouseY, button);
     }
+
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         return super.mouseReleased(mouseX, mouseY, button);
