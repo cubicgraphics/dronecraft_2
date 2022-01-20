@@ -31,6 +31,8 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 public class PCBCrafterContainer extends Container {
     private final TileEntity tileEntity;
@@ -98,11 +100,11 @@ public class PCBCrafterContainer extends Container {
                 addSlot(new SlotItemHandler(h,16,219,73)); //adds slots to the gui
             } );
         }
-        UpdateSelectablePCBComponentsAndWires();
+        UpdateSelectablePCBComponentsAndWires("");
     }
 
-    public void UpdateSelectablePCBComponentsAndWires(){
-        List<DefaultPCBComponent> components = GetCraftablePCBComponents();
+    public void UpdateSelectablePCBComponentsAndWires(String search){
+        List<DefaultPCBComponent> components = GetCraftablePCBComponents(search);
         List<PCBComponentXY<? extends DefaultPCBComponent>> componentXYList = new ArrayList<>();
         int pixelsAcross = 0;
         int pixelsDown = 0;
@@ -122,11 +124,11 @@ public class PCBCrafterContainer extends Container {
 
 
 
-    public List<DefaultPCBComponent> GetCraftablePCBComponents(){
+    public List<DefaultPCBComponent> GetCraftablePCBComponents(String search){
         List<PCBComponentRecipe> recipes = tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE);
         List<DefaultPCBComponent> components = new ArrayList<>();
         for (PCBComponentRecipe recipe : recipes) {
-            if(recipe.getComponentResult() != null){
+            if(recipe.getComponentResult() != null && (Objects.equals(search, "") || recipe.getComponentResult().getName().getString().toLowerCase().contains(search.toLowerCase()) || recipe.getComponentResult().Type.toString().toLowerCase().contains(search.toLowerCase()))){
                 components.add(recipe.getComponentResult());
             }
         }

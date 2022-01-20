@@ -34,13 +34,18 @@
   "pcb_component.dronecraft_2.time_sensor_shift": "Time sensor - Outputs the current day time",
   "pcb_component.dronecraft_2.static_bool": "Static Boolean",
   "pcb_component.dronecraft_2.static_bool_shift": "Static Boolean - can be set to True or False",
-  "pcb_component.dronecraft_2.simple_drone_brain": "Simple drone chip",
-  "pcb_component.dronecraft_2.wild": "Anything",
+  "pcb_component.dronecraft_2.bool_output": "Boolean output",
+  "pcb_component.dronecraft_2.bool_output_shift": "Boolean output - outputs the boolean",
+  "pcb_component.dronecraft_2.number_output": "Number output",
+  "pcb_component.dronecraft_2.number_output_shift": "Number output - outputs the number",
+
+
 
 
   "pcb_wire.dronecraft_2.number": "Number",
   "pcb_wire.dronecraft_2.boolean": "Boolean",
   "pcb_wire.dronecraft_2.xyz": "Position",
+  "pcb_wire.dronecraft_2.wild": "Anything",
 
 
 

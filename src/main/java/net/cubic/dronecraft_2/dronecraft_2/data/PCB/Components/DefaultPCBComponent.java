@@ -80,7 +80,6 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
         Type = type;
     }
 
-
     public ITextComponent getName() {
         return new TranslationTextComponent(this.getTranslationKey());
     }

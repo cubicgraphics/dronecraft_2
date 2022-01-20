@@ -10,11 +10,14 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import net.minecraftforge.fml.client.gui.widget.Slider;
+import sun.awt.ExtendedKeyCodes;
 
 public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
@@ -23,6 +26,8 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     VarType SelectedWireType;
     int SelectedWireTypeListIndex = -1;
     ExtendedButton SavePCBButton;
+    TextFieldWidget SearchBox;
+
 
     public PCBCrafterScreen(PCBCrafterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
@@ -84,9 +89,9 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 ITextComponent.getTextComponentOrEmpty("Scroll"),ITextComponent.getTextComponentOrEmpty(""),
                 0,1, 0,
                 true,false, null,onPress2());
+        SearchBox = new TextFieldWidget(font,this.guiLeft + 16,this.guiTop - 30, 130,20,ITextComponent.getTextComponentOrEmpty("Search components"));
 
-
-
+        addButton(SearchBox);
         addButton(SavePCBButton);
         addButton(slide);
         addButton(slide2);
@@ -118,18 +123,25 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         int i = this.guiLeft;
         int j = this.guiTop;
-        if (mouseX >= container.LeftPCBSelectionBar + i && mouseY >= container.TopPCBSelectionBar + j && mouseX < container.LeftPCBSelectionBar + container.PCBSelectionBarWidth + i && mouseY < container.TopPCBSelectionBar+ container.PCBSelectionBarHeight + j && SelectedComponent == null)
-        {
+        if (mouseX >= container.LeftPCBSelectionBar + i && mouseY >= container.TopPCBSelectionBar + j && mouseX < container.LeftPCBSelectionBar + container.PCBSelectionBarWidth + i && mouseY < container.TopPCBSelectionBar+ container.PCBSelectionBarHeight + j && SelectedComponent == null){
             if(container.SelectBoxScrollOffsetX - (int)dragX >= 0 && container.SelectBoxScrollOffsetX - (int)dragX <= container.SelectablePCBComponentsPixelWidth - container.PCBSelectionBarWidth){
                 container.SelectBoxScrollOffsetX = container.SelectBoxScrollOffsetX - (int)dragX;
+                return true;
             }
             if(container.SelectBoxScrollOffsetY - (int)dragY >= 0 && container.SelectBoxScrollOffsetY - (int)dragY <= container.SelectablePCBComponentsPixelHeight - container.PCBSelectionBarHeight){
                 container.SelectBoxScrollOffsetY = container.SelectBoxScrollOffsetY - (int)dragY;
+                return true;
             }
-            return true;
-        } else {
-            return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
         }
+        else if(mouseX >= i+ container.LeftPCBGrid && mouseX <= i+ container.LeftPCBGrid + container.PCBGridTileWidth*8 && mouseY >= j + container.TopPCBGrid && mouseY <= j+ container.TopPCBGrid + container.PCBGridTileLength*8 && container.CurrentPCB != null) {
+            if(SelectedWireType != null && (Math.abs(dragX) > 1 || Math.abs(dragY) > 1)){
+                int x = Math.floorDiv((int) (mouseX - (i + container.LeftPCBGrid)),8);
+                int y = Math.floorDiv((int) (mouseY - (j + container.TopPCBGrid)),8);
+                container.CurrentPCB.PCBWiresArray[x][y] = SelectedWireType;
+                return true;
+            }
+        }
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
 
@@ -198,6 +210,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 else{
                     container.CurrentPCB.PCBWiresArray[x][y] = SelectedWireType;
                 }
+
                 return true;
             }
             else{
@@ -225,7 +238,24 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(SearchBox.isFocused() && keyCode == 69){
+            return true;
+        }
+        else{
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        container.UpdateSelectablePCBComponentsAndWires(SearchBox.getText());
+        return super.keyReleased(keyCode, scanCode, modifiers);
+    }
+
+    @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
+
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
