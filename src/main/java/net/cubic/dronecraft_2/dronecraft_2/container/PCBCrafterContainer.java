@@ -174,13 +174,11 @@ public class PCBCrafterContainer extends Container {
 
 
     public void SetPCBItemData(int SlotId,PCBData pcbData){
-        System.out.println("Sending packet to server to save data to the item");
         PacketHandler.sendToServer(new PacketSendPCBDataPCBCrafter(SlotId, pcbData,getBlockPos()));
-        // should work
     }
 
     public void SavePCBToItem(){
-        SetPCBItemData(0, PCBtest.PCBdataTest[0]); //save the CurrentPCB - currently saving the test one - this is why the screen doesnt update becasue it is still rendering the Current one
+        SetPCBItemData(0, CurrentPCB);
     }
 
     public BlockPos getBlockPos(){

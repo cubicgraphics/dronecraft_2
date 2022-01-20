@@ -108,7 +108,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     }
 
     public void SavePCBButtonPressed(){
-        System.out.println("ButtonPressed");
+        System.out.println("Saving new PCBData to item");
         //TODO only take items from right grid once this button is pressed. Display all the required item components below the button or some way to display whats needed
         container.SavePCBToItem();
     }
@@ -187,6 +187,18 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 int y = Math.floorDiv((int) (mouseY - (j + container.TopPCBGrid - SelectedComponent.y)),8);
                 container.CurrentPCB.ComponentList.add(new PCBComponentXY<>(x,y,SelectedComponent.Component));
                 SelectedComponent = null;
+                return true;
+            }
+            else if(SelectedWireType != null){
+                int x = Math.floorDiv((int) (mouseX - (i + container.LeftPCBGrid)),8);
+                int y = Math.floorDiv((int) (mouseY - (j + container.TopPCBGrid)),8);
+                if(container.CurrentPCB.PCBWiresArray[x][y] != null){
+                    container.CurrentPCB.PCBWiresArray[x][y] = null;
+                }
+                else{
+                    container.CurrentPCB.PCBWiresArray[x][y] = SelectedWireType;
+                }
+                return true;
             }
             else{
                 for (int k = 0; k < container.CurrentPCB.ComponentList.size(); k++) {
@@ -198,8 +210,8 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                         else{
                             SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBGrid+ container.CurrentPCB.ComponentList.get(k).x*8 - mouseX), (int) (j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 - mouseY), container.CurrentPCB.ComponentList.get(k).Component);
                             container.CurrentPCB.ComponentList.remove(k);
-                            break;
                         }
+                        return true;
                     }
                 }
             }
