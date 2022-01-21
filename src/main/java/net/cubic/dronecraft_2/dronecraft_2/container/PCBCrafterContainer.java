@@ -67,7 +67,7 @@ public class PCBCrafterContainer extends Container {
     public final int SelectableWireBarHeight = 8;
     public int SelectableWiresPixelWidth = 0;
     public int SelectableWireScrollOffsetX = 0;
-    List<PCBComponentRecipe> ComponentRecipes;
+    final List<PCBComponentRecipe> ComponentRecipes;
 
 
 
@@ -270,7 +270,8 @@ public class PCBCrafterContainer extends Container {
                 System.out.println("Ingredients directly from recipe manager");
                 List<ItemStack[]> itemStacks = new ArrayList<>();
                 for (int i = 0; i < recipe.getIngredients().size(); i++) {
-                    itemStacks.add(recipe.getIngredients().get(i).getMatchingStacks());
+                    final ItemStack[] matchingStacks = recipe.getIngredients().get(i).getMatchingStacks().clone();
+                    itemStacks.add(matchingStacks);
                 }
                 for (ItemStack[] item : itemStacks) {
                     StringBuilder print = new StringBuilder();
