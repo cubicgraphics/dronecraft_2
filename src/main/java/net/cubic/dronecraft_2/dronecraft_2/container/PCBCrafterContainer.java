@@ -67,8 +67,6 @@ public class PCBCrafterContainer extends Container {
     public final int SelectableWireBarHeight = 8;
     public int SelectableWiresPixelWidth = 0;
     public int SelectableWireScrollOffsetX = 0;
-    final List<PCBComponentRecipe> ComponentRecipes;
-
 
 
 
@@ -105,7 +103,6 @@ public class PCBCrafterContainer extends Container {
             } );
         }
         UpdateSelectablePCBComponentsAndWires("");
-        ComponentRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
     }
 
     public void UpdateSelectablePCBComponentsAndWires(String search){
@@ -130,9 +127,9 @@ public class PCBCrafterContainer extends Container {
 
 
     public List<DefaultPCBComponent> GetCraftablePCBComponents(String search){
-        List<PCBComponentRecipe> recipes = new ArrayList<>(tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
+        List<PCBComponentRecipe> ComponentRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
         List<DefaultPCBComponent> components = new ArrayList<>();
-        for (PCBComponentRecipe recipe : recipes) {
+        for (PCBComponentRecipe recipe : ComponentRecipes) {
             if(recipe.getComponentResult() != null && (Objects.equals(search, "") || recipe.getComponentResult().getName().getString().toLowerCase().contains(search.toLowerCase()) || recipe.getComponentResult().Type.toString().toLowerCase().contains(search.toLowerCase()))){
                 components.add(recipe.getComponentResult());
             }
@@ -249,10 +246,11 @@ public class PCBCrafterContainer extends Container {
      * @return
      */
     ItemStack[] AddItemStacks(ItemStack[] stack1, ItemStack[] stack2){
+        ItemStack[] newStack = new ItemStack[stack1.length];
         for (int i = 0; i < stack1.length; i++) {
-            stack1[i].setCount(Math.min(stack1[i].getCount() + stack2[i].getCount(), stack1[i].getMaxStackSize()));
+            newStack[i] = new ItemStack(stack1[i].getItem(),Math.min(stack1[i].getCount() + stack2[i].getCount(), stack1[i].getMaxStackSize()));
         }
-        return stack1;
+        return newStack;
     }
 
 
@@ -264,24 +262,10 @@ public class PCBCrafterContainer extends Container {
      * @return
      */
     public <T extends DefaultPCBComponent> List<Ingredient> GetRecipe(T component){ //for some reason the recipe items inside of ComponentRecipes that are used in the component get multiplied by the amount this function is triggered within a for loop. //TODO AAAAA RECIPE ISSUE HERE
-
+        List<PCBComponentRecipe> ComponentRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
         for (PCBComponentRecipe recipe : ComponentRecipes) {
             if (recipe.getComponentResult() == component) {
-                System.out.println("Ingredients directly from recipe manager");
-                List<ItemStack[]> itemStacks = new ArrayList<>();
-                for (int i = 0; i < recipe.getIngredients().size(); i++) {
-                    final ItemStack[] matchingStacks = recipe.getIngredients().get(i).getMatchingStacks().clone();
-                    itemStacks.add(matchingStacks);
-                }
-                for (ItemStack[] item : itemStacks) {
-                    StringBuilder print = new StringBuilder();
-                    for (ItemStack itemStack : item) {
-                        print.append(itemStack.toString());
-                    }
-                    System.out.println(print);
-                }
-
-                return new ArrayList<>(recipe.getIngredients());
+                return recipe.getIngredients();
             }
         }
         return null;
