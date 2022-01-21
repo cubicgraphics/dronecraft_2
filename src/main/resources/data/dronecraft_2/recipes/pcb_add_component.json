@@ -3,7 +3,7 @@
   "pcb_component": "dronecraft_2:small_add",
   "ingredients":[
     {
-      "tag": "forge:nuggets/iron"
+      "tag": "minecraft:wool"
     }
   ]
 }

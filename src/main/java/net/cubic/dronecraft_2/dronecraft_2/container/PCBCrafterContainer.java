@@ -20,6 +20,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
@@ -47,6 +48,8 @@ public class PCBCrafterContainer extends Container {
     public final int PCBMaxTileWidth = 16; //max size of pcb allowed to be edited
     public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;
+    public PCBData InitialItemPCB = null; //used for calculating change in recipe items needed from the difference in components
+
     public List<PCBComponentXY<? extends DefaultPCBComponent>> SelectablePCBComponents = new ArrayList<>();
     public final int LeftPCBSelectionBar = 17;
     public final int TopPCBSelectionBar = 19;
@@ -64,6 +67,7 @@ public class PCBCrafterContainer extends Container {
     public final int SelectableWireBarHeight = 8;
     public int SelectableWiresPixelWidth = 0;
     public int SelectableWireScrollOffsetX = 0;
+    List<PCBComponentRecipe> ComponentRecipes;
 
 
 
@@ -101,6 +105,7 @@ public class PCBCrafterContainer extends Container {
             } );
         }
         UpdateSelectablePCBComponentsAndWires("");
+        ComponentRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
     }
 
     public void UpdateSelectablePCBComponentsAndWires(String search){
@@ -125,7 +130,7 @@ public class PCBCrafterContainer extends Container {
 
 
     public List<DefaultPCBComponent> GetCraftablePCBComponents(String search){
-        List<PCBComponentRecipe> recipes = tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE);
+        List<PCBComponentRecipe> recipes = new ArrayList<>(tileEntity.getWorld().getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
         List<DefaultPCBComponent> components = new ArrayList<>();
         for (PCBComponentRecipe recipe : recipes) {
             if(recipe.getComponentResult() != null && (Objects.equals(search, "") || recipe.getComponentResult().getName().getString().toLowerCase().contains(search.toLowerCase()) || recipe.getComponentResult().Type.toString().toLowerCase().contains(search.toLowerCase()))){
@@ -145,6 +150,142 @@ public class PCBCrafterContainer extends Container {
         return wireTypes;
     }
 
+    public List<ItemStack[]> GetRequiredItemsToCraftComponents(PCBData pcb){
+        List<ItemStack[]> itemStacks = new ArrayList<>();
+        for (int i = 0; i < pcb.ComponentList.size(); i++) {
+            List<Ingredient> RecipeIngredients = GetRecipe(pcb.ComponentList.get(i).Component);//TODO the PCB Ingredient list is doubling for some reason every time the solder button is pressed while the gui is open
+            List<ItemStack[]> PCBIngredients = new ArrayList<>();
+            for (Ingredient ingredient : RecipeIngredients) {
+                PCBIngredients.add(ingredient.getMatchingStacks());
+            }
+            System.out.println(PCBIngredients);
+            itemStacks = new ArrayList<>(CombineAndAddItemStacks(itemStacks,PCBIngredients));
+        }
+        return new ArrayList<>(itemStacks);
+    }
+    //TODO Move all these Itemstack merging functions into there own class in UTIL;
+    public List<ItemStack[]> CombineAndAddItemStacks(List<ItemStack[]> MainStack, List<ItemStack[]> StacksToAdd){
+        for (ItemStack[] itemStacks : StacksToAdd) {
+            MainStack = IntergrateItemStackIntoList(MainStack, itemStacks);
+        }
+        return new ArrayList<>(MainStack);
+    }
+
+    List<ItemStack[]> IntergrateItemStackIntoList(List<ItemStack[]> MainStack, ItemStack[] StackToAdd){
+        int RemainingItems = 64;
+        for (int i = 0; i < MainStack.size() && RemainingItems > 0; i++) {
+            if(DoStackArraysMatch(MainStack.get(i),StackToAdd)){
+                MainStack.set(i,AddItemStacks(MainStack.get(i),StackToAdd));
+                RemainingItems = GetIntRemainder(MainStack.get(i),StackToAdd);
+                if(RemainingItems > 0){
+                    StackToAdd = GetItemStackRemainder(MainStack.get(i),StackToAdd);
+                }
+            }
+        }
+        if(RemainingItems > 0){
+            MainStack.add(StackToAdd);
+        }
+        return new ArrayList<>(MainStack);
+    }
+
+
+    /**
+     * Checks if the ItemStacks are the same length, contain the same item types and that stack2 can merge with stack1 without overflowing the stacks;
+     * @param stack1
+     * @param stack2
+     * @return
+     */
+    boolean DoesItemStackFit(ItemStack[] stack1, ItemStack[] stack2){
+        return DoStackArraysMatch(stack1, stack2) && GetIntRemainder(stack1, stack2) > 0;
+    }
+
+    /**
+     *Checks if two ItemStack arrays are the same length and contain the same item types.
+     * @param stack1
+     * @param stack2
+     * @return
+     */
+    boolean DoStackArraysMatch(ItemStack[] stack1, ItemStack[] stack2){
+        if (stack1.length == stack2.length)
+            for (int i = 0; i < stack1.length; i++) {
+                if(stack1[i].getItem() != stack2[i].getItem()){
+                    return false;
+                }
+            }
+        else{
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     *Presumes that the stack1 and stack2 are the same array size and hold the same item types.
+     * returns Math.max((stack1[0].getCount() + stack2[0].getCount()) - stack1[0].getMaxStackSize(),0)
+     * @param stack1
+     * @param stack2
+     * @return
+     */
+    int GetIntRemainder(ItemStack[] stack1, ItemStack[] stack2){
+        return Math.max((stack1[0].getCount() + stack2[0].getCount()) - stack1[0].getMaxStackSize(),0);
+    }
+    /**
+     *Presumes that the stack1 and stack2 are the same array size and hold the same item types.
+     * Returns the ItemStack[] of size GetIntRemainder()
+     * @param stack1
+     * @param stack2
+     * @return
+     */
+    ItemStack[] GetItemStackRemainder(ItemStack[] stack1, ItemStack[] stack2){
+        for (ItemStack itemStack : stack1) {
+            itemStack.setCount(GetIntRemainder(stack1, stack2));
+        }
+        return stack1;
+    }
+    /**
+     *Presumes that the stack1 and stack2 are the same array size and hold the same item types.
+     * Returns the ItemStack[] of stack1 + stack2 and caps it at the max itemstack size of stack1 if it goes over
+     * @param stack1
+     * @param stack2
+     * @return
+     */
+    ItemStack[] AddItemStacks(ItemStack[] stack1, ItemStack[] stack2){
+        for (int i = 0; i < stack1.length; i++) {
+            stack1[i].setCount(Math.min(stack1[i].getCount() + stack2[i].getCount(), stack1[i].getMaxStackSize()));
+        }
+        return stack1;
+    }
+
+
+    /**
+     * Will return the first recipe it finds that outputs the input component
+     *
+     * @param component
+     * @param <T>
+     * @return
+     */
+    public <T extends DefaultPCBComponent> List<Ingredient> GetRecipe(T component){ //for some reason the recipe items inside of ComponentRecipes that are used in the component get multiplied by the amount this function is triggered within a for loop. //TODO AAAAA RECIPE ISSUE HERE
+
+        for (PCBComponentRecipe recipe : ComponentRecipes) {
+            if (recipe.getComponentResult() == component) {
+                System.out.println("Ingredients directly from recipe manager");
+                List<ItemStack[]> itemStacks = new ArrayList<>();
+                for (int i = 0; i < recipe.getIngredients().size(); i++) {
+                    itemStacks.add(recipe.getIngredients().get(i).getMatchingStacks());
+                }
+                for (ItemStack[] item : itemStacks) {
+                    StringBuilder print = new StringBuilder();
+                    for (ItemStack itemStack : item) {
+                        print.append(itemStack.toString());
+                    }
+                    System.out.println(print);
+                }
+
+                return new ArrayList<>(recipe.getIngredients());
+            }
+        }
+        return null;
+    }
+
 
     public void SetDataFromItem(int slotid){
         tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h ->{
@@ -161,6 +302,7 @@ public class PCBCrafterContainer extends Container {
             else{
                 CurrentPCB = null;
             }
+            InitialItemPCB = CurrentPCB;
         });
     }
 
@@ -181,6 +323,15 @@ public class PCBCrafterContainer extends Container {
 
     public void SavePCBToItem(){
         SetPCBItemData(0, CurrentPCB);
+        List<ItemStack[]> items = GetRequiredItemsToCraftComponents(SetAndGetPCBDataFromItem());
+        for (ItemStack[] item : items) {
+            StringBuilder print = new StringBuilder();
+            for (ItemStack itemStack : item) {
+                print.append(itemStack.toString());
+            }
+            System.out.println(print);
+        }
+        System.out.println("Saving new PCBData to item");
     }
 
     public BlockPos getBlockPos(){
