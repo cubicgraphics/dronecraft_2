@@ -281,4 +281,53 @@ public class DefaultPCBComponent extends net.minecraftforge.registries.ForgeRegi
 
         return null;
     }
+
+
+    /**
+     * Override if the component is an output and outputs to an item
+     * @param inputs
+     * @param worldIn
+     * @param pos
+     * @param entity
+     * @param item
+     * @param Component
+     * @return
+     */
+    public ItemStack DoOutputItem(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item, PCBComponentXY<?> Component){
+
+        return item;
+    }
+
+    /**
+     * Override if the component is an output and outputs to an entity
+     * @param inputs
+     * @param worldIn
+     * @param pos
+     * @param entity
+     * @param item
+     * @param Component
+     * @return
+     */
+    public Entity DoOutputEntity(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item, PCBComponentXY<?> Component){
+
+        return entity;
+    }
+
+    /**
+     * Override if the component is an output and outputs to the world
+     * @param inputs
+     * @param worldIn
+     * @param pos
+     * @param entity
+     * @param item
+     * @param Component
+     * @return
+     */
+    public World DoOutputWorld(List<?> inputs, World worldIn, BlockPos pos, Entity entity, ItemStack item, PCBComponentXY<?> Component){
+
+        return worldIn;
+    }
+
+
+
 }

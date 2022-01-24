@@ -19,6 +19,7 @@ import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import net.minecraftforge.fml.client.gui.widget.Slider;
 
 import java.util.List;
+import java.util.Random;
 
 public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
@@ -47,7 +48,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         PCBRender.RenderPCBTooltips(matrixStack, container.CurrentPCB, mouseX, mouseY,this.guiLeft + container.LeftPCBGrid,this.guiTop + container.TopPCBGrid,this);
         PCBRender.RenderSelectablePCBComponentTooltips(matrixStack,container.SelectablePCBComponents,mouseX,mouseY, i +container.LeftPCBSelectionBar,j +  container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, this);
         PCBRender.RenderSelectableWireComponentTooltips(matrixStack,container.SelectablePCBWires,mouseX,mouseY,i+ container.LeftWireSelectionBar,j+ container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, this);
-
+        RenderItemList(container.ItemsForRecipe,i+164,j+132,4);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         this.minecraft.getTextureManager().bindTexture(GUI2);
         this.blit(matrixStack,i,j,0,0,this.xSize,256);
         this.minecraft.getTextureManager().bindTexture(GUI);
-        this.blit(matrixStack,i+40,j+256,0,84,176,84);
+        this.blit(matrixStack,i+40,j+260,0,84,176,84);
 
         PCBRender.RenderSelectableWires(matrixStack,i + container.LeftWireSelectionBar,j + container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, container.SelectablePCBWires,this, SelectedWireTypeListIndex);
         PCBRender.RenderSelectablePCBComponents(matrixStack,i + container.LeftPCBSelectionBar,j +container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, container.GetSelectablePCBComponentsList(),this);
@@ -258,5 +259,26 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
 
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+
+
+    public void RenderItemList(List<ItemStack[]> itemStacks, int left, int top, int ItemWidth) {
+        if (itemStacks != null) {
+            int dx = 18;
+            int dy = 18;
+            int xOffset = 0;
+            int yOffset = 0;
+            for (ItemStack[] itemStack : itemStacks) {
+                Random rand = new Random();
+                int n = rand.nextInt(itemStack.length);
+                this.itemRenderer.renderItemAndEffectIntoGUI(itemStack[n].getStack(), left + xOffset, top + yOffset);
+                xOffset += dx;
+                if (xOffset >= dx * ItemWidth) {
+                    xOffset = 0;
+                    yOffset += dy;
+                }
+            }
+        }
     }
 }

@@ -49,6 +49,7 @@ public class PCBCrafterContainer extends Container {
     public final int PCBMaxTileLength = 16;
     public PCBData CurrentPCB = null;
     public PCBData InitialItemPCB = null; //used for calculating change in recipe items needed from the difference in components
+    public List<ItemStack[]> ItemsForRecipe = null;
 
     public List<PCBComponentXY<? extends DefaultPCBComponent>> SelectablePCBComponents = new ArrayList<>();
     public final int LeftPCBSelectionBar = 17;
@@ -147,16 +148,22 @@ public class PCBCrafterContainer extends Container {
         return wireTypes;
     }
 
+    public <T extends DefaultPCBComponent> List<ItemStack[]> AddComponentItemIngredientsToList(List<ItemStack[]> MainList, T Component){
+        List<Ingredient> RecipeIngredients = GetRecipe(Component);
+        List<ItemStack[]> PCBIngredients = new ArrayList<>();
+        for (Ingredient ingredient : RecipeIngredients) {
+            PCBIngredients.add(ingredient.getMatchingStacks());
+        }
+        return CombineAndAddItemStacks(MainList,PCBIngredients);
+    }
+
+
+
+
     public List<ItemStack[]> GetRequiredItemsToCraftComponents(PCBData pcb){
         List<ItemStack[]> itemStacks = new ArrayList<>();
         for (int i = 0; i < pcb.ComponentList.size(); i++) {
-            List<Ingredient> RecipeIngredients = GetRecipe(pcb.ComponentList.get(i).Component);//TODO the PCB Ingredient list is doubling for some reason every time the solder button is pressed while the gui is open
-            List<ItemStack[]> PCBIngredients = new ArrayList<>();
-            for (Ingredient ingredient : RecipeIngredients) {
-                PCBIngredients.add(ingredient.getMatchingStacks());
-            }
-            System.out.println(PCBIngredients);
-            itemStacks = new ArrayList<>(CombineAndAddItemStacks(itemStacks,PCBIngredients));
+            itemStacks = AddComponentItemIngredientsToList(itemStacks,pcb.ComponentList.get(i).Component);
         }
         return new ArrayList<>(itemStacks);
     }
@@ -308,8 +315,8 @@ public class PCBCrafterContainer extends Container {
 
     public void SavePCBToItem(){
         SetPCBItemData(0, CurrentPCB);
-        List<ItemStack[]> items = GetRequiredItemsToCraftComponents(SetAndGetPCBDataFromItem());
-        for (ItemStack[] item : items) {
+        ItemsForRecipe = GetRequiredItemsToCraftComponents(SetAndGetPCBDataFromItem());
+        for (ItemStack[] item : ItemsForRecipe) {
             StringBuilder print = new StringBuilder();
             for (ItemStack itemStack : item) {
                 print.append(itemStack.toString());
