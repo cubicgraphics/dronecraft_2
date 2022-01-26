@@ -1,6 +1,7 @@
 package net.cubic.dronecraft_2.dronecraft_2.container;
 
 
+import com.google.common.eventbus.Subscribe;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBDataPCBCrafter;
@@ -8,7 +9,6 @@ import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
-import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBtest;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBComponentRecipe;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBRecipeTypes;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBWireRecipe;
@@ -17,6 +17,7 @@ import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,6 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class PCBCrafterContainer extends Container {
@@ -148,11 +148,18 @@ public class PCBCrafterContainer extends Container {
         return wireTypes;
     }
 
+    public void UpdateIngredientsList(){ //TODO could be optimised into separate functions to add and remove components individually
+        ItemsForRecipe = GetRequiredItemsToCraftComponents(CurrentPCB);
+    }
+
     public <T extends DefaultPCBComponent> List<ItemStack[]> AddComponentItemIngredientsToList(List<ItemStack[]> MainList, T Component){
         List<Ingredient> RecipeIngredients = GetRecipe(Component);
         List<ItemStack[]> PCBIngredients = new ArrayList<>();
         for (Ingredient ingredient : RecipeIngredients) {
             PCBIngredients.add(ingredient.getMatchingStacks());
+        }
+        if(MainList == null){
+            MainList = new ArrayList<>();
         }
         return CombineAndAddItemStacks(MainList,PCBIngredients);
     }
@@ -162,8 +169,10 @@ public class PCBCrafterContainer extends Container {
 
     public List<ItemStack[]> GetRequiredItemsToCraftComponents(PCBData pcb){
         List<ItemStack[]> itemStacks = new ArrayList<>();
-        for (int i = 0; i < pcb.ComponentList.size(); i++) {
-            itemStacks = AddComponentItemIngredientsToList(itemStacks,pcb.ComponentList.get(i).Component);
+        if(pcb != null){
+            for (int i = 0; i < pcb.ComponentList.size(); i++) {
+                itemStacks = AddComponentItemIngredientsToList(itemStacks,pcb.ComponentList.get(i).Component);
+            }
         }
         return new ArrayList<>(itemStacks);
     }
@@ -285,14 +294,19 @@ public class PCBCrafterContainer extends Container {
                 h.getStackInSlot(slotid).getCapability(CapabilityPCB.PCB_DATA).ifPresent(e ->{
                     if(e.getPCBData().length <= PCBMaxTileLength && e.getPCBData().width <= PCBMaxTileWidth){
                         CurrentPCB = e.getPCBData();
+                        if(ItemsForRecipe == null){
+                            UpdateIngredientsList();
+                        }
                     }
                     else{
                         CurrentPCB = null;
+                        ItemsForRecipe = null;
                     }
                 });
             }
             else{
                 CurrentPCB = null;
+                ItemsForRecipe = null;
             }
             InitialItemPCB = CurrentPCB;
         });
@@ -335,6 +349,7 @@ public class PCBCrafterContainer extends Container {
         return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()),
         playerIn, ModBlocks.PCB_CRAFTER_BLOCK.get());
     }
+
 
     @Override
     public void onContainerClosed(PlayerEntity playerIn) {

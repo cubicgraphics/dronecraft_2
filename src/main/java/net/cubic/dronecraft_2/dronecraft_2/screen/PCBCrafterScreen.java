@@ -19,7 +19,6 @@ import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import net.minecraftforge.fml.client.gui.widget.Slider;
 
 import java.util.List;
-import java.util.Random;
 
 public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
     private final ResourceLocation GUI = new ResourceLocation(dronecraft_2Main.MOD_ID, "textures/gui/pcb_editor_gui.png");
@@ -49,6 +48,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         PCBRender.RenderSelectablePCBComponentTooltips(matrixStack,container.SelectablePCBComponents,mouseX,mouseY, i +container.LeftPCBSelectionBar,j +  container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, this);
         PCBRender.RenderSelectableWireComponentTooltips(matrixStack,container.SelectablePCBWires,mouseX,mouseY,i+ container.LeftWireSelectionBar,j+ container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, this);
         RenderItemList(container.ItemsForRecipe,i+164,j+132,4);
+
     }
 
     @Override
@@ -59,7 +59,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         this.minecraft.getTextureManager().bindTexture(GUI2);
         this.blit(matrixStack,i,j,0,0,this.xSize,256);
         this.minecraft.getTextureManager().bindTexture(GUI);
-        this.blit(matrixStack,i+40,j+260,0,84,176,84);
+        this.blit(matrixStack,i+40,j+256,0,84,176,84);
 
         PCBRender.RenderSelectableWires(matrixStack,i + container.LeftWireSelectionBar,j + container.TopWireSelectionBar, container.SelectableWireScrollOffsetX, container.SelectableWireBarWidth, container.SelectableWireBarHeight, container.SelectablePCBWires,this, SelectedWireTypeListIndex);
         PCBRender.RenderSelectablePCBComponents(matrixStack,i + container.LeftPCBSelectionBar,j +container.TopPCBSelectionBar, container.SelectBoxScrollOffsetX, container.SelectBoxScrollOffsetY, container.PCBSelectionBarWidth, container.PCBSelectionBarHeight, container.GetSelectablePCBComponentsList(),this);
@@ -167,18 +167,15 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                         SelectedWireType = container.SelectablePCBWires.get(l);
                         SelectedWireTypeListIndex = l;
                     }
-                    return true;
                 }
             }
             if(SelectedComponent != null){
                 SelectedComponent = null;
-                return true;
             }
         }
         if(mouseX >= i + container.LeftPCBSelectionBar && mouseX <= i + container.LeftPCBSelectionBar + container.PCBSelectionBarWidth && mouseY >= j + container.TopPCBSelectionBar && mouseY <= j + container.TopPCBSelectionBar + container.PCBSelectionBarHeight){
             if(SelectedComponent != null){
                 SelectedComponent = null;
-                return true;
             }
             else{
                 for (int k = 0; k < container.SelectablePCBComponents.size(); k++) {
@@ -190,7 +187,6 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                             && (mouseY < j+ container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y + container.SelectablePCBComponents.get(k).Component.Width*8))
                             {
                                 SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBSelectionBar - container.SelectBoxScrollOffsetX + container.SelectablePCBComponents.get(k).x - mouseX), (int) (j + container.TopPCBSelectionBar - container.SelectBoxScrollOffsetY + container.SelectablePCBComponents.get(k).y - mouseY), container.SelectablePCBComponents.get(k).Component);
-                                return true;
                             }
                 }
             }
@@ -201,6 +197,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 int y = Math.floorDiv((int) (mouseY - (j + container.TopPCBGrid - SelectedComponent.y)),8);
                 container.CurrentPCB.ComponentList.add(new PCBComponentXY<>(x,y,SelectedComponent.Component));
                 SelectedComponent = null;
+                container.UpdateIngredientsList();
                 return true;
             }
             else if(SelectedWireType != null){
@@ -208,11 +205,12 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                 int y = Math.floorDiv((int) (mouseY - (j + container.TopPCBGrid)),8);
                 if(container.CurrentPCB.PCBWiresArray[x][y] != null){
                     container.CurrentPCB.PCBWiresArray[x][y] = null;
+                    container.UpdateIngredientsList();
                 }
                 else{
                     container.CurrentPCB.PCBWiresArray[x][y] = SelectedWireType;
+                    container.UpdateIngredientsList();
                 }
-
                 return true;
             }
             else{
@@ -222,9 +220,14 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                         if(Screen.hasShiftDown()){
                             container.CurrentPCB.ComponentList.get(k).OnInteract(this);
                         }
+                        else if(Screen.hasAltDown()){
+                            container.CurrentPCB.ComponentList.remove(k);
+                            container.UpdateIngredientsList();
+                        }
                         else{
                             SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBGrid+ container.CurrentPCB.ComponentList.get(k).x*8 - mouseX), (int) (j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 - mouseY), container.CurrentPCB.ComponentList.get(k).Component);
                             container.CurrentPCB.ComponentList.remove(k);
+                            container.UpdateIngredientsList();
                         }
                         return true;
                     }
@@ -235,8 +238,8 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
         }
 
 
-
         return super.mouseClicked(mouseX, mouseY, button);
+
     }
 
     @Override
@@ -263,16 +266,20 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
 
 
 
+    int ItemTimer = 0;
     public void RenderItemList(List<ItemStack[]> itemStacks, int left, int top, int ItemWidth) {
         if (itemStacks != null) {
+            ItemTimer ++;
             int dx = 18;
             int dy = 18;
             int xOffset = 0;
             int yOffset = 0;
             for (ItemStack[] itemStack : itemStacks) {
-                Random rand = new Random();
-                int n = rand.nextInt(itemStack.length);
-                this.itemRenderer.renderItemAndEffectIntoGUI(itemStack[n].getStack(), left + xOffset, top + yOffset);
+                int i = itemStack.length - ((ItemTimer/20) % itemStack.length)-1;
+                net.minecraft.client.gui.FontRenderer font = itemStack[i].getItem().getFontRenderer(itemStack[i]);
+                if (font == null) font = this.font;
+                this.itemRenderer.renderItemAndEffectIntoGUI(itemStack[i].getStack(), left + xOffset, top + yOffset);
+                this.itemRenderer.renderItemOverlayIntoGUI(font,itemStack[i],left + xOffset, top + yOffset,null);
                 xOffset += dx;
                 if (xOffset >= dx * ItemWidth) {
                     xOffset = 0;
