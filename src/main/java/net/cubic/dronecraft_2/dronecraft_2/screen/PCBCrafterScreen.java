@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.container.PCBCrafterContainer;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBComponent;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
@@ -195,7 +196,9 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
             if(SelectedComponent != null){
                 int x = Math.floorDiv((int) (mouseX - (i + container.LeftPCBGrid - SelectedComponent.x)),8);
                 int y = Math.floorDiv((int) (mouseY - (j + container.TopPCBGrid - SelectedComponent.y)),8);
-                container.CurrentPCB.ComponentList.add(new PCBComponentXY<>(x,y,SelectedComponent.Component));
+                PCBComponentXY<? extends DefaultPCBComponent> component = new PCBComponentXY<>(x,y,SelectedComponent.Component);
+                component.SetNBT(SelectedComponent.nbtdata);
+                container.CurrentPCB.ComponentList.add(component);
                 SelectedComponent = null;
                 container.UpdateIngredientsList();
                 return true;
@@ -224,13 +227,13 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                             container.CurrentPCB.ComponentList.remove(k);
                             container.UpdateIngredientsList();
                         }
-                        else if(Screen.hasControlDown()){
-                            SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBGrid+ container.CurrentPCB.ComponentList.get(k).x*8 - mouseX), (int) (j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 - mouseY), container.CurrentPCB.ComponentList.get(k).Component);
-                        }
                         else{
                             SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBGrid+ container.CurrentPCB.ComponentList.get(k).x*8 - mouseX), (int) (j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 - mouseY), container.CurrentPCB.ComponentList.get(k).Component);
-                            container.CurrentPCB.ComponentList.remove(k);
-                            container.UpdateIngredientsList();
+                            SelectedComponent.SetNBT(container.CurrentPCB.ComponentList.get(k).nbtdata);
+                            if(!Screen.hasControlDown()){
+                                container.CurrentPCB.ComponentList.remove(k);
+                                container.UpdateIngredientsList();
+                            }
                         }
                         return true;
                     }
