@@ -3,6 +3,7 @@ package net.cubic.dronecraft_2.dronecraft_2.container;
 
 import com.google.common.eventbus.Subscribe;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
+import net.cubic.dronecraft_2.dronecraft_2.Utill.RecipeComponentItemArrayUtil;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.ToServer.PacketSendPCBDataPCBCrafter;
 import net.cubic.dronecraft_2.dronecraft_2.block.ModBlocks;
@@ -149,143 +150,9 @@ public class PCBCrafterContainer extends Container {
     }
 
     public void UpdateIngredientsList(){ //TODO could be optimised into separate functions to add and remove components individually
-        ItemsForRecipe = GetRequiredItemsToCraftComponents(CurrentPCB);
+        ItemsForRecipe = RecipeComponentItemArrayUtil.GetRequiredItemsToCraftComponents(CurrentPCB);
     }
 
-    public <T extends DefaultPCBComponent> List<ItemStack[]> AddComponentItemIngredientsToList(List<ItemStack[]> MainList, T Component){
-        List<Ingredient> RecipeIngredients = GetRecipe(Component);
-        List<ItemStack[]> PCBIngredients = new ArrayList<>();
-        for (Ingredient ingredient : RecipeIngredients) {
-            PCBIngredients.add(ingredient.getMatchingStacks());
-        }
-        if(MainList == null){
-            MainList = new ArrayList<>();
-        }
-        return CombineAndAddItemStacks(MainList,PCBIngredients);
-    }
-
-
-
-
-    public List<ItemStack[]> GetRequiredItemsToCraftComponents(PCBData pcb){
-        List<ItemStack[]> itemStacks = new ArrayList<>();
-        if(pcb != null){
-            for (int i = 0; i < pcb.ComponentList.size(); i++) {
-                itemStacks = AddComponentItemIngredientsToList(itemStacks,pcb.ComponentList.get(i).Component);
-            }
-        }
-        return new ArrayList<>(itemStacks);
-    }
-    //TODO Move all these Itemstack merging functions into there own class in UTIL;
-    public List<ItemStack[]> CombineAndAddItemStacks(List<ItemStack[]> MainStack, List<ItemStack[]> StacksToAdd){
-        for (ItemStack[] itemStacks : StacksToAdd) {
-            MainStack = IntergrateItemStackIntoList(MainStack, itemStacks);
-        }
-        return new ArrayList<>(MainStack);
-    }
-
-    List<ItemStack[]> IntergrateItemStackIntoList(List<ItemStack[]> MainStack, ItemStack[] StackToAdd){
-        int RemainingItems = 64;
-        for (int i = 0; i < MainStack.size() && RemainingItems > 0; i++) {
-            if(DoStackArraysMatch(MainStack.get(i),StackToAdd)){
-                MainStack.set(i,AddItemStacks(MainStack.get(i),StackToAdd));
-                RemainingItems = GetIntRemainder(MainStack.get(i),StackToAdd);
-                if(RemainingItems > 0){
-                    StackToAdd = GetItemStackRemainder(MainStack.get(i),StackToAdd);
-                }
-            }
-        }
-        if(RemainingItems > 0){
-            MainStack.add(StackToAdd);
-        }
-        return new ArrayList<>(MainStack);
-    }
-
-
-    /**
-     * Checks if the ItemStacks are the same length, contain the same item types and that stack2 can merge with stack1 without overflowing the stacks;
-     * @param stack1
-     * @param stack2
-     * @return
-     */
-    boolean DoesItemStackFit(ItemStack[] stack1, ItemStack[] stack2){
-        return DoStackArraysMatch(stack1, stack2) && GetIntRemainder(stack1, stack2) > 0;
-    }
-
-    /**
-     *Checks if two ItemStack arrays are the same length and contain the same item types.
-     * @param stack1
-     * @param stack2
-     * @return
-     */
-    boolean DoStackArraysMatch(ItemStack[] stack1, ItemStack[] stack2){
-        if (stack1.length == stack2.length)
-            for (int i = 0; i < stack1.length; i++) {
-                if(stack1[i].getItem() != stack2[i].getItem()){
-                    return false;
-                }
-            }
-        else{
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     *Presumes that the stack1 and stack2 are the same array size and hold the same item types.
-     * returns Math.max((stack1[0].getCount() + stack2[0].getCount()) - stack1[0].getMaxStackSize(),0)
-     * @param stack1
-     * @param stack2
-     * @return
-     */
-    int GetIntRemainder(ItemStack[] stack1, ItemStack[] stack2){
-        return Math.max((stack1[0].getCount() + stack2[0].getCount()) - stack1[0].getMaxStackSize(),0);
-    }
-    /**
-     *Presumes that the stack1 and stack2 are the same array size and hold the same item types.
-     * Returns the ItemStack[] of size GetIntRemainder()
-     * @param stack1
-     * @param stack2
-     * @return
-     */
-    ItemStack[] GetItemStackRemainder(ItemStack[] stack1, ItemStack[] stack2){
-        for (ItemStack itemStack : stack1) {
-            itemStack.setCount(GetIntRemainder(stack1, stack2));
-        }
-        return stack1;
-    }
-    /**
-     *Presumes that the stack1 and stack2 are the same array size and hold the same item types.
-     * Returns the ItemStack[] of stack1 + stack2 and caps it at the max itemstack size of stack1 if it goes over
-     * @param stack1
-     * @param stack2
-     * @return
-     */
-    ItemStack[] AddItemStacks(ItemStack[] stack1, ItemStack[] stack2){
-        ItemStack[] newStack = new ItemStack[stack1.length];
-        for (int i = 0; i < stack1.length; i++) {
-            newStack[i] = new ItemStack(stack1[i].getItem(),Math.min(stack1[i].getCount() + stack2[i].getCount(), stack1[i].getMaxStackSize()));
-        }
-        return newStack;
-    }
-
-
-    /**
-     * Will return the first recipe it finds that outputs the input component
-     *
-     * @param component
-     * @param <T>
-     * @return
-     */
-    public <T extends DefaultPCBComponent> List<Ingredient> GetRecipe(T component){ //for some reason the recipe items inside of ComponentRecipes that are used in the component get multiplied by the amount this function is triggered within a for loop. //TODO AAAAA RECIPE ISSUE HERE
-        List<PCBComponentRecipe> ComponentRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
-        for (PCBComponentRecipe recipe : ComponentRecipes) {
-            if (recipe.getComponentResult() == component) {
-                return recipe.getIngredients();
-            }
-        }
-        return null;
-    }
 
 
     public void SetDataFromItem(int slotid){
@@ -329,7 +196,7 @@ public class PCBCrafterContainer extends Container {
 
     public void SavePCBToItem(){
         SetPCBItemData(0, CurrentPCB);
-        ItemsForRecipe = GetRequiredItemsToCraftComponents(SetAndGetPCBDataFromItem());
+        ItemsForRecipe = RecipeComponentItemArrayUtil.GetRequiredItemsToCraftComponents(SetAndGetPCBDataFromItem());
         for (ItemStack[] item : ItemsForRecipe) {
             StringBuilder print = new StringBuilder();
             for (ItemStack itemStack : item) {
