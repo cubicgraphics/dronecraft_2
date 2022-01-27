@@ -224,6 +224,9 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
                             container.CurrentPCB.ComponentList.remove(k);
                             container.UpdateIngredientsList();
                         }
+                        else if(Screen.hasControlDown()){
+                            SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBGrid+ container.CurrentPCB.ComponentList.get(k).x*8 - mouseX), (int) (j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 - mouseY), container.CurrentPCB.ComponentList.get(k).Component);
+                        }
                         else{
                             SelectedComponent = new PCBComponentXY<>((int) (i + container.LeftPCBGrid+ container.CurrentPCB.ComponentList.get(k).x*8 - mouseX), (int) (j + container.TopPCBGrid + container.CurrentPCB.ComponentList.get(k).y*8 - mouseY), container.CurrentPCB.ComponentList.get(k).Component);
                             container.CurrentPCB.ComponentList.remove(k);
