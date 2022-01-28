@@ -4,7 +4,6 @@ import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBComponentXY;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBSymbol;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCB_IO;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;

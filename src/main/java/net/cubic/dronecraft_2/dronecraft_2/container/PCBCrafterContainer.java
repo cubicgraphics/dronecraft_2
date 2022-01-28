@@ -1,7 +1,6 @@
 package net.cubic.dronecraft_2.dronecraft_2.container;
 
 
-import com.google.common.eventbus.Subscribe;
 import net.cubic.dronecraft_2.dronecraft_2.ModSettings;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RecipeComponentItemArrayUtil;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.network.PacketHandler;
@@ -18,11 +17,9 @@ import net.cubic.dronecraft_2.dronecraft_2.data.capabilities.PCB.CapabilityPCB;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
@@ -149,7 +146,7 @@ public class PCBCrafterContainer extends Container {
         return wireTypes;
     }
 
-    public void UpdateIngredientsList(){ //TODO could be optimised into separate functions to add and remove components individually
+    public void UpdateIngredientsList(){
         ItemsForRecipe = RecipeComponentItemArrayUtil.GetRequiredItemsToCraftComponents(CurrentPCB);
     }
 

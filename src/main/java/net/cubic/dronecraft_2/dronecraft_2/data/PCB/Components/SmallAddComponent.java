@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -4,10 +4,8 @@ package net.cubic.dronecraft_2.dronecraft_2.data.PCB;
 import net.cubic.dronecraft_2.dronecraft_2.Utill.RGBA;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.cubic.dronecraft_2.dronecraft_2.dronecraft_2Main;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,7 +23,7 @@ public class PCBVarTypes {
 
     @SubscribeEvent
     public static void onPCBRegistry(final RegistryEvent.Register<VarType> event) {
-        NUMBER = new VarType(new RGBA(255,255,0),Double.class).setRegistryName("number");//TODO add custom wire items that can be used to craft them except boolean
+        NUMBER = new VarType(new RGBA(255,255,0),Double.class).setRegistryName("number");//TODO add custom wire items that can be used to craft them, boolean use refined redstone.
         BOOLEAN = new VarType(new RGBA(240,10,10),Boolean.class).setRegistryName("boolean");
         XYZ = new VarType(new RGBA(255,40,255), Vector3f.class).setRegistryName("xyz");
         WILD = new VarType(new RGBA(220,10,10),Boolean.class).setRegistryName("wild"); //don't give this a crafting recipe or directly use it

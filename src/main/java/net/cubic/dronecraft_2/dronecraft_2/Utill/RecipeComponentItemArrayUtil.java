@@ -38,8 +38,9 @@ public class RecipeComponentItemArrayUtil {
         return new ArrayList<>(itemStacks);
     }
 
+    //TODO need to make a Remove component ingredient items from ingredient items list - then the PCB crafter container can be optimised to only add/remove from list instead of re-calculating it entirely each time.
+
     /**
-     *
      * @param MainList List of ItemStack[]
      * @param Component extends DefaultPCBComponent
      * @return returns the input list of itemstacks[] with the items needed for the component placed into it
@@ -95,7 +96,7 @@ public class RecipeComponentItemArrayUtil {
      * @param component The input component
      * @return returns the first recipe it finds that outputs the input component
      */
-    public static <T extends DefaultPCBComponent> List<Ingredient> GetRecipe(T component){ //for some reason the recipe items inside of ComponentRecipes that are used in the component get multiplied by the amount this function is triggered within a for loop. //TODO AAAAA RECIPE ISSUE HERE
+    public static <T extends DefaultPCBComponent> List<Ingredient> GetRecipe(T component){
         List<PCBComponentRecipe> ComponentRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
         for (PCBComponentRecipe recipe : ComponentRecipes) {
             if (recipe.getComponentResult() == component) {
