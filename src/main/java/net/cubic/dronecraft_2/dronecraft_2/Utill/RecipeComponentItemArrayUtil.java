@@ -4,6 +4,8 @@ import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Components.DefaultPCBCompone
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.PCBData;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBComponentRecipe;
 import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBRecipeTypes;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.Recipie.PCBWireRecipe;
+import net.cubic.dronecraft_2.dronecraft_2.data.PCB.VarTypes.VarType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -34,6 +36,13 @@ public class RecipeComponentItemArrayUtil {
             for (int i = 0; i < pcb.ComponentList.size(); i++) {
                 itemStacks = AddComponentItemIngredientsToList(itemStacks,pcb.ComponentList.get(i).Component);
             }
+            for (int i = 0; i < pcb.PCBWiresArray.length; i++) {
+                for (int j = 0; j < pcb.PCBWiresArray[i].length; j++) {
+                    if(pcb.PCBWiresArray[i][j] != null){
+                        itemStacks = AddWireItemIngredientsToList(itemStacks,pcb.PCBWiresArray[i][j]);
+                    }
+                }
+            }
         }
         return new ArrayList<>(itemStacks);
     }
@@ -46,7 +55,24 @@ public class RecipeComponentItemArrayUtil {
      * @return returns the input list of itemstacks[] with the items needed for the component placed into it
      */
     public static <T extends DefaultPCBComponent> List<ItemStack[]> AddComponentItemIngredientsToList(List<ItemStack[]> MainList, T Component){
-        List<Ingredient> RecipeIngredients = GetRecipe(Component);
+        List<Ingredient> RecipeIngredients = GetComponentRecipe(Component);
+        List<ItemStack[]> PCBIngredients = new ArrayList<>();
+        for (Ingredient ingredient : RecipeIngredients) {
+            PCBIngredients.add(ingredient.getMatchingStacks());
+        }
+        if(MainList == null){
+            MainList = new ArrayList<>();
+        }
+        return CombineAndAddItemStacks(MainList,PCBIngredients);
+    }
+
+    /**
+     * @param MainList List of ItemStack[]
+     * @param Wire extends VarType
+     * @return returns the input list of itemstacks[] with the items needed for the wire placed into it
+     */
+    public static <T extends VarType> List<ItemStack[]> AddWireItemIngredientsToList(List<ItemStack[]> MainList, T Wire){
+        List<Ingredient> RecipeIngredients = GetWireRecipe(Wire);
         List<ItemStack[]> PCBIngredients = new ArrayList<>();
         for (Ingredient ingredient : RecipeIngredients) {
             PCBIngredients.add(ingredient.getMatchingStacks());
@@ -96,10 +122,23 @@ public class RecipeComponentItemArrayUtil {
      * @param component The input component
      * @return returns the first recipe it finds that outputs the input component
      */
-    public static <T extends DefaultPCBComponent> List<Ingredient> GetRecipe(T component){
+    public static <T extends DefaultPCBComponent> List<Ingredient> GetComponentRecipe(T component){
         List<PCBComponentRecipe> ComponentRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_COMPONENT_RECIPE));
         for (PCBComponentRecipe recipe : ComponentRecipes) {
             if (recipe.getComponentResult() == component) {
+                return recipe.getIngredients();
+            }
+        }
+        return null;
+    }
+    /**
+     * @param wire The input wire type
+     * @return returns the first recipe it finds that outputs the input component
+     */
+    public static <T extends VarType> List<Ingredient> GetWireRecipe(T wire){
+        List<PCBWireRecipe> WireRecipes = new ArrayList<>(Minecraft.getInstance().world.getRecipeManager().getRecipesForType(PCBRecipeTypes.PCB_WIRE_RECIPE));
+        for (PCBWireRecipe recipe : WireRecipes) {
+            if (recipe.getWireResult() == wire) {
                 return recipe.getIngredients();
             }
         }
