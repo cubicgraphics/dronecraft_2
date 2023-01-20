@@ -117,7 +117,7 @@ public class PCBCrafterScreen extends PCBContainerScreen<PCBCrafterContainer> {
 
     public void SavePCBButtonPressed(){
 
-        //TODO only take items from right grid once this button is pressed. Display all the required item components below the button or some way to display whats needed
+        //TODO take items from right grid once this button is pressed.
         container.SavePCBToItem();
     }
 
